@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const isEmail = require("validator/lib/isEmail");
 const bcrypt = require("bcrypt");
 
+const { ROLES } = require("../utils/constants");
+
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -18,10 +20,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
-      enum: {
-        values: ["user", "admin"],
-        message: "{VALUE} is not supported",
-      },
+      enum: ROLES,
     },
     firstname: {
       type: String,
@@ -30,14 +29,6 @@ const userSchema = new mongoose.Schema(
     lastname: {
       type: String,
       required: [true, "Lastname is requried"],
-    },
-    gender: {
-      type: String,
-      required: [true, "Gender is requried"],
-    },
-    residence: {
-      type: String,
-      required: [true, "Residence is required"],
     },
     dateOfBirth: {
       type: String,
