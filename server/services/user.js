@@ -24,9 +24,19 @@ const createUser = async (userData) => {
   await User.create(userData);
 };
 
+const findAndDeleteUser = async (userId) => {
+  await User.findByIdAndDelete(userId);
+};
+
+const findUserAndUpdate = async (userId, userData) => {
+  await User.findByIdAndUpdate(userId, userData);
+};
+
 module.exports = {
   findUser,
   createUser,
   createToken,
   comparePasswords,
+  findAndDeleteUser,
+  findUserAndUpdate,
 };

@@ -3,6 +3,8 @@ const {
   createUser,
   comparePasswords,
   createToken,
+  findAndDeleteUser,
+  findUserAndUpdate,
 } = require("../services/user");
 
 const handleError = (error) => {
@@ -57,7 +59,27 @@ const register = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    await findAndDeleteUser(req.userId);
+    res.status(204);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    await findAndDeleteUser(req.userId, req.body);
+    res.status(201).json({ message: "User updated" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 module.exports = {
   login,
   register,
+  deleteUser,
+  updateUser,
 };
