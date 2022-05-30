@@ -15,21 +15,35 @@ const comparePasswords = async (password, hashedPassword) => {
   return isPasswordCorrect;
 };
 
-const findUser = async (email) => {
+const findUser = async (email, password) => {
+  let result = { errorMessage: "", userData: null, token: null };
   const user = await User.findOne({ email });
-  return user;
+  if (!user) {
+    result.errorMessage = "Wrong user email or password";
+    return result;
+  }
+  const isPasswordCorrect = await comparePasswords(password, user?.password);
+  if (!isPasswordCorrect) {
+    result.errorMessage = "Wrong user email or password";
+    return result;
+  }
+  const token = createToken(user._id);
+  result.userData = user;
+  result.token = token;
+  return result;
 };
 
 const createUser = async (userData) => {
-  await User.create(userData);
+  return await User.create(userData);
 };
 
 const findAndDeleteUser = async (userId) => {
   await User.findByIdAndDelete(userId);
+  return { message: "User deleted" };
 };
 
 const findUserAndUpdate = async (userId, userData) => {
-  await User.findByIdAndUpdate(userId, userData);
+  return await User.findByIdAndUpdate(userId, userData, { new: true });
 };
 
 module.exports = {
