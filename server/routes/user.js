@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.route("/login").post(login);
 router.route("/register").post(register);
-router.route("/delete").delete(authGuard, adminGuard, deleteUser);
-router.route("/update").put(authGuard, adminGuard, updateUser);
+router.route("/delete/:userId").delete(authGuard, adminGuard, deleteUser);
+router.route("/update/:userId").put(authGuard, adminGuard, updateUser);
 
 module.exports = router;
