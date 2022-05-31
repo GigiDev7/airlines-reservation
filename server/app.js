@@ -5,6 +5,7 @@ const { errorHandler } = require("./middlewares/errorHandler");
 
 const userRouter = require("./routes/user");
 const ticketsRouter = require("./routes/ticket");
+const flightsRouter = require("./routes/flights");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use("/user", userRouter);
 app.use("/tickets", ticketsRouter);
+app.use("/flights", flightsRouter);
 
 app.use(errorHandler);
 
