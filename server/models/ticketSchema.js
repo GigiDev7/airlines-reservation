@@ -6,10 +6,6 @@ const ticketSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Ticket price is required"],
     },
-    ticketClass: {
-      type: String,
-      required: [true, "Ticket class is required"],
-    },
     flight: {
       type: mongoose.Types.ObjectId,
       ref: "Flight",
