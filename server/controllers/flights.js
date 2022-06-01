@@ -28,7 +28,7 @@ const deleteFlight = async (req, res, next) => {
   try {
     const { flightId } = req.params;
     const deletedFlight = await findFlightAndDelete(flightId);
-    res.status(204).json(deletedFlight);
+    res.status(200).json(deletedFlight);
   } catch (error) {
     next(error);
   }
@@ -36,7 +36,11 @@ const deleteFlight = async (req, res, next) => {
 
 const getFlights = async (req, res, next) => {
   try {
-    const flights = await findFlights();
+    const filterObject = {};
+    const { destination, departure, sort } = req.query;
+    if (destination) filterObject.destination = destination;
+    if (departure) filterObject.departure = departure;
+    const flights = await findFlights(filterObject, sort);
     res.status(200).json(flights);
   } catch (error) {
     next(error);
