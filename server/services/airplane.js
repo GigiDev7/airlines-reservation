@@ -14,8 +14,8 @@ const findAirplaneAndDelete = async (airplaneId) => {
   return Airplane.findByIdAndDelete(airplaneId);
 };
 
-const findAirplanes = async () => {
-  return Airplane.find();
+const findAirplanes = async (filterObject) => {
+  return Airplane.aggregate([{ $match: filterObject }]);
 };
 
 module.exports = {

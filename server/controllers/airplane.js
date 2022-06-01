@@ -36,7 +36,9 @@ const deleteAirplane = async (req, res, next) => {
 
 const getAirplanes = async (req, res, next) => {
   try {
-    const airplanes = await findAirplanes();
+    const { company } = req.query;
+    const filterObject = company ? { company } : {};
+    const airplanes = await findAirplanes(filterObject);
     res.status(200).json(airplanes);
   } catch (error) {
     next(error);
