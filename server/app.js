@@ -7,7 +7,7 @@ const userRouter = require("./routes/user");
 const ticketsRouter = require("./routes/ticket");
 const flightsRouter = require("./routes/flights");
 const airplaneRouter = require("./routes/airplane");
-const countryRouter = require("./routes/country");
+const locationRouter = require("./routes/location");
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use("/user", userRouter);
 app.use("/tickets", ticketsRouter);
 app.use("/flights", flightsRouter);
 app.use("/airplane", airplaneRouter);
-app.use("/countries", countryRouter);
+app.use("/locations", locationRouter);
 
 app.use(errorHandler);
 

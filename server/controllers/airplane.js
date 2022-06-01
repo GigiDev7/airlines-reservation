@@ -5,41 +5,41 @@ const {
   findAirplanes,
 } = require("../services/airplane");
 
-const addAirplane = async (req, res) => {
+const addAirplane = async (req, res, next) => {
   try {
     const newAirplane = await createAirplane(req.body);
     return res.status(200).json(newAirplane);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 
-const updateAirplane = async (req, res) => {
+const updateAirplane = async (req, res, next) => {
   try {
     const { airplaneId } = req.params;
     const updatedAirplane = await findAirplaneAndUpdate(airplaneId, req.body);
     res.status(201).json(updatedAirplane);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 
-const deleteAirplane = async (req, res) => {
+const deleteAirplane = async (req, res, next) => {
   try {
     const { airplaneId } = req.params;
-    await findAirplaneAndDelete(airplaneId);
-    res.status(204).send();
+    const deletedAirplane = await findAirplaneAndDelete(airplaneId);
+    res.status(204).json(deletedAirplane);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 
-const getAirplanes = async (req, res) => {
+const getAirplanes = async (req, res, next) => {
   try {
     const airplanes = await findAirplanes();
     res.status(200).json(airplanes);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 

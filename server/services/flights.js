@@ -1,20 +1,19 @@
 const Flight = require("../models/flightSchema");
 
 const createFlight = async (flightData) => {
-  return await Flight.create(flightData);
+  return Flight.create(flightData);
 };
 
 const findFlightAndUpdate = async (flightId, flightData) => {
-  return await Flight.findByIdAndUpdate(flightId, flightData, { new: true });
+  return Flight.findByIdAndUpdate(flightId, flightData, { new: true });
 };
 
 const findFlightAndDelete = async (flightId) => {
-  await Flight.findByIdAndDelete(flightId);
-  return { message: "Flight deleted" };
+  return Flight.findByIdAndDelete(flightId);
 };
 
 const findFlights = async () => {
-  return await Flight.find();
+  return Flight.find();
 };
 
 module.exports = {

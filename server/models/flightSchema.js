@@ -11,11 +11,11 @@ const flightSchema = new mongoose.Schema(
       required: [true, "Destination place is required"],
     },
     departureTime: {
-      type: String,
+      type: Date,
       required: [true, "Departure time is required"],
     },
     arrivalTime: {
-      type: String,
+      type: Date,
       required: [true, "Arrival time is required"],
     },
     airplane: {

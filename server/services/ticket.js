@@ -1,20 +1,19 @@
 const Ticket = require("../models/ticketSchema");
 
 const createTicket = async (ticketData) => {
-  return await Ticket.create(ticketData);
+  return Ticket.create(ticketData);
 };
 
 const findTicketAndUpdate = async (ticketId, ticketData) => {
-  return await Ticket.findByIdAndUpdate(ticketId, ticketData, { new: true });
+  return Ticket.findByIdAndUpdate(ticketId, ticketData, { new: true });
 };
 
 const findTicketAndDelete = async (ticketId) => {
-  await Ticket.findByIdAndDelete(ticketId);
-  return { message: "Ticket deleted" };
+  return Ticket.findByIdAndDelete(ticketId);
 };
 
 const findTickets = async () => {
-  return await Ticket.find();
+  return Ticket.find();
 };
 
 module.exports = {

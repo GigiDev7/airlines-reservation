@@ -5,41 +5,41 @@ const {
   findTickets,
 } = require("../services/ticket");
 
-const addTicket = async (req, res) => {
+const addTicket = async (req, res, next) => {
   try {
     const newTicket = await createTicket(req.body);
     res.status(200).json(newTicket);
   } catch (error) {
-    res.status(500).json(err);
+    next(error);
   }
 };
 
-const updateTicket = async (req, res) => {
+const updateTicket = async (req, res, next) => {
   try {
     const { ticketId } = req.params;
     const updatedTicket = await findTicketAndUpdate(ticketId, req.body);
     res.status(201).json(updatedTicket);
   } catch (error) {
-    res.status(500).json(err);
+    next(error);
   }
 };
 
-const deleteTicket = async (req, res) => {
+const deleteTicket = async (req, res, next) => {
   try {
     const { ticketId } = req.params;
-    await findTicketAndDelete(ticketId);
-    res.status(204).send();
+    const deletedTicket = await findTicketAndDelete(ticketId);
+    res.status(200).json(deletedTicket);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 
-const getTickets = async (req, res) => {
+const getTickets = async (req, res, next) => {
   try {
     const tickets = await findTickets();
     res.status(200).json(tickets);
   } catch (error) {
-    res.status(500).json(error);
+    next(error);
   }
 };
 

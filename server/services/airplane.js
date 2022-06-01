@@ -1,22 +1,21 @@
 const Airplane = require("../models/airplaneSchema");
 
 const createAirplane = async (airplaneData) => {
-  return await Airplane.create(airplaneData);
+  return Airplane.create(airplaneData);
 };
 
 const findAirplaneAndUpdate = async (airplaneId, airplaneData) => {
-  return await Airplane.findByIdAndUpdate(airplaneId, airplaneData, {
+  return Airplane.findByIdAndUpdate(airplaneId, airplaneData, {
     new: true,
   });
 };
 
 const findAirplaneAndDelete = async (airplaneId) => {
-  await Airplane.findByIdAndDelete(airplaneId);
-  return { message: "Airplane deleted" };
+  return Airplane.findByIdAndDelete(airplaneId);
 };
 
 const findAirplanes = async () => {
-  return await Airplane.find();
+  return Airplane.find();
 };
 
 module.exports = {

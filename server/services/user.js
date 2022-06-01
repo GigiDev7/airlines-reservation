@@ -34,16 +34,15 @@ const findUser = async (email, password) => {
 };
 
 const createUser = async (userData) => {
-  return await User.create(userData);
+  return User.create(userData);
 };
 
 const findAndDeleteUser = async (userId) => {
-  await User.findByIdAndDelete(userId);
-  return { message: "User deleted" };
+  return User.findByIdAndDelete(userId);
 };
 
 const findUserAndUpdate = async (userId, userData) => {
-  return await User.findByIdAndUpdate(userId, userData, { new: true });
+  return User.findByIdAndUpdate(userId, userData, { new: true });
 };
 
 module.exports = {
