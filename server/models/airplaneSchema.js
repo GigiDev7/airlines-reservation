@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const SeatSchema = require("./seatSchema");
+const { resultSeats } = require("../utils/seats");
 
 const airplaneSchema = new mongoose.Schema(
   {
@@ -7,8 +9,8 @@ const airplaneSchema = new mongoose.Schema(
       required: [true, "Airplane company is required"],
     },
     seats: {
-      type: Number,
-      required: true,
+      type: [SeatSchema],
+      default: resultSeats,
     },
   },
   {
