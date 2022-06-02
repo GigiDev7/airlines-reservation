@@ -29,23 +29,23 @@ const register = async (req, res, next) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const message = await findAndDeleteUser(userId);
-    res.status(204).json(message);
+    const deletedUser = await findAndDeleteUser(userId);
+    res.status(200).json(deletedUser);
   } catch (err) {
-    res.status(500).json(err);
+    next(err);
   }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
     const updatedUser = await findUserAndUpdate(userId, req.body);
     res.status(201).json(updatedUser);
   } catch (err) {
-    res.status(500).json(err);
+    next(err);
   }
 };
 
