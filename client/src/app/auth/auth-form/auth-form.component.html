@@ -1,5 +1,7 @@
 <div class="">
   <form
+    (ngSubmit)="handleSubmit()"
+    [formGroup]="authMode === 'login' ? loginForm : registerForm"
     class="space-y-6 flex flex-col items-start pl-10 pt-8 pb-10 bg-white w-[400px] h-max rounded-md shadow-slate-500 shadow-lg"
   >
     <div class="flex flex-col w-[80%]">
@@ -9,7 +11,34 @@
         type="email"
         id="email"
         placeholder="Enter your email address"
+        formControlName="email"
       />
+      <span
+        *ngIf="
+          authMode === 'login' &&
+          !loginForm.get('email')?.valid &&
+          loginForm.get('email')?.touched
+        "
+        class="text-sm mt-1 text-red-500"
+        >{{
+          loginForm.get("email")?.value === ""
+            ? "Email is required"
+            : "Please enter valid email"
+        }}</span
+      >
+      <span
+        *ngIf="
+          authMode === 'register' &&
+          !registerForm.get('email')?.valid &&
+          registerForm.get('email')?.touched
+        "
+        class="text-sm mt-1 text-red-500"
+        >{{
+          registerForm.get("email")?.value === ""
+            ? "Email is required"
+            : "Please enter valid email"
+        }}</span
+      >
     </div>
     <div class="flex flex-col w-[80%]">
       <label for="password">Password</label>
@@ -18,7 +47,34 @@
         type="password"
         id="password"
         placeholder="Enter your password"
+        formControlName="password"
       />
+      <span
+        *ngIf="
+          authMode === 'login' &&
+          !loginForm.get('password')?.valid &&
+          loginForm.get('password')?.touched
+        "
+        class="text-sm mt-1 text-red-500"
+        >{{
+          loginForm.get("password")?.value === ""
+            ? "Password is required"
+            : "Password must be at least 6 characters"
+        }}</span
+      >
+      <span
+        *ngIf="
+          authMode === 'register' &&
+          !registerForm.get('password')?.valid &&
+          registerForm.get('password')?.touched
+        "
+        class="text-sm mt-1 text-red-500"
+        >{{
+          registerForm.get("password")?.value === ""
+            ? "Password is required"
+            : "Password must be at least 6 characters"
+        }}</span
+      >
     </div>
     <div *ngIf="authMode === 'register'" class="flex flex-col w-[80%]">
       <label for="firstname">Firstname</label>
@@ -27,7 +83,17 @@
         type="text"
         id="firstname"
         placeholder="Enter your firstname"
+        formControlName="firstname"
       />
+      <span
+        *ngIf="
+          authMode === 'register' &&
+          !registerForm.get('firstname')?.valid &&
+          registerForm.get('firstname')?.touched
+        "
+        class="text-sm mt-1 text-red-500"
+        >Firstname is required</span
+      >
     </div>
     <div *ngIf="authMode === 'register'" class="flex flex-col w-[80%]">
       <label for="lastname">Lastname</label>
@@ -36,7 +102,17 @@
         type="text"
         id="lastname"
         placeholder="Enter your lastname"
+        formControlName="lastname"
       />
+      <span
+        *ngIf="
+          authMode === 'register' &&
+          !registerForm.get('lastname')?.valid &&
+          registerForm.get('lastname')?.touched
+        "
+        class="text-sm mt-1 text-red-500"
+        >Lastname is required</span
+      >
     </div>
     <div *ngIf="authMode === 'register'" class="flex flex-col w-[80%]">
       <label for="dateOfBirth">Date of birth</label>
@@ -45,10 +121,23 @@
         type="date"
         id="dateOfBirth"
         max="2005-01-01"
+        formControlName="dateOfBirth"
       />
+      <span
+        *ngIf="
+          authMode === 'register' &&
+          !registerForm.get('dateOfBirth')?.valid &&
+          registerForm.get('dateOfBirth')?.touched
+        "
+        class="text-sm mt-1 text-red-500"
+        >Date of birth is required</span
+      >
     </div>
     <button
-      class="ml-[25%] bg-blue-400 py-2 px-8 rounded-md hover:bg-blue-500"
+      [disabled]="
+        authMode === 'login' ? loginForm.invalid : registerForm.invalid
+      "
+      class="disabled:bg-gray-200 disabled:opacity-60 ml-[25%] bg-blue-400 py-2 px-8 rounded-md hover:bg-blue-500"
       type="submit"
     >
       {{ authMode === "register" ? "Sign Up" : "Sign In" }}
