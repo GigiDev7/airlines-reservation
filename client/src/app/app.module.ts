@@ -12,13 +12,10 @@ import { AuthFormComponent } from './auth/auth-form/auth-form.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    AuthFormComponent
+    AuthFormComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
