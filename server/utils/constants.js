@@ -1,9 +1,9 @@
-exports.ROLES = {
+exports.ROLES = Object.freeze({
   values: ["user", "admin"],
   message: "{VALUE} is not supported",
-};
+});
 
-exports.SEATCLASS = {
+exports.SEATCLASS = Object.freeze({
   values: ["business", "standart", "econom"],
   message: "{VALUE} is not supported",
-};
+});
