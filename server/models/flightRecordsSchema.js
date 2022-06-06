@@ -10,7 +10,7 @@ const flightRecordSchema = new mongoose.Schema({
     required: true,
   },
   flightDay: {
-    type: String,
+    type: Date,
     required: true,
   },
 });
