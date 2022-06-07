@@ -1,4 +1,4 @@
-<form class="flex justify-between w-[800px] items-center bg-white">
+<form class="flex overflow-clip items-center bg-white">
   <div>
     <input class="py-2 pl-1" type="text" placeholder="Where from?" />
   </div>
@@ -13,6 +13,7 @@
       placeholder="Departure"
       (focus)="handleInputFocus(departureInput)"
       (blur)="handleInputBlur(departureInput)"
+      [min]="minDate"
     />
   </div>
   <div>
@@ -23,6 +24,7 @@
       placeholder="Return"
       (focus)="handleInputFocus(returnInput)"
       (blur)="handleInputBlur(returnInput)"
+      [min]="minDate"
     />
   </div>
   <button

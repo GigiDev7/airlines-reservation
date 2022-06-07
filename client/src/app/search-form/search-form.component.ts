@@ -12,8 +12,11 @@ export class SearchFormComponent implements OnInit {
   public handleInputBlur(element: HTMLInputElement): void {
     element.type = 'text';
   }
+  public minDate!: String;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.minDate = new Date().toISOString().split('T')[0];
+  }
 }
