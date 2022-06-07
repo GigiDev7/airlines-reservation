@@ -5,8 +5,14 @@ const {
   findTickets,
 } = require("../services/ticket");
 
+const { validationResult } = require("express-validator");
+
 const addTicket = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const newTicket = await createTicket(req.body);
     res.status(200).json(newTicket);
   } catch (error) {
