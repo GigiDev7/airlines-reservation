@@ -5,8 +5,14 @@ const {
   findAirplanes,
 } = require("../services/airplane");
 
+const { validationResult } = require("express-validator");
+
 const addAirplane = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     const newAirplane = await createAirplane(req.body);
     return res.status(200).json(newAirplane);
   } catch (error) {
