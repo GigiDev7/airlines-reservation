@@ -43,4 +43,8 @@ export class AuthService {
   private setUser(userData: UserModel): void {
     localStorage.setItem('user', JSON.stringify(userData));
   }
+
+  public logout(): void {
+    localStorage.removeItem('user');
+  }
 }
