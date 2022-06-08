@@ -1,9 +1,28 @@
-<form class="flex overflow-clip items-center bg-white">
+<form class="flex overflow-clip items-center bg-white h-36">
   <div>
-    <input class="py-2 pl-1" type="text" placeholder="Where from?" />
+    <input
+      (blur)="filteredLocations = []"
+      (input)="handleLocationChange($event)"
+      class="py-2 pl-1"
+      type="text"
+      placeholder="Where from?"
+    />
   </div>
-  <div>
-    <input class="py-2 pl-1" type="text" placeholder="Where to?" />
+  <div class="relative">
+    <input
+      (blur)="filteredLocations = []"
+      (input)="handleLocationChange($event)"
+      class="py-2 pl-1"
+      type="text"
+      placeholder="Where to?"
+    />
+  </div>
+  <div class="absolute -bottom-10">
+    <ul>
+      <li *ngFor="let location of filteredLocations; trackBy: trackBy">
+        {{ location.city }}
+      </li>
+    </ul>
   </div>
   <div>
     <input
