@@ -40,4 +40,9 @@ exports.registerValidation = checkSchema({
     isString: true,
     errorMessage: "Lastname is required",
   },
+  dateOfBirth: {
+    in: ["body"],
+    isDate: true,
+    errorMessage: "Date of birth is requried",
+  },
 });

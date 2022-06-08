@@ -11,12 +11,25 @@ const {
   loginValidation,
   registerValidation,
 } = require("../middlewares/authValidators");
+const {
+  handleValidationErrors,
+} = require("../middlewares/validationErrorsHandler");
 
 const router = express.Router();
 
-router.route("/login").post(loginValidation, login);
-router.route("/register").post(registerValidation, register);
+router.route("/login").post(loginValidation, handleValidationErrors, login);
+router
+  .route("/register")
+  .post(registerValidation, handleValidationErrors, register);
 router.route("/delete/:userId").delete(authGuard, adminGuard, deleteUser);
-router.route("/update/:userId").put(authGuard, adminGuard, updateUser);
+router
+  .route("/update/:userId")
+  .put(
+    authGuard,
+    adminGuard,
+    registerValidation,
+    handleValidationErrors,
+    updateUser
+  );
 
 module.exports = router;
