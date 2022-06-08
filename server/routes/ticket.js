@@ -8,12 +8,18 @@ const {
 const { authGuard } = require("../middlewares/authGuard");
 const { adminGuard } = require("../middlewares/adminGuard");
 const { ticketValidation } = require("../middlewares/ticketValidators");
+const {
+  handleValidationErrors,
+} = require("../middlewares/validationErrorsHandler");
 
 const router = express.Router();
 
 router.use(authGuard);
 
-router.route("/").get(getTickets).post(adminGuard, ticketValidation, addTicket);
+router
+  .route("/")
+  .get(getTickets)
+  .post(adminGuard, ticketValidation, handleValidationErrors, addTicket);
 router
   .route("/:ticketId")
   .put(adminGuard, updateTicket)
