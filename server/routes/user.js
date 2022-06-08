@@ -22,6 +22,14 @@ router
   .route("/register")
   .post(registerValidation, handleValidationErrors, register);
 router.route("/delete/:userId").delete(authGuard, adminGuard, deleteUser);
-router.route("/update/:userId").put(authGuard, adminGuard, updateUser);
+router
+  .route("/update/:userId")
+  .put(
+    authGuard,
+    adminGuard,
+    registerValidation,
+    handleValidationErrors,
+    updateUser
+  );
 
 module.exports = router;
