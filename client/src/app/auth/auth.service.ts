@@ -24,6 +24,22 @@ export class AuthService {
       );
   }
 
+  public register(
+    email: string,
+    password: string,
+    firstname: string,
+    lastname: string,
+    dateOfBirth: Date
+  ) {
+    return this.http.post('http://localhost:8000/user/register', {
+      email,
+      password,
+      firstname,
+      lastname,
+      dateOfBirth,
+    });
+  }
+
   private setUser(userData: UserModel): void {
     localStorage.setItem('user', JSON.stringify(userData));
   }

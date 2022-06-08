@@ -37,6 +37,14 @@ export class AuthFormComponent implements OnInit {
         next: () => this.router.navigate(['']),
         error: (err) => (this.loginError = err.error.message),
       });
+    } else {
+      const { email, password, firstname, lastname, dateOfBirth } =
+        this.registerForm.value;
+      this.authService
+        .register(email, password, firstname, lastname, dateOfBirth)
+        .subscribe({
+          next: () => this.router.navigate(['login']),
+        });
     }
   }
 
