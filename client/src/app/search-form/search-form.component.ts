@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocationService } from '../home/services/locations.service';
 import { LocationModel } from '../shared/models/locationModel';
 
@@ -8,26 +9,46 @@ import { LocationModel } from '../shared/models/locationModel';
   styleUrls: ['./search-form.component.sass'],
 })
 export class SearchFormComponent implements OnInit {
+  public minDate!: String;
+  public locations: LocationModel[] = [];
+  public filteredLocations: LocationModel[] = [];
+  public filtersType: string = '';
+
+  public flightForm: FormGroup = new FormGroup({
+    departure: new FormControl('', [Validators.required]),
+    destination: new FormControl('', [Validators.required]),
+    departureTime: new FormControl('', [Validators.required]),
+    returnTime: new FormControl('', [Validators.required]),
+  });
+
   public handleInputFocus(element: HTMLInputElement): void {
     element.type = 'date';
   }
   public handleInputBlur(element: HTMLInputElement): void {
     element.type = 'text';
   }
-  public minDate!: String;
-  public locations: LocationModel[] = [];
-  public filteredLocations: LocationModel[] = [];
 
-  public handleLocationChange(event: Event): void {
+  public handleLocationChange(event: Event, type: string): void {
     if ((event.target as HTMLInputElement).value.length > 0) {
+      this.filtersType = type;
       this.filteredLocations = this.locations.filter((location) => {
         return location?.city
           ?.toLowerCase()
           ?.includes((event.target as HTMLInputElement).value.toLowerCase());
       });
     } else {
+      this.filtersType = '';
       this.filteredLocations = [];
     }
+  }
+
+  public onLocationClick() {
+    console.log('hey');
+    console.log(this.flightForm);
+  }
+
+  public handleFlightFormSubmit() {
+    console.log(this.flightForm);
   }
 
   public trackBy(index: number, item: LocationModel) {

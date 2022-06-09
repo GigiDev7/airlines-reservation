@@ -1,53 +1,85 @@
-<form class="flex overflow-clip items-center bg-white h-36">
-  <div>
+<form
+  (ngSubmit)="handleFlightFormSubmit()"
+  [formGroup]="flightForm"
+  class="flex items-center bg-white h-36 rounded-md px-16"
+>
+  <div class="relative">
     <input
       (blur)="filteredLocations = []"
-      (input)="handleLocationChange($event)"
-      class="py-2 pl-1"
+      (input)="handleLocationChange($event, 'departure')"
+      class="py-2 pl-1 border-[1px]"
       type="text"
       placeholder="Where from?"
+      formControlName="departure"
     />
+    <div
+      *ngIf="filtersType === 'departure' && filteredLocations.length > 0"
+      class="absolute top-14 px-8 py-6 rounder-md shadow-md bg-white"
+    >
+      <ul class="space-y-8">
+        <li
+          class="cursor-pointer hover:bg-gray-100 px-2 py-3 z-10"
+          *ngFor="let location of filteredLocations; trackBy: trackBy"
+        >
+          {{ location.city | titlecase }},<span class="ml-2 text-gray-400">{{
+            location.country | titlecase
+          }}</span>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="relative">
     <input
       (blur)="filteredLocations = []"
-      (input)="handleLocationChange($event)"
-      class="py-2 pl-1"
+      (input)="handleLocationChange($event, 'destination')"
+      class="py-2 pl-1 border-[1px]"
       type="text"
       placeholder="Where to?"
+      formControlName="destination"
     />
+    <div
+      *ngIf="filtersType === 'destination' && filteredLocations.length > 0"
+      class="absolute top-14 px-4 py-6 rounder-md shadow-md bg-white"
+    >
+      <ul class="space-y-8">
+        <li
+          class="cursor-pointer hover:bg-gray-100 px-2 py-3"
+          *ngFor="let location of filteredLocations; trackBy: trackBy"
+        >
+          {{ location.city | titlecase }},<span class="ml-2 text-gray-400">{{
+            location.country | titlecase
+          }}</span>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="absolute -bottom-10">
-    <ul>
-      <li *ngFor="let location of filteredLocations; trackBy: trackBy">
-        {{ location.city }}
-      </li>
-    </ul>
-  </div>
+
   <div>
     <input
-      class="py-2 pl-1"
+      class="py-2 pl-1 border-[1px]"
       #departureInput
       type="text"
       placeholder="Departure"
       (focus)="handleInputFocus(departureInput)"
       (blur)="handleInputBlur(departureInput)"
       [min]="minDate"
+      formControlName="departureTime"
     />
   </div>
   <div>
     <input
-      class="py-2 pl-1"
+      class="py-2 pl-1 border-[1px]"
       #returnInput
       type="text"
       placeholder="Return"
       (focus)="handleInputFocus(returnInput)"
       (blur)="handleInputBlur(returnInput)"
       [min]="minDate"
+      formControlName="returnTime"
     />
   </div>
   <button
-    class="py-2 px-4 bg-blue-600 text-white hover:bg-blue-700"
+    class="w-40 py-2 ml-4 rounded-md bg-blue-600 text-white hover:bg-blue-700"
     type="submit"
   >
     Search Flights
