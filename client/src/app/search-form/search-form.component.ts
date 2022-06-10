@@ -42,9 +42,18 @@ export class SearchFormComponent implements OnInit {
     }
   }
 
-  public onLocationClick() {
-    console.log('hey');
-    console.log(this.flightForm);
+  public handleLocationClick(location: LocationModel) {
+    if (this.filtersType === 'departure') {
+      this.flightForm.patchValue({
+        departure: location.city,
+      });
+    } else {
+      this.flightForm.patchValue({
+        destination: location.city,
+      });
+    }
+    this.filtersType = '';
+    this.filteredLocations = [];
   }
 
   public handleFlightFormSubmit() {
