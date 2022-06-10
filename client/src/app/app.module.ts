@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { SearchFormComponent } from './search-form/search-form.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     HomeComponent,
     SearchFormComponent,
     HeaderComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
