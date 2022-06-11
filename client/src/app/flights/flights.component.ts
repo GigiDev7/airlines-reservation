@@ -26,7 +26,7 @@ export class FlightsComponent implements OnInit {
             params['departureTime']
           )
           .subscribe({
-            next: (res) => console.log(res),
+            next: (res) => (this.flights = res),
           }),
     });
   }

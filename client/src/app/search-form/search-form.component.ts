@@ -29,6 +29,13 @@ export class SearchFormComponent implements OnInit {
     element.type = 'text';
   }
 
+  public hideTypeAhead(e: Event): void {
+    if (!(e.target instanceof HTMLLIElement)) {
+      this.filteredLocations = [];
+      this.filtersType = '';
+    }
+  }
+
   public handleLocationChange(event: Event, type: string): void {
     if ((event.target as HTMLInputElement).value.length > 0) {
       this.filtersType = type;
