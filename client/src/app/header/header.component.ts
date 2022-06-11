@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 import { UserModel } from '../shared/models/userModel';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.sass'],
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
   public user: UserModel | null = null;
+  public isWindowShown: boolean = false;
 
-  constructor() {}
+  public toggleWindow() {
+    this.isWindowShown = !this.isWindowShown;
+  }
+
+  public handleLogout() {
+    this.authService.logout();
+    this.router.navigate(['login']);
+  }
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     const user = localStorage.getItem('user');

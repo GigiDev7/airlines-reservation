@@ -29,8 +29,13 @@ export class AuthFormComponent implements OnInit {
   });
 
   public loginError: String = '';
+  public isPasswordShown: boolean = false;
 
-  handleSubmit() {
+  public toggleShowPassword() {
+    this.isPasswordShown = !this.isPasswordShown;
+  }
+
+  public handleSubmit() {
     if (this.authMode === 'login') {
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password).subscribe({
