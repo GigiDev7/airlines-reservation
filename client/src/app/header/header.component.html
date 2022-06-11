@@ -1,0 +1,18 @@
+<div class="bg-blue-500 h-14 flex items-center justify-between px-6">
+  <p class="text-white">Airline Reservation</p>
+  <p class="text-white flex items-center relative">
+    {{ user?.firstname | titlecase }} {{ user?.lastname | titlecase }}
+    <mat-icon (click)="toggleWindow()" class="ml-2 cursor-pointer">
+      person_pin</mat-icon
+    >
+  </p>
+  <div *ngIf="isWindowShown" class="triangle absolute right-8 top-11"></div>
+  <div
+    *ngIf="isWindowShown"
+    class="absolute right-6 top-14 bg-white w-32 h-16 pl-3 pt-2 slide-window"
+  >
+    <button (click)="handleLogout()" class="flex items-center">
+      Logout <mat-icon class="text-xl ml-1">exit_to_app</mat-icon>
+    </button>
+  </div>
+</div>

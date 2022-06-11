@@ -4,6 +4,9 @@
     [formGroup]="authMode === 'login' ? loginForm : registerForm"
     class="space-y-6 flex flex-col items-start pl-10 pt-8 pb-10 bg-white w-[400px] h-max rounded-md shadow-slate-500 shadow-lg"
   >
+    <span *ngIf="loginError" class="text-sm text-red-600">{{
+      loginError
+    }}</span>
     <div class="flex flex-col w-[80%]">
       <label for="email">Email</label>
       <input
@@ -40,15 +43,20 @@
         }}</span
       >
     </div>
-    <div class="flex flex-col w-[80%]">
+    <div class="flex flex-col w-[80%] relative">
       <label for="password">Password</label>
       <input
         class="border-[1px] mt-2 py-2 border-gray-400 rounded-sm outline-0 pl-1"
-        type="password"
+        [type]="isPasswordShown ? 'text' : 'password'"
         id="password"
         placeholder="Enter your password"
         formControlName="password"
       />
+      <mat-icon
+        (click)="toggleShowPassword()"
+        class="absolute top-10 right-2 cursor-pointer"
+        >{{ isPasswordShown ? "visibility_off" : "visibility" }}</mat-icon
+      >
       <span
         *ngIf="
           authMode === 'login' &&
@@ -146,7 +154,9 @@
       *ngIf="authMode === 'login'"
       class="text-right w-[80%] text-sm text-blue-400"
     >
-      <p>Don't have an account?</p>
+      <a routerLink="/register" class="cursor-pointer"
+        >Don't have an account?</a
+      >
     </div>
   </form>
 </div>

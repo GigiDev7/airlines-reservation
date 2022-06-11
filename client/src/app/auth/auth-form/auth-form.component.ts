@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-auth-form',
@@ -26,11 +28,32 @@ export class AuthFormComponent implements OnInit {
     dateOfBirth: new FormControl('', [Validators.required]),
   });
 
-  handleSubmit() {
-    console.log(this.loginForm);
+  public loginError: String = '';
+  public isPasswordShown: boolean = false;
+
+  public toggleShowPassword() {
+    this.isPasswordShown = !this.isPasswordShown;
   }
 
-  constructor() {}
+  public handleSubmit() {
+    if (this.authMode === 'login') {
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password).subscribe({
+        next: () => this.router.navigate(['']),
+        error: (err) => (this.loginError = err.error.message),
+      });
+    } else {
+      const { email, password, firstname, lastname, dateOfBirth } =
+        this.registerForm.value;
+      this.authService
+        .register(email, password, firstname, lastname, dateOfBirth)
+        .subscribe({
+          next: () => this.router.navigate(['login']),
+        });
+    }
+  }
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 }
