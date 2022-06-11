@@ -10,6 +10,12 @@ const ticketSchema = new mongoose.Schema(
       type: mongoose.Types.ObjectId,
       ref: "Flight",
     },
+    userId: {
+      type: mongoose.Types.ObjectId,
+    },
+    class: {
+      type: String,
+    },
   },
   {
     timestamps: true,

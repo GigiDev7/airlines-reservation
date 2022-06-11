@@ -23,7 +23,8 @@ const login = async (req, res) => {
 const register = async (req, res, next) => {
   try {
     const newUser = await createUser(req.body);
-    res.status(200).json(newUser);
+    const { email, firstname, lastname, role } = newUser;
+    res.status(200).json({ email, firstname, lastname, role });
   } catch (err) {
     next(err);
   }
