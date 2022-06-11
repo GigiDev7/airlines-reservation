@@ -10,6 +10,7 @@ import { FlightService } from './flights.service';
 })
 export class FlightsComponent implements OnInit {
   public flights: FlightModel[] = [];
+  public isFetching: boolean = false;
 
   constructor(
     private flightService: FlightService,
@@ -17,6 +18,7 @@ export class FlightsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isFetching = true;
     this.route.queryParams.subscribe({
       next: (params) =>
         this.flightService
@@ -26,7 +28,10 @@ export class FlightsComponent implements OnInit {
             params['departureTime']
           )
           .subscribe({
-            next: (res) => (this.flights = res),
+            next: (res) => {
+              this.flights = res;
+              this.isFetching = false;
+            },
           }),
     });
   }

@@ -14,6 +14,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { FlightCardComponent } from './flights/flight-card/flight-card.component';
 import { FlightsComponent } from './flights/flights.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { FlightsComponent } from './flights/flights.component';
     AuthModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     {
