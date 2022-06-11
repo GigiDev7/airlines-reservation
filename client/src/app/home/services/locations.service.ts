@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { LocationModel } from 'src/app/shared/models/locationModel';
 import { Observable, tap } from 'rxjs';
 

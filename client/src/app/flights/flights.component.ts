@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FlightModel } from '../shared/models/flightsModel';
+import { FlightService } from './flights.service';
 
 @Component({
   selector: 'app-flights',
@@ -6,7 +9,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./flights.component.sass'],
 })
 export class FlightsComponent implements OnInit {
-  constructor() {}
+  public flights: FlightModel[] = [];
 
-  ngOnInit(): void {}
+  constructor(
+    private flightService: FlightService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe({
+      next: (params) =>
+        this.flightService
+          .getFlights(
+            params['departure'].toLowerCase(),
+            params['destination'].toLowerCase(),
+            params['departureTime']
+          )
+          .subscribe({
+            next: (res) => console.log(res),
+          }),
+    });
+  }
 }
