@@ -60,7 +60,7 @@
       class="py-2 pl-1 border-[1px]"
       #departureInput
       type="text"
-      placeholder="Departure"
+      placeholder="Departure range"
       (focus)="handleInputFocus(departureInput)"
       (blur)="handleInputBlur(departureInput)"
       [min]="minDate"
@@ -72,11 +72,11 @@
       class="py-2 pl-1 border-[1px]"
       #returnInput
       type="text"
-      placeholder="Return"
+      placeholder="Departure range"
       (focus)="handleInputFocus(returnInput)"
       (blur)="handleInputBlur(returnInput)"
       [min]="minDate"
-      formControlName="returnTime"
+      formControlName="departureEnd"
     />
   </div>
   <button

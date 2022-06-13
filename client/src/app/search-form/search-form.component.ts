@@ -19,7 +19,7 @@ export class SearchFormComponent implements OnInit {
     departure: new FormControl('', [Validators.required]),
     destination: new FormControl('', [Validators.required]),
     departureTime: new FormControl('', [Validators.required]),
-    returnTime: new FormControl('', [Validators.required]),
+    departureEnd: new FormControl('', [Validators.required]),
   });
 
   public handleInputFocus(element: HTMLInputElement): void {
@@ -70,6 +70,7 @@ export class SearchFormComponent implements OnInit {
         departure: this.flightForm.get('departure')?.value,
         destination: this.flightForm.get('destination')?.value,
         departureTime: this.flightForm.get('departureTime')?.value,
+        departureEnd: this.flightForm.get('departureEnd')?.value,
       },
     });
   }
@@ -95,6 +96,7 @@ export class SearchFormComponent implements OnInit {
           departure: params['departure'],
           destination: params['destination'],
           departureTime: params['departureTime'],
+          departureEnd: params['departureEnd'],
         }),
     });
   }
