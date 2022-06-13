@@ -1,5 +1,15 @@
-<div>
-  <p>{{ flight.departure }}</p>
-  <p>{{ flight.destination }}</p>
-  <p>{{ flight.departureTime }}</p>
+<div class="shadow-lg w-[50%] py-8 pl-3 mx-auto rounded-md flex justify-around">
+  <div>
+    <mat-icon>airplanemode_active</mat-icon>
+    <p>{{ flight.airplane.company | titlecase }}</p>
+  </div>
+  <div>
+    <p>{{ flight.departure | titlecase }}</p>
+    <p>{{ flight.departureTime | date: "medium" }}</p>
+  </div>
+
+  <div>
+    <p>{{ flight.destination | titlecase }}</p>
+    <p>{{ flight.arrivalTime | date: "medium" }}</p>
+  </div>
 </div>

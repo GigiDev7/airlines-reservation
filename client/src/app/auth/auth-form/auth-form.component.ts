@@ -28,6 +28,7 @@ export class AuthFormComponent implements OnInit {
     dateOfBirth: new FormControl('', [Validators.required]),
   });
 
+  public registerError: string = '';
   public loginError: String = '';
   public isPasswordShown: boolean = false;
 
@@ -49,6 +50,7 @@ export class AuthFormComponent implements OnInit {
         .register(email, password, firstname, lastname, dateOfBirth)
         .subscribe({
           next: () => this.router.navigate(['login']),
+          error: (err) => (this.registerError = err.error.message),
         });
     }
   }
