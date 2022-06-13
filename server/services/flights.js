@@ -16,7 +16,9 @@ const findFlights = async (filterObject, departureTime, sortBy) => {
   return Flight.find({
     ...filterObject,
     departureTime: { $eq: departureTime },
-  }).sort(sortBy);
+  })
+    .sort(sortBy)
+    .populate("airplane");
 };
 
 module.exports = {

@@ -1,0 +1,9 @@
+<app-search-form></app-search-form>
+<div>
+  <p *ngIf="isFetching">Loading...</p>
+  <p *ngIf="!isFetching && !flights.length">No Results!</p>
+  <app-flight-card
+    *ngFor="let flight of flights"
+    [flight]="flight"
+  ></app-flight-card>
+</div>

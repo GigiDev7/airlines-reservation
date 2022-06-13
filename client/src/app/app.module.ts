@@ -12,6 +12,9 @@ import { SearchFormComponent } from './search-form/search-form.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { FlightCardComponent } from './flights/flight-card/flight-card.component';
+import { FlightsComponent } from './flights/flights.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -20,6 +23,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SearchFormComponent,
     HeaderComponent,
     NotFoundComponent,
+    FlightCardComponent,
+    FlightsComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +33,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     AuthModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     {

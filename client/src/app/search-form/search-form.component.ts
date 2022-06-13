@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LocationService } from '../home/services/locations.service';
 import { LocationModel } from '../shared/models/locationModel';
 
@@ -26,6 +27,13 @@ export class SearchFormComponent implements OnInit {
   }
   public handleInputBlur(element: HTMLInputElement): void {
     element.type = 'text';
+  }
+
+  public hideTypeAhead(e: Event): void {
+    if (!(e.target instanceof HTMLLIElement)) {
+      this.filteredLocations = [];
+      this.filtersType = '';
+    }
   }
 
   public handleLocationChange(event: Event, type: string): void {
@@ -57,19 +65,37 @@ export class SearchFormComponent implements OnInit {
   }
 
   public handleFlightFormSubmit() {
-    console.log(this.flightForm);
+    this.router.navigate(['flights'], {
+      queryParams: {
+        departure: this.flightForm.get('departure')?.value,
+        destination: this.flightForm.get('destination')?.value,
+        departureTime: this.flightForm.get('departureTime')?.value,
+      },
+    });
   }
 
   public trackBy(index: number, item: LocationModel) {
     return item._id;
   }
 
-  constructor(private locationService: LocationService) {}
+  constructor(
+    private locationService: LocationService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.minDate = new Date().toISOString().split('T')[0];
     this.locationService.getLocations().subscribe((data) => {
       this.locations = data;
+    });
+    this.route.queryParams.subscribe({
+      next: (params) =>
+        this.flightForm.patchValue({
+          departure: params['departure'],
+          destination: params['destination'],
+          departureTime: params['departureTime'],
+        }),
     });
   }
 }
