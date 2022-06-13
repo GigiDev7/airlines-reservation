@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminComponent } from './admin/admin.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthPageRestrict } from './auth/authPageRestrict.guard';
 import { LoginComponent } from './auth/login/login.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
     canActivate: [AuthPageRestrict],
   },
   { path: 'flights', component: FlightsComponent, canActivate: [AuthGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent },
 ];
 

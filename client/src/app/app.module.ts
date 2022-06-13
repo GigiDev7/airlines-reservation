@@ -15,6 +15,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { FlightCardComponent } from './flights/flight-card/flight-card.component';
 import { FlightsComponent } from './flights/flights.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NotFoundComponent,
     FlightCardComponent,
     FlightsComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,
