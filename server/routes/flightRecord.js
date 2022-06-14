@@ -13,6 +13,6 @@ const router = express.Router();
 router.use(authGuard, adminGuard);
 
 router.route("/").get(getFlightRecords).post(addFlightRecord);
-router.route("/:recordId").put(updateFlightRecord).delete(deleteFlightRecord);
+router.route("/:recordId").patch(updateFlightRecord).delete(deleteFlightRecord);
 
 module.exports = router;

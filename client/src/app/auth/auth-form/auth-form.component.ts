@@ -23,11 +23,13 @@ export class AuthFormComponent implements OnInit {
       Validators.required,
       Validators.minLength(6),
     ]),
+    passwordConfirm: new FormControl('', [Validators.required]),
     firstname: new FormControl('', [Validators.required]),
     lastname: new FormControl('', [Validators.required]),
     dateOfBirth: new FormControl('', [Validators.required]),
   });
 
+  public registerError: string = '';
   public loginError: String = '';
   public isPasswordShown: boolean = false;
 
@@ -35,7 +37,7 @@ export class AuthFormComponent implements OnInit {
     this.isPasswordShown = !this.isPasswordShown;
   }
 
-  public handleSubmit() {
+  public handleSubmit(): any {
     if (this.authMode === 'login') {
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password).subscribe({
@@ -43,12 +45,22 @@ export class AuthFormComponent implements OnInit {
         error: (err) => (this.loginError = err.error.message),
       });
     } else {
-      const { email, password, firstname, lastname, dateOfBirth } =
-        this.registerForm.value;
+      const {
+        email,
+        password,
+        passwordConfirm,
+        firstname,
+        lastname,
+        dateOfBirth,
+      } = this.registerForm.value;
+      if (password !== passwordConfirm) {
+        return (this.registerError = 'Passwords do not match');
+      }
       this.authService
         .register(email, password, firstname, lastname, dateOfBirth)
         .subscribe({
           next: () => this.router.navigate(['login']),
+          error: (err) => (this.registerError = err.error.message),
         });
     }
   }

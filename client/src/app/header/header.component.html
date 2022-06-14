@@ -9,8 +9,11 @@
   <div *ngIf="isWindowShown" class="triangle absolute right-8 top-11"></div>
   <div
     *ngIf="isWindowShown"
-    class="absolute right-6 top-14 bg-white w-32 h-16 pl-3 pt-2 slide-window"
+    class="absolute right-6 top-14 space-y-4 bg-white w-32 h-fit pl-3 py-2 slide-window"
   >
+    <a *ngIf="user?.role === 'admin'" class="cursor-pointer" routerLink="/admin"
+      >Admin Page</a
+    >
     <button (click)="handleLogout()" class="flex items-center">
       Logout <mat-icon class="text-xl ml-1">exit_to_app</mat-icon>
     </button>

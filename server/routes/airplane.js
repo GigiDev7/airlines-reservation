@@ -22,7 +22,7 @@ router
   .post(adminGuard, airplaneValidation, handleValidationErrors, addAirplane);
 router
   .route("/:airplaneId")
-  .put(adminGuard, airplaneValidation, handleValidationErrors, updateAirplane)
+  .patch(adminGuard, updateAirplane)
   .delete(adminGuard, deleteAirplane);
 
 module.exports = router;

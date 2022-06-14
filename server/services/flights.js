@@ -12,10 +12,9 @@ const findFlightAndDelete = async (flightId) => {
   return Flight.findByIdAndDelete(flightId);
 };
 
-const findFlights = async (filterObject, departureTime, sortBy) => {
+const findFlights = async (filterObject, sortBy) => {
   return Flight.find({
     ...filterObject,
-    departureTime: { $eq: departureTime },
   })
     .sort(sortBy)
     .populate("airplane");
