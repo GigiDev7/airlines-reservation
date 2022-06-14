@@ -16,6 +16,7 @@ import { FlightCardComponent } from './flights/flight-card/flight-card.component
 import { FlightsComponent } from './flights/flights.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminModule } from './admin/admin.module';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { AdminModule } from './admin/admin.module';
     NotFoundComponent,
     FlightCardComponent,
     FlightsComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
