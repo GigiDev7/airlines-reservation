@@ -1,4 +1,19 @@
-<aside class="h-screen border-r-[1px] border-black w-[250px] pt-8 pl-5">
-  <mat-icon>menu</mat-icon>
-  <p>Flights</p>
+<aside
+  [ngClass]="{ sidebar: isSideBarClosed }"
+  class="h-screen border-r-[1px] border-black w-[250px] pt-8 pl-5"
+>
+  <mat-icon class="cursor-pointer" (click)="handleSideBarToggle()"
+    >menu</mat-icon
+  >
+  <p class="flex mt-8">
+    <mat-icon class="mr-2"> person_pin</mat-icon>
+    <span *ngIf="!isSideBarClosed">
+      {{ user.firstname | titlecase }}
+      {{ user.lastname | titlecase }}
+    </span>
+  </p>
+  <p class="mt-8 flex py-3 w-[90%] rounded-md hover:bg-gray-300">
+    <mat-icon>airplanemode_active</mat-icon>
+    <span *ngIf="!isSideBarClosed" class="ml-2">Flights</span>
+  </p>
 </aside>
