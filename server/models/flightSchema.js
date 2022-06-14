@@ -18,6 +18,9 @@ const flightSchema = new mongoose.Schema(
       type: Date,
       required: [true, "Arrival time is required"],
     },
+    flightDuration: {
+      type: String,
+    },
     airplane: {
       type: mongoose.Types.ObjectId,
       ref: "Airplane",
@@ -27,6 +30,14 @@ const flightSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+flightSchema.pre("save", function (next) {
+  const difHours = this.arrivalTime.getHours() - this.departureTime.getHours();
+  const difMinutes =
+    this.arrivalTime.getMinutes() - this.departureTime.getMinutes();
+  this.flightDuration = `${difHours}:${difMinutes}`;
+  next();
+});
 
 const Flight = mongoose.model("Flight", flightSchema);
 

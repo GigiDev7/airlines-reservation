@@ -6,5 +6,6 @@ export interface FlightModel {
   destination: string;
   departureTime: Date;
   arrivalTime: Date;
+  flightDuration: string;
   airplane: AirplaneModel;
 }
