@@ -1,13 +1,28 @@
+<app-header></app-header>
 <div class="flex justify-center">
   <app-search-form></app-search-form>
 </div>
+
 <div>
   <p class="flex justify-center" *ngIf="isFetching">Loading...</p>
   <p class="flex justify-center" *ngIf="!isFetching && !flights.length">
     No Flights!
   </p>
+
   <app-flight-card
     *ngFor="let flight of flights"
     [flight]="flight"
   ></app-flight-card>
+</div>
+<div class="ml-10" *ngIf="!isFetching">
+  <p class="mb-4">Airlanes</p>
+  <div *ngFor="let flight of flightService.flights">
+    <input
+      checked
+      (input)="handleCheckbox($event)"
+      [value]="flight.airplane.company"
+      type="checkbox"
+    />
+    <label class="ml-2">{{ flight.airplane.company | titlecase }}</label>
+  </div>
 </div>

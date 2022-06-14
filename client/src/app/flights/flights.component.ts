@@ -12,8 +12,23 @@ export class FlightsComponent implements OnInit {
   public flights: FlightModel[] = [];
   public isFetching: boolean = false;
 
+  public handleCheckbox(e: Event) {
+    const target = e.target as HTMLInputElement;
+
+    if (target.checked) {
+      const tobeAddedFlights = this.flightService.flights.filter(
+        (flight) => flight.airplane.company === target.value
+      );
+      this.flights = [...this.flights, ...tobeAddedFlights];
+    } else if (!target.checked) {
+      this.flights = this.flightService.flights.filter((flight) => {
+        flight.airplane.company !== target.value;
+      });
+    }
+  }
+
   constructor(
-    private flightService: FlightService,
+    public flightService: FlightService,
     private route: ActivatedRoute
   ) {}
 

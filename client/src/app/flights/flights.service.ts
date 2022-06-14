@@ -7,7 +7,7 @@ import { FlightModel } from '../shared/models/flightsModel';
   providedIn: 'root',
 })
 export class FlightService {
-  flights: FlightModel[] = [];
+  public flights: FlightModel[] = [];
 
   constructor(private http: HttpClient) {}
 
