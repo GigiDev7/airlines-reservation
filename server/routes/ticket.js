@@ -22,7 +22,7 @@ router
   .post(adminGuard, ticketValidation, handleValidationErrors, addTicket);
 router
   .route("/:ticketId")
-  .put(adminGuard, ticketValidation, handleValidationErrors, updateTicket)
+  .patch(adminGuard, updateTicket)
   .delete(adminGuard, deleteTicket);
 
 module.exports = router;
