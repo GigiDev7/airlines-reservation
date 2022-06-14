@@ -2,7 +2,7 @@
   (click)="hideTypeAhead($event)"
   (ngSubmit)="handleFlightFormSubmit()"
   [formGroup]="flightForm"
-  class="flex items-center bg-white h-36 rounded-md px-16"
+  class="flex items-center bg-white h-fit py-14 rounded-md px-16 md:flex-col lg:flex-row space-y-4 lg:space-y-0"
 >
   <div class="relative">
     <input
@@ -14,7 +14,7 @@
     />
     <div
       *ngIf="filtersType === 'departure' && filteredLocations.length > 0"
-      class="absolute top-14 px-8 py-6 rounder-md shadow-md bg-white max-h-[350px] overflow-y-auto"
+      class="z-10 absolute top-14 px-8 py-6 rounder-md shadow-md bg-white max-h-[350px] overflow-y-auto"
     >
       <ul class="space-y-8">
         <li
@@ -39,7 +39,7 @@
     />
     <div
       *ngIf="filtersType === 'destination' && filteredLocations.length > 0"
-      class="absolute top-14 px-4 py-6 rounder-md shadow-md max-h-[350px] overflow-y-auto bg-white"
+      class="z-10 absolute top-14 px-4 py-6 rounder-md shadow-md max-h-[350px] overflow-y-auto bg-white"
     >
       <ul class="space-y-8">
         <li
