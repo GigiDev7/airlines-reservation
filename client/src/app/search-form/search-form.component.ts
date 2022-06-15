@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LocationService } from '../home/services/locations.service';
 import { LocationModel } from '../shared/models/locationModel';
 
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+@UntilDestroy()
 @Component({
   selector: 'app-search-form',
   templateUrl: './search-form.component.html',
@@ -87,9 +90,12 @@ export class SearchFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.minDate = new Date().toISOString().split('T')[0];
-    this.locationService.getLocations().subscribe((data) => {
-      this.locations = data;
-    });
+    this.locationService
+      .getLocations()
+      .pipe(untilDestroyed(this))
+      .subscribe((data) => {
+        this.locations = data;
+      });
     this.route.queryParams.subscribe({
       next: (params) =>
         this.flightForm.patchValue({

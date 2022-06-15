@@ -3,6 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FlightModel } from '../shared/models/flightsModel';
 import { FlightService } from './flights.service';
 
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+@UntilDestroy()
 @Component({
   selector: 'app-flights',
   templateUrl: './flights.component.html',
@@ -42,6 +45,7 @@ export class FlightsComponent implements OnInit {
             params['destination'].toLowerCase(),
             params['departureTime']
           )
+          .pipe(untilDestroyed(this))
           .subscribe({
             next: (res) => {
               this.flights = res;

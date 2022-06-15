@@ -1,5 +1,5 @@
 <div
-  class="shadow-lg lg:w-[50%] md:w-[70%] py-8 pl-3 mx-auto rounded-md flex justify-around"
+  class="shadow-lg lg:w-[50%] sm:w-[70%] py-8 pl-3 mx-auto rounded-md flex justify-around"
 >
   <div>
     <mat-icon>airplanemode_active</mat-icon>
@@ -7,11 +7,11 @@
   </div>
   <div class="relative">
     <p>{{ flight.departure | titlecase }}</p>
-    <p class="absolute lg:-right-5 md:-right-0 top-0 text-[14px] text-gray-600">
+    <p class="absolute lg:-right-5 sm:-right-0 top-0 text-[14px] text-gray-600">
       4h 15min
     </p>
     <div
-      class="w-[100px] h-[2px] bg-black absolute top-5 lg:-right-10 md:-right-5"
+      class="w-[100px] h-[2px] bg-black absolute top-5 lg:-right-10 sm:-right-5"
     ></div>
     <p>{{ flight.departureTime | date: "medium" }}</p>
   </div>

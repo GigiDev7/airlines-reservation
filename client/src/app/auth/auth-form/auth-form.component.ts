@@ -3,6 +3,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+
+@UntilDestroy()
 @Component({
   selector: 'app-auth-form',
   templateUrl: './auth-form.component.html',
@@ -40,10 +43,13 @@ export class AuthFormComponent implements OnInit {
   public handleSubmit(): any {
     if (this.authMode === 'login') {
       const { email, password } = this.loginForm.value;
-      this.authService.login(email, password).subscribe({
-        next: () => this.router.navigate(['']),
-        error: (err) => (this.loginError = err.error.message),
-      });
+      this.authService
+        .login(email, password)
+        .pipe(untilDestroyed(this))
+        .subscribe({
+          next: () => this.router.navigate(['']),
+          error: (err) => (this.loginError = err.error.message),
+        });
     } else {
       const {
         email,
@@ -58,6 +64,7 @@ export class AuthFormComponent implements OnInit {
       }
       this.authService
         .register(email, password, firstname, lastname, dateOfBirth)
+        .pipe(untilDestroyed(this))
         .subscribe({
           next: () => this.router.navigate(['login']),
           error: (err) => (this.registerError = err.error.message),
