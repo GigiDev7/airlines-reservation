@@ -12,9 +12,9 @@ export class FlightService {
   constructor(private http: HttpClient) {}
 
   public getFlights(
-    departure: string,
-    destination: string,
-    departureTime: Date
+    departure: string = '',
+    destination: string = '',
+    departureTime: Date | undefined = undefined
   ): Observable<FlightModel[]> {
     return this.http
       .get(
