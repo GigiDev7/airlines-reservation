@@ -5,11 +5,11 @@ import { AdminComponent } from './admin.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FlightFormComponent } from './flight-form/flight-form.component';
+import { FlightRecordComponent } from './flight-record/flight-record.component';
 
 @NgModule({
-  declarations: [AdminComponent, SideNavComponent, FlightFormComponent],
+  declarations: [AdminComponent, SideNavComponent, FlightRecordComponent],
   imports: [ReactiveFormsModule, MatIconModule, CommonModule, AppRoutingModule],
-  exports: [AdminComponent, SideNavComponent, FlightFormComponent],
+  exports: [AdminComponent, SideNavComponent, FlightRecordComponent],
 })
 export class AdminModule {}

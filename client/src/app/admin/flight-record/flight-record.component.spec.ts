@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FlightFormComponent } from './flight-form.component';
+import { FlightFormComponent } from './flight-record.component';
 
 describe('FlightFormComponent', () => {
   let component: FlightFormComponent;
@@ -8,9 +8,8 @@ describe('FlightFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FlightFormComponent ]
-    })
-    .compileComponents();
+      declarations: [FlightFormComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
