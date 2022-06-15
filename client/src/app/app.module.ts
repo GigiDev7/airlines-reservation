@@ -17,6 +17,7 @@ import { FlightsComponent } from './flights/flights.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminModule } from './admin/admin.module';
 import { FooterComponent } from './footer/footer.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,6 @@ import { FooterComponent } from './footer/footer.component';
     SearchFormComponent,
     HeaderComponent,
     NotFoundComponent,
-    FlightCardComponent,
     FlightsComponent,
     FooterComponent,
   ],
@@ -38,6 +38,7 @@ import { FooterComponent } from './footer/footer.component';
     MatIconModule,
     MatProgressSpinnerModule,
     AdminModule,
+    SharedModule,
   ],
   providers: [
     {

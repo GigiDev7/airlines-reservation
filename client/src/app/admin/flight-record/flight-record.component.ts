@@ -4,6 +4,11 @@ import { AdminService } from '../admin.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Router,
+} from '@angular/router';
 
 @UntilDestroy()
 @Component({
@@ -14,16 +19,28 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class FlightRecordComponent implements OnInit {
   public airplanes: AirplaneModel[] = [];
   public flightRecordForm: FormGroup = new FormGroup({
-    departure: new FormControl('', [Validators.required]),
-    destination: new FormControl('', [Validators.required]),
     airline: new FormControl('', [Validators.required]),
     departureTime: new FormControl('', [Validators.required]),
   });
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   public handleFlightRecordSubmit() {
-    console.log(this.flightRecordForm.value);
+    const { flightId } = this.route.snapshot.params;
+    const { airline, departureTime } = this.flightRecordForm.value;
+    this.adminService
+      .addFlightRecord(flightId, airline, departureTime)
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          console.log('success');
+          this.router.navigate(['admin']);
+        },
+      });
   }
 
   ngOnInit(): void {

@@ -21,10 +21,15 @@ export class AdminService {
     );
   }
 
-  public addFlightRecord(flightRecordData: FlightRecordModel) {
-    return this.http.post(
-      'http://localhost:8000/flight-record',
-      flightRecordData
-    );
+  public addFlightRecord(
+    flightId: string,
+    airline: string,
+    departureTime: Date
+  ) {
+    return this.http.post('http://localhost:8000/flight-record', {
+      flightId,
+      airline,
+      departureTime,
+    });
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FlightService } from 'src/app/flights/flights.service';
 import { FlightModel } from 'src/app/shared/models/flightsModel';
 
@@ -9,12 +10,21 @@ import { FlightModel } from 'src/app/shared/models/flightsModel';
 })
 export class AdminFlightsComponent implements OnInit {
   public flights: FlightModel[] = [];
+  public isFetching: boolean = false;
 
-  constructor(private flightService: FlightService) {}
+  public navigateToRecord(flight: FlightModel) {
+    this.router.navigate(['admin', 'flight-record', flight._id]);
+  }
+
+  constructor(private flightService: FlightService, private router: Router) {}
 
   ngOnInit(): void {
+    this.isFetching = true;
     this.flightService.getFlights().subscribe({
-      next: (res) => (this.flights = res),
+      next: (res) => {
+        this.flights = res;
+        this.isFetching = false;
+      },
     });
   }
 }

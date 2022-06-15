@@ -32,7 +32,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
       },
       {
-        path: 'flight-records',
+        path: 'flight-record/:flightId',
         component: FlightRecordComponent,
         canActivate: [AuthGuard, AdminGuard],
       },

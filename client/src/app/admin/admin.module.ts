@@ -7,6 +7,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlightRecordComponent } from './flight-record/flight-record.component';
 import { AdminFlightsComponent } from './admin-flights/admin-flights.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,13 @@ import { AdminFlightsComponent } from './admin-flights/admin-flights.component';
     FlightRecordComponent,
     AdminFlightsComponent,
   ],
-  imports: [ReactiveFormsModule, MatIconModule, CommonModule, AppRoutingModule],
+  imports: [
+    ReactiveFormsModule,
+    MatIconModule,
+    CommonModule,
+    AppRoutingModule,
+    SharedModule,
+  ],
   exports: [
     AdminComponent,
     SideNavComponent,
