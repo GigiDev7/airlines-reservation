@@ -1,1 +1,49 @@
-<p>flight-form works!</p>
+<div class="flex flex-col items-center mt-16">
+  <p class="mt-6 mb-10">Add Flight Record</p>
+  <form
+    (submit)="handleFlightRecordSubmit($event)"
+    class="flex flex-col space-y-6"
+  >
+    <div class="flex flex-col">
+      <label for="departure">Departure</label>
+      <input
+        id="departure"
+        class="border-[1px] mt-2 py-1 border-gray-400 rounded-sm outline-0 pl-1"
+        type="text"
+      />
+    </div>
+    <div class="flex flex-col">
+      <label for="destination">Destination</label>
+      <input
+        id="destination"
+        class="border-[1px] mt-2 py-1 border-gray-400 rounded-sm outline-0 pl-1"
+        type="text"
+      />
+    </div>
+    <div class="flex flex-col">
+      <label for="airplanes">Airlines</label>
+      <select
+        id="airplanes"
+        class="border-[1px] mt-2 py-1 border-gray-400 rounded-sm outline-0 pl-1"
+      >
+        <option
+          *ngFor="let airplane of airplanes; trackby: trackBy"
+          [value]="airplane.company"
+        >
+          {{ airplane.company | titlecase }}
+        </option>
+      </select>
+    </div>
+    <div class="flex flex-col">
+      <label for="departureTime">Departure day</label>
+      <input
+        id="departureTime"
+        class="border-[1px] mt-2 py-1 border-gray-400 rounded-sm outline-0 pl-1"
+        type="date"
+      />
+    </div>
+    <button class="bg-blue-400 py-2 rounded-sm hover:bg-blue-500" type="submit">
+      Submit
+    </button>
+  </form>
+</div>

@@ -24,7 +24,13 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard, AdminGuard],
-    children: [{ path: 'flights', component: FlightFormComponent }],
+    children: [
+      {
+        path: 'flights',
+        component: FlightFormComponent,
+        canActivate: [AuthGuard, AdminGuard],
+      },
+    ],
   },
   { path: '**', component: NotFoundComponent },
 ];
