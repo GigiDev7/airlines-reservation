@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from './admin/admin.guard';
+import { FlightFormComponent } from './admin/flight-form/flight-form.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthPageRestrict } from './auth/authPageRestrict.guard';
 import { LoginComponent } from './auth/login/login.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     canActivate: [AuthGuard, AdminGuard],
+    children: [{ path: 'flights', component: FlightFormComponent }],
   },
   { path: '**', component: NotFoundComponent },
 ];

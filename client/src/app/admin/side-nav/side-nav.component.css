@@ -2,3 +2,8 @@
   width: 70px;
   overflow: hidden;
 }
+
+.activeLink {
+  background-color: rgb(209 213 219);
+  border-radius: 0.375rem;
+}
