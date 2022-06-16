@@ -3,13 +3,15 @@ const mongoose = require("mongoose");
 const flightRecordSchema = new mongoose.Schema({
   flightId: {
     type: mongoose.Types.ObjectId,
+    ref: "Flight",
     required: true,
   },
   airplaneId: {
     type: mongoose.Types.ObjectId,
+    ref: "Airplane",
     required: true,
   },
-  flightDay: {
+  departureTime: {
     type: Date,
     required: true,
   },
