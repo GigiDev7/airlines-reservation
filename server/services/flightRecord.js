@@ -1,7 +1,14 @@
 const FlightRecord = require("../models/flightRecordsSchema");
+const Airplane = require("../models/airplaneSchema");
 
 const createFlightRecord = async (flightData) => {
-  return FlightRecord.create(flightData);
+  const airplane = await Airplane.findOne({ company: flightData.airline });
+
+  return FlightRecord.create({
+    airplaneId: airplane._id,
+    flightDay: flightData.departureTime,
+    flightId: flightData.flightId,
+  });
 };
 
 const findFlightRecords = async () => {

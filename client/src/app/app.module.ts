@@ -15,7 +15,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { FlightCardComponent } from './flights/flight-card/flight-card.component';
 import { FlightsComponent } from './flights/flights.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AdminComponent } from './admin/admin.component';
+import { AdminModule } from './admin/admin.module';
+import { FooterComponent } from './footer/footer.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -24,9 +26,8 @@ import { AdminComponent } from './admin/admin.component';
     SearchFormComponent,
     HeaderComponent,
     NotFoundComponent,
-    FlightCardComponent,
     FlightsComponent,
-    AdminComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +37,8 @@ import { AdminComponent } from './admin/admin.component';
     ReactiveFormsModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    AdminModule,
+    SharedModule,
   ],
   providers: [
     {

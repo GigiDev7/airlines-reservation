@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { LocationModel } from 'src/app/shared/models/locationModel';
 import { Observable, tap } from 'rxjs';
 
+import { url } from 'src/app/config/config';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +14,7 @@ export class LocationService {
   constructor(private http: HttpClient) {}
 
   public getLocations(): Observable<LocationModel[]> {
-    return this.http.get('http://localhost:8000/locations').pipe(
+    return this.http.get(`${url}/locations`).pipe(
       tap({
         next: (res: any) => {
           this.locations = res;

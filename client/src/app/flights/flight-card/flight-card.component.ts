@@ -4,7 +4,7 @@ import { FlightModel } from 'src/app/shared/models/flightsModel';
 @Component({
   selector: 'app-flight-card',
   templateUrl: './flight-card.component.html',
-  styleUrls: ['./flight-card.component.sass'],
+  styleUrls: ['./flight-card.component.css'],
 })
 export class FlightCardComponent implements OnInit {
   @Input() flight!: FlightModel;

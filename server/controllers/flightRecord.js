@@ -5,7 +5,7 @@ const {
   findFlightRecords,
 } = require("../services/flightRecord");
 
-const addFlightRecord = async (req, res) => {
+const addFlightRecord = async (req, res, next) => {
   try {
     const newRecord = await createFlightRecord(req.body);
     res.status(200).json(newRecord);
@@ -14,7 +14,7 @@ const addFlightRecord = async (req, res) => {
   }
 };
 
-const getFlightRecords = async (req, res) => {
+const getFlightRecords = async (req, res, next) => {
   try {
     const records = await findFlightRecords();
     res.status(200).json(records);
@@ -23,7 +23,7 @@ const getFlightRecords = async (req, res) => {
   }
 };
 
-const updateFlightRecord = async (req, res) => {
+const updateFlightRecord = async (req, res, next) => {
   try {
     const { recordId } = req.params;
     const updatedRecord = await findFlightRecordAndUpdate(recordId, req.body);
@@ -33,7 +33,7 @@ const updateFlightRecord = async (req, res) => {
   }
 };
 
-const deleteFlightRecord = async (req, res) => {
+const deleteFlightRecord = async (req, res, next) => {
   try {
     const { recordId } = req.params;
     const deletedRecord = await findFlightRecordAndDelete(recordId);

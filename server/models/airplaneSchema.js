@@ -7,6 +7,7 @@ const airplaneSchema = new mongoose.Schema(
     company: {
       type: String,
       required: [true, "Airplane company is required"],
+      unique: true,
     },
     seats: {
       type: [SeatSchema],
