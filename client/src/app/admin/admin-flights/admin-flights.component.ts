@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FlightService } from 'src/app/flights/flights.service';
+import { FlightRecordModel } from 'src/app/shared/models/flightRecordModel';
 import { FlightModel } from 'src/app/shared/models/flightsModel';
 
 @Component({
@@ -9,7 +10,7 @@ import { FlightModel } from 'src/app/shared/models/flightsModel';
   styleUrls: ['./admin-flights.component.sass'],
 })
 export class AdminFlightsComponent implements OnInit {
-  public flights: FlightModel[] = [];
+  public flightRecords: FlightRecordModel[] = [];
   public isFetching: boolean = false;
 
   public navigateToRecord(flight: FlightModel) {
@@ -22,7 +23,7 @@ export class AdminFlightsComponent implements OnInit {
     this.isFetching = true;
     this.flightService.getFlights().subscribe({
       next: (res) => {
-        this.flights = res;
+        this.flightRecords = res;
         this.isFetching = false;
       },
     });

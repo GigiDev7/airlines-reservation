@@ -5,24 +5,26 @@
 
 <div>
   <p class="flex justify-center" *ngIf="isFetching">Loading...</p>
-  <p class="flex justify-center" *ngIf="!isFetching && !flights.length">
+  <p class="flex justify-center" *ngIf="!isFetching && !flightRecords.length">
     No Flights!
   </p>
 
   <app-flight-card
-    *ngFor="let flight of flights"
-    [flight]="flight"
+    *ngFor="let flightRecord of flightRecords"
+    [flightRecord]="flightRecord"
   ></app-flight-card>
 </div>
 <div class="ml-10" *ngIf="!isFetching">
   <p class="mb-4">Airlanes</p>
-  <div *ngFor="let flight of flightService.flights">
+  <div *ngFor="let flightRecord of flightService.flightRecords">
     <input
       checked
       (input)="handleCheckbox($event)"
-      [value]="flight.airplane.company"
+      [value]="flightRecord.airplaneId.company"
       type="checkbox"
     />
-    <label class="ml-2">{{ flight.airplane.company | titlecase }}</label>
+    <label class="ml-2">{{
+      flightRecord.airplaneId.company | titlecase
+    }}</label>
   </div>
 </div>

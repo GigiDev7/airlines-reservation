@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FlightModel } from '../shared/models/flightsModel';
 import { FlightService } from './flights.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { FlightRecordModel } from '../shared/models/flightRecordModel';
 
 @UntilDestroy()
 @Component({
@@ -12,11 +12,11 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   styleUrls: ['./flights.component.sass'],
 })
 export class FlightsComponent implements OnInit {
-  public flights: FlightModel[] = [];
+  public flightRecords: FlightRecordModel[] = [];
   public isFetching: boolean = false;
 
   public handleCheckbox(e: Event) {
-    const target = e.target as HTMLInputElement;
+    /*  const target = e.target as HTMLInputElement;
 
     if (target.checked) {
       const tobeAddedFlights = this.flightService.flights.filter(
@@ -27,7 +27,7 @@ export class FlightsComponent implements OnInit {
       this.flights = this.flightService.flights.filter((flight) => {
         flight.airplane.company !== target.value;
       });
-    }
+    } */
   }
 
   constructor(
@@ -43,12 +43,13 @@ export class FlightsComponent implements OnInit {
           .getFlights(
             params['departure'].toLowerCase(),
             params['destination'].toLowerCase(),
-            params['departureTime']
+            params['departureStart'],
+            params['departureEnd']
           )
           .pipe(untilDestroyed(this))
           .subscribe({
             next: (res) => {
-              this.flights = res;
+              this.flightRecords = res;
               this.isFetching = false;
             },
           }),

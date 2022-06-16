@@ -21,7 +21,7 @@ export class SearchFormComponent implements OnInit {
   public flightForm: FormGroup = new FormGroup({
     departure: new FormControl('', [Validators.required]),
     destination: new FormControl('', [Validators.required]),
-    departureTime: new FormControl('', [Validators.required]),
+    departureStart: new FormControl('', [Validators.required]),
     departureEnd: new FormControl('', [Validators.required]),
   });
 
@@ -72,7 +72,7 @@ export class SearchFormComponent implements OnInit {
       queryParams: {
         departure: this.flightForm.get('departure')?.value,
         destination: this.flightForm.get('destination')?.value,
-        departureTime: this.flightForm.get('departureTime')?.value,
+        departureStart: this.flightForm.get('departureStart')?.value,
         departureEnd: this.flightForm.get('departureEnd')?.value,
       },
     });
@@ -101,7 +101,7 @@ export class SearchFormComponent implements OnInit {
         this.flightForm.patchValue({
           departure: params['departure'],
           destination: params['destination'],
-          departureTime: params['departureTime'],
+          departureStart: params['departureStart'],
           departureEnd: params['departureEnd'],
         }),
     });

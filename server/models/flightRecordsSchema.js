@@ -15,6 +15,10 @@ const flightRecordSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  arrivalTime: {
+    type: Date,
+    required: true,
+  },
 });
 
 const FlightRecord = mongoose.model("FlightRecord", flightRecordSchema);
