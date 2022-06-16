@@ -16,18 +16,20 @@ export class FlightsComponent implements OnInit {
   public isFetching: boolean = false;
 
   public handleCheckbox(e: Event) {
-    /*  const target = e.target as HTMLInputElement;
+    const target = e.target as HTMLInputElement;
 
     if (target.checked) {
-      const tobeAddedFlights = this.flightService.flights.filter(
-        (flight) => flight.airplane.company === target.value
+      const tobeAddedFlights = this.flightService.flightRecords.filter(
+        (flightRecord) => flightRecord.airplaneId.company === target.value
       );
-      this.flights = [...this.flights, ...tobeAddedFlights];
+      this.flightRecords = [...this.flightRecords, ...tobeAddedFlights];
     } else if (!target.checked) {
-      this.flights = this.flightService.flights.filter((flight) => {
-        flight.airplane.company !== target.value;
-      });
-    } */
+      this.flightRecords = this.flightService.flightRecords.filter(
+        (flightRecord) => {
+          flightRecord.airplaneId.company !== target.value;
+        }
+      );
+    }
   }
 
   constructor(
