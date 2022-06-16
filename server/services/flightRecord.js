@@ -12,23 +12,22 @@ const createFlightRecord = async (flightData) => {
 };
 
 const findFlightRecords = async (queryObject) => {
-  const filterObject = {};
   const { destination, departure, departureStart, departureEnd, sort } =
     queryObject;
-  if (destination) filterObject.destination = destination;
-  if (departure) filterObject.departure = departure;
-  if (departureStart && departureEnd)
-    filterObject.departureTime = { $gte: departureStart, $lte: departureEnd };
 
-  if (sort) filterObject.sort = sort;
+  if (!destination || !departure || !departureStart || !departureEnd) {
+    return FlightRecord.find().populate("flightId airplaneId");
+  }
 
-  return FlightRecord.find({ departureTime: filterObject.departureTime })
+  return FlightRecord.find({
+    departureTime: { $gte: departureStart, $lte: departureEnd },
+  })
     .populate({ path: "airplaneId" })
     .populate({
       path: "flightId",
       match: {
-        departure: filterObject.departure,
-        destination: filterObject.destination,
+        departure,
+        destination,
       },
     });
 };

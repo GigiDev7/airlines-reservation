@@ -14,11 +14,15 @@ export class FlightService {
 
   constructor(private http: HttpClient) {}
 
-  public getFlights(
-    departure?: string,
-    destination?: string,
-    departureStart?: Date,
-    departureEnd?: Date
+  public getAllRecords() {
+    return this.http.get(`${url}/flight-record`);
+  }
+
+  public getFilteredRecords(
+    departure: string,
+    destination: string,
+    departureStart: Date,
+    departureEnd: Date
   ): Observable<FlightRecordModel[]> {
     return this.http
       .get(

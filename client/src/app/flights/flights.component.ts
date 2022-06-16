@@ -4,6 +4,7 @@ import { FlightService } from './flights.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FlightRecordModel } from '../shared/models/flightRecordModel';
+import { tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -39,10 +40,10 @@ export class FlightsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetching = true;
-    this.route.queryParams.subscribe({
+    this.route.queryParams.pipe(tap(() => (this.isFetching = true))).subscribe({
       next: (params) =>
         this.flightService
-          .getFlights(
+          .getFilteredRecords(
             params['departure'].toLowerCase(),
             params['destination'].toLowerCase(),
             params['departureStart'],

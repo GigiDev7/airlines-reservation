@@ -15,7 +15,7 @@
   ></app-flight-card>
 </div>
 <div class="ml-10" *ngIf="!isFetching">
-  <p class="mb-4">Airlanes</p>
+  <p *ngIf="flightRecords.length" class="mb-4">Airlanes</p>
   <div *ngFor="let flightRecord of flightService.flightRecords">
     <input
       checked

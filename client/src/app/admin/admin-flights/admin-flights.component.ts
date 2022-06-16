@@ -21,8 +21,8 @@ export class AdminFlightsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetching = true;
-    this.flightService.getFlights().subscribe({
-      next: (res) => {
+    this.flightService.getAllRecords().subscribe({
+      next: (res: any) => {
         this.flightRecords = res;
         this.isFetching = false;
       },
