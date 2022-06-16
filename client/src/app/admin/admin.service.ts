@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { AirplaneModel } from '../shared/models/airplaneModel';
 
-import { FlightRecordModel } from '../shared/models/flightRecordModel';
+import { url } from '../config/config';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   public getAirplanes() {
-    return this.http.get('http://localhost:8000/airplane').pipe(
+    return this.http.get(`${url}/airplane`).pipe(
       tap({
         next: (res: any) => (this.airplanes = res),
       })
@@ -26,7 +26,7 @@ export class AdminService {
     airline: string,
     departureTime: Date
   ) {
-    return this.http.post('http://localhost:8000/flight-record', {
+    return this.http.post(`${url}/flight-record`, {
       flightId,
       airline,
       departureTime,

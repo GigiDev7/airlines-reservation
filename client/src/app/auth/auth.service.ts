@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { UserModel } from '../shared/models/userModel';
 
+import { url } from '../config/config';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -15,13 +17,11 @@ export class AuthService {
   }
 
   public login(email: string, password: string): Observable<UserModel> {
-    return this.http
-      .post('http://localhost:8000/user/login', { email, password })
-      .pipe(
-        tap((res: any) => {
-          this.setUser(res);
-        })
-      );
+    return this.http.post(`${url}/user/login`, { email, password }).pipe(
+      tap((res: any) => {
+        this.setUser(res);
+      })
+    );
   }
 
   public register(
@@ -31,7 +31,7 @@ export class AuthService {
     lastname: string,
     dateOfBirth: Date
   ) {
-    return this.http.post('http://localhost:8000/user/register', {
+    return this.http.post(`${url}/user/register`, {
       email,
       password,
       firstname,
