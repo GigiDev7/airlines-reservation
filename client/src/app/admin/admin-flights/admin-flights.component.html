@@ -4,12 +4,12 @@
     *ngFor="let flight of flights"
     class="w-[60%] flex justify-around shadow-md py-5 items-center"
   >
-    <div class="flex space-x-4">
+    <div class="flex space-x-4 w-[40%]">
       <p class="font-medium">{{ flight.departure | titlecase }}</p>
       <mat-icon>arrow_right_alt</mat-icon>
       <p class="font-medium">{{ flight.destination | titlecase }}</p>
     </div>
-    <div class="flex items-center">
+    <div class="flex items-center w-[30%]">
       <mat-icon
         (click)="handleEditFlight(flight)"
         class="mr-2 text-blue-500 cursor-pointer"
