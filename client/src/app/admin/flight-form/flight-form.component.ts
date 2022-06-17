@@ -6,6 +6,7 @@ import { AdminService } from '../admin.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
 import { ReloadService } from 'src/app/shared/reload/reload.service';
+import { FlightModel } from 'src/app/shared/models/flightsModel';
 
 @UntilDestroy()
 @Component({
@@ -18,9 +19,24 @@ export class FlightFormComponent implements OnInit {
     departure: new FormControl('', [Validators.required]),
     destination: new FormControl('', [Validators.required]),
   });
+  public editingFlight: FlightModel | null = null;
 
   public handleFlightFormSubmit() {
     const { departure, destination } = this.flightForm.value;
+    if (this.editingFlight) {
+      this.flightService
+        .editFlight(this.editingFlight._id, departure, destination)
+        .pipe(untilDestroyed(this))
+        .subscribe({
+          next: (val) => {
+            this.adminService.isFlightFormShown.next(false);
+            this.adminService.setNotificationMessage('Flight edited');
+            this.adminService.showNotification();
+            this.reloadService.reloadComponent();
+          },
+        });
+      return;
+    }
     this.flightService
       .addFlight(departure, destination)
       .pipe(untilDestroyed(this))
@@ -40,5 +56,13 @@ export class FlightFormComponent implements OnInit {
     private reloadService: ReloadService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.editingFlight = this.adminService.editingFlight;
+    if (this.editingFlight) {
+      this.flightForm.patchValue({
+        departure: this.editingFlight.departure,
+        destination: this.editingFlight.destination,
+      });
+    }
+  }
 }

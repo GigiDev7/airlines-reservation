@@ -3,7 +3,9 @@
   [formGroup]="flightForm"
   class="flex justify-center flex-col items-center py-5 w-full"
 >
-  <p class="mb-5 font-medium">Add Flight</p>
+  <p class="mb-5 font-medium">
+    {{ editingFlight === null ? "Add" : "Edit" }} Flight
+  </p>
   <div class="flex flex-col w-[50%]">
     <label for="departure" class="font-medium">Departure</label>
     <input

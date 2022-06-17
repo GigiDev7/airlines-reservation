@@ -39,8 +39,17 @@ export class AdminFlightsComponent implements OnInit {
 
   public handleDeleteFlight(flightId: string) {
     this.flightService.deleteFlight(flightId).subscribe({
-      next: () => this.reloadService.reloadComponent(),
+      next: () => {
+        this.adminService.setNotificationMessage('Flight deleted');
+        this.adminService.showNotification();
+        this.reloadService.reloadComponent();
+      },
     });
+  }
+
+  public handleEditFlight(flight: FlightModel) {
+    this.adminService.isFlightFormShown.next(true);
+    this.adminService.editingFlight = flight;
   }
 
   constructor(

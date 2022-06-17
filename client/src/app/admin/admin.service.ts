@@ -4,6 +4,7 @@ import { Subject, tap } from 'rxjs';
 import { AirplaneModel } from '../shared/models/airplaneModel';
 
 import { url } from '../config/config';
+import { FlightModel } from '../shared/models/flightsModel';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class AdminService {
   isNotificationShown: boolean = false;
   isRecordFormShown = new Subject<boolean>();
   isFlightFormShown = new Subject<boolean>();
+  editingFlight: FlightModel | null = null;
 
   constructor(private http: HttpClient) {}
 

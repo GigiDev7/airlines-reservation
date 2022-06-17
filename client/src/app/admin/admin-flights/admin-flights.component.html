@@ -10,7 +10,11 @@
       <p class="font-medium">{{ flight.destination | titlecase }}</p>
     </div>
     <div class="flex items-center">
-      <mat-icon class="mr-2 text-blue-500 cursor-pointer">edit</mat-icon>
+      <mat-icon
+        (click)="handleEditFlight(flight)"
+        class="mr-2 text-blue-500 cursor-pointer"
+        >edit</mat-icon
+      >
       <mat-icon
         (click)="handleDeleteFlight(flight._id)"
         class="mr-2 text-red-600 cursor-pointer"
@@ -25,7 +29,7 @@
     </div>
   </div>
   <div
-    class="absoulte top-1/2 left-1/2 bg-gray-100 -translate-y-[60%] shadow-xl z-10 w-[500px] pb-5"
+    class="absolute top-1/2 left-1/2 bg-gray-100 -translate-y-1/2 -translate-x-1/2 shadow-xl z-10 w-[500px] pb-5"
     *ngIf="isRecordFormShown"
   >
     <mat-icon
