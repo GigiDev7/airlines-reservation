@@ -14,6 +14,7 @@ export class AdminService {
   notificationMessage: string = '';
   isNotificationShown: boolean = false;
   isRecordFormShown = new Subject<boolean>();
+  isFlightFormShown = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 

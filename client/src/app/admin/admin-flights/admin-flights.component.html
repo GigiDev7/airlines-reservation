@@ -31,7 +31,21 @@
     >
     <app-flight-record></app-flight-record>
   </div>
-</div>
-<div *ngIf="adminService.isNotificationShown" class="absolute top-0 left-[45%]">
-  <app-notification></app-notification>
+  <button
+    (click)="openFlightForm()"
+    class="bg-blue-400 hover:bg-blue-500 py-2 px-5 rounded-md absolute right-10 -top-20"
+  >
+    Add Flight
+  </button>
+  <div
+    *ngIf="isFlightFormShown"
+    class="absoulte top-1/2 left-1/2 bg-gray-100 -translate-y-[60%] shadow-xl z-10 w-[400px] pb-5"
+  >
+    <mat-icon
+      (click)="closeFlightForm()"
+      class="absolute right-0 cursor-pointer"
+      >close</mat-icon
+    >
+    <app-flight-form></app-flight-form>
+  </div>
 </div>

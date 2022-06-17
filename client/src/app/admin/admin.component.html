@@ -3,4 +3,10 @@
   <div class="w-full">
     <router-outlet></router-outlet>
   </div>
+  <div
+    *ngIf="adminService.isNotificationShown"
+    class="absolute top-0 left-[45%]"
+  >
+    <app-notification></app-notification>
+  </div>
 </div>
