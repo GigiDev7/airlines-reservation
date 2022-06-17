@@ -19,12 +19,12 @@ export class AdminFlightsComponent implements OnInit {
   public isRecordFormShown: boolean = false;
 
   public openRecordForm(flightId: string) {
-    this.isRecordFormShown = true;
     this.adminService.activeFlightId = flightId;
+    this.adminService.isRecordFormShown.next(true);
   }
 
   public closeRecordForm() {
-    this.isRecordFormShown = false;
+    this.adminService.isRecordFormShown.next(false);
   }
 
   constructor(
@@ -43,5 +43,9 @@ export class AdminFlightsComponent implements OnInit {
           this.isFetching = false;
         },
       });
+
+    this.adminService.isRecordFormShown.subscribe({
+      next: (val) => (this.isRecordFormShown = val),
+    });
   }
 }

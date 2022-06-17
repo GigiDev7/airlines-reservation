@@ -39,7 +39,8 @@ export class FlightRecordComponent implements OnInit {
         next: (res) => {
           this.adminService.setNotificationMessage('Flight record created!');
           this.adminService.showNotification();
-          this.router.navigate(['admin']);
+          this.adminService.isRecordFormShown.next(false);
+          this.router.navigate(['admin/flights']);
         },
       });
   }

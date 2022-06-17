@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { Subject, tap } from 'rxjs';
 import { AirplaneModel } from '../shared/models/airplaneModel';
 
 import { url } from '../config/config';
@@ -13,6 +13,7 @@ export class AdminService {
   activeFlightId: string = '';
   notificationMessage: string = '';
   isNotificationShown: boolean = false;
+  isRecordFormShown = new Subject<boolean>();
 
   constructor(private http: HttpClient) {}
 
