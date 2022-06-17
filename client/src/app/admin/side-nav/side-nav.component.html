@@ -13,19 +13,18 @@
     </span>
   </p>
   <p
+    routerLink="/"
+    class="flex mt-8 py-3 w-[90%] rounded-md hover:bg-gray-300 cursor-pointer"
+  >
+    <mat-icon class="mr-2">home</mat-icon>
+    <span *ngIf="!isSideBarClosed">Home</span>
+  </p>
+  <p
     routerLink="/admin/flights"
     routerLinkActive="activeLink"
     class="mt-8 flex py-3 w-[90%] rounded-md hover:bg-gray-300 cursor-pointer"
   >
     <mat-icon>airplanemode_active</mat-icon>
     <span *ngIf="!isSideBarClosed" class="ml-2">Flights</span>
-  </p>
-  <p
-    routerLink="/admin/flight-records"
-    routerLinkActive="activeLink"
-    class="mt-4 flex py-3 w-[90%] rounded-md hover:bg-gray-300 cursor-pointer"
-  >
-    <mat-icon>airplanemode_active</mat-icon>
-    <span *ngIf="!isSideBarClosed" class="ml-2">Flight Records</span>
   </p>
 </aside>

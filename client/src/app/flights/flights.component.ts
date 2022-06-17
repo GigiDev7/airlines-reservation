@@ -25,11 +25,9 @@ export class FlightsComponent implements OnInit {
       );
       this.flightRecords = [...this.flightRecords, ...tobeAddedFlights];
     } else if (!target.checked) {
-      this.flightRecords = this.flightService.flightRecords.filter(
-        (flightRecord) => {
-          flightRecord.airplaneId.company !== target.value;
-        }
-      );
+      this.flightRecords = this.flightRecords.filter((flightRecord) => {
+        return flightRecord.airplaneId.company !== target.value;
+      });
     }
   }
 
