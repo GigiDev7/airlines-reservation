@@ -7,7 +7,8 @@ const createFlightRecord = async (flightData) => {
 
   return FlightRecord.create({
     airplaneId: airplane._id,
-    flightDay: flightData.departureTime,
+    departureTime: flightData.departureTime,
+    arrivalTime: flightData.arrivalTime,
     flightId: flightData.flightId,
   });
 };

@@ -5,6 +5,7 @@ import { FlightRecordModel } from 'src/app/shared/models/flightRecordModel';
 import { FlightModel } from 'src/app/shared/models/flightsModel';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { AdminService } from '../admin.service';
 
 @UntilDestroy()
 @Component({
@@ -15,12 +16,21 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class AdminFlightsComponent implements OnInit {
   public flights: FlightModel[] = [];
   public isFetching: boolean = false;
+  public isRecordFormShown: boolean = false;
 
-  public navigateToRecord(flightId: string) {
-    this.router.navigate(['admin', 'flight-record', flightId]);
+  public openRecordForm(flightId: string) {
+    this.isRecordFormShown = true;
+    this.adminService.activeFlightId = flightId;
   }
 
-  constructor(private flightService: FlightService, private router: Router) {}
+  public closeRecordForm() {
+    this.isRecordFormShown = false;
+  }
+
+  constructor(
+    private flightService: FlightService,
+    private adminService: AdminService
+  ) {}
 
   ngOnInit(): void {
     this.isFetching = true;

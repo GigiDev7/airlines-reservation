@@ -10,6 +10,7 @@ import { url } from '../config/config';
 })
 export class AdminService {
   airplanes: AirplaneModel[] = [];
+  activeFlightId: string = '';
 
   constructor(private http: HttpClient) {}
 
@@ -24,12 +25,14 @@ export class AdminService {
   public addFlightRecord(
     flightId: string,
     airline: string,
-    departureTime: Date
+    departureTime: Date,
+    arrivalTime: Date
   ) {
     return this.http.post(`${url}/flight-record`, {
       flightId,
       airline,
       departureTime,
+      arrivalTime,
     });
   }
 }
