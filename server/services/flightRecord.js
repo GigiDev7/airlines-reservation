@@ -1,5 +1,6 @@
 const FlightRecord = require("../models/flightRecordsSchema");
 const Airplane = require("../models/airplaneSchema");
+const Flight = require("../models/flightSchema");
 
 const createFlightRecord = async (flightData) => {
   const airplane = await Airplane.findOne({ company: flightData.airline });
@@ -19,16 +20,20 @@ const findFlightRecords = async (queryObject) => {
     return FlightRecord.find().populate("flightId airplaneId");
   }
 
+  const flight = await Flight.findOne({ departure, destination });
+  if (!flight) return [];
+
   return FlightRecord.find({
     departureTime: { $gte: departureStart, $lte: departureEnd },
+    flightId: flight._id,
   })
     .populate({ path: "airplaneId" })
     .populate({
       path: "flightId",
-      match: {
+      /*  match: {
         departure,
         destination,
-      },
+      }, */
     });
 };
 

@@ -16,8 +16,8 @@ const addFlightRecord = async (req, res, next) => {
 
 const getFlightRecords = async (req, res, next) => {
   try {
-    let records = await findFlightRecords(req.query);
-    records = records.filter((record) => record.flightId);
+    const records = await findFlightRecords(req.query);
+    //records = records.filter((record) => record.flightId);
     res.status(200).json(records);
   } catch (error) {
     next(error);

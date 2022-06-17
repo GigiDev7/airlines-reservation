@@ -10,9 +10,9 @@ const flightSchema = new mongoose.Schema(
       type: String,
       required: [true, "Destination place is required"],
     },
-    flightDuration: {
+    /* flightDuration: {
       type: String,
-    },
+    }, */
   },
   {
     timestamps: true,

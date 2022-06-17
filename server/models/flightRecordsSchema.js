@@ -19,6 +19,17 @@ const flightRecordSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  flightDuration: {
+    type: String,
+  },
+});
+
+flightRecordSchema.pre("save", function (next) {
+  const hours = this.arrivalTime.getHours() - this.departureTime.getHours();
+  const minutes =
+    this.arrivalTime.getMinutes() - this.departureTime.getMinutes();
+  this.flightDuration = `${hours}h ${minutes}min`;
+  next();
 });
 
 const FlightRecord = mongoose.model("FlightRecord", flightRecordSchema);
