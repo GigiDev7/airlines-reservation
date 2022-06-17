@@ -6,16 +6,14 @@
 <div>
   <div class="ml-10" *ngIf="!isFetching">
     <p *ngIf="flightRecords.length" class="mb-4">Airlanes</p>
-    <div *ngFor="let flightRecord of flightService.flightRecords">
+    <div *ngFor="let company of companies">
       <input
         checked
         (input)="handleCheckbox($event)"
-        [value]="flightRecord.airplaneId.company"
+        [value]="company"
         type="checkbox"
       />
-      <label class="ml-2">{{
-        flightRecord.airplaneId.company | titlecase
-      }}</label>
+      <label class="ml-2">{{ company | titlecase }}</label>
     </div>
   </div>
 
