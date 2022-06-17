@@ -6,6 +6,7 @@ import { FlightModel } from 'src/app/shared/models/flightsModel';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { AdminService } from '../admin.service';
+import { ReloadService } from 'src/app/shared/reload/reload.service';
 
 @UntilDestroy()
 @Component({
@@ -36,9 +37,16 @@ export class AdminFlightsComponent implements OnInit {
     this.adminService.isFlightFormShown.next(false);
   }
 
+  public handleDeleteFlight(flightId: string) {
+    this.flightService.deleteFlight(flightId).subscribe({
+      next: () => this.reloadService.reloadComponent(),
+    });
+  }
+
   constructor(
     private flightService: FlightService,
-    public adminService: AdminService
+    public adminService: AdminService,
+    private reloadService: ReloadService
   ) {}
 
   ngOnInit(): void {

@@ -11,7 +11,11 @@
     </div>
     <div class="flex items-center">
       <mat-icon class="mr-2 text-blue-500 cursor-pointer">edit</mat-icon>
-      <mat-icon class="mr-2 text-red-600 cursor-pointer">delete</mat-icon>
+      <mat-icon
+        (click)="handleDeleteFlight(flight._id)"
+        class="mr-2 text-red-600 cursor-pointer"
+        >delete</mat-icon
+      >
       <button
         (click)="openRecordForm(flight._id)"
         class="bg-blue-400 hover:bg-blue-500 rounded-md py-3 px-3"
@@ -39,7 +43,7 @@
   </button>
   <div
     *ngIf="isFlightFormShown"
-    class="absolute top-1/2 left-1/2 bg-gray-100 -translate-x-1/2 -translate-y-[60%] shadow-2xl z-20 w-[400px] pb-5"
+    class="absolute top-1/2 left-1/2 bg-gray-100 -translate-x-1/2 -translate-y-1/2 shadow-2xl z-20 w-[400px] pb-5"
   >
     <mat-icon
       (click)="closeFlightForm()"

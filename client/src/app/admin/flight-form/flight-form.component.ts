@@ -5,6 +5,7 @@ import { AdminService } from '../admin.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
+import { ReloadService } from 'src/app/shared/reload/reload.service';
 
 @UntilDestroy()
 @Component({
@@ -28,6 +29,7 @@ export class FlightFormComponent implements OnInit {
           this.adminService.isFlightFormShown.next(false);
           this.adminService.setNotificationMessage('New flight created');
           this.adminService.showNotification();
+          this.reloadService.reloadComponent();
         },
       });
   }
@@ -35,7 +37,7 @@ export class FlightFormComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private flightService: FlightService,
-    private router: Router
+    private reloadService: ReloadService
   ) {}
 
   ngOnInit(): void {}
