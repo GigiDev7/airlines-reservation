@@ -11,8 +11,17 @@ import { FlightRecordModel } from '../shared/models/flightRecordModel';
 })
 export class FlightService {
   public flightRecords: FlightRecordModel[] = [];
+  public flights: FlightModel[] = [];
 
   constructor(private http: HttpClient) {}
+
+  public getFlights(): Observable<FlightModel[]> {
+    return this.http.get(`${url}/flights`).pipe(
+      tap({
+        next: (res: any) => (this.flights = res),
+      })
+    );
+  }
 
   public getAllRecords() {
     return this.http.get(`${url}/flight-record`);

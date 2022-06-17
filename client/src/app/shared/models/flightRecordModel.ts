@@ -6,4 +6,5 @@ export interface FlightRecordModel {
   airplaneId: AirplaneModel;
   departureTime: Date;
   arrivalTime: Date;
+  flightDuration: string;
 }
