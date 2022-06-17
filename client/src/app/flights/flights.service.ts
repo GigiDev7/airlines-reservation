@@ -43,4 +43,8 @@ export class FlightService {
         })
       );
   }
+
+  public addFlight(departure: string, destination: string) {
+    return this.http.post(`${url}/flights`, { departure, destination });
+  }
 }
