@@ -32,3 +32,6 @@
     <app-flight-record></app-flight-record>
   </div>
 </div>
+<div *ngIf="adminService.isNotificationShown" class="absolute top-0 left-[45%]">
+  <app-notification></app-notification>
+</div>

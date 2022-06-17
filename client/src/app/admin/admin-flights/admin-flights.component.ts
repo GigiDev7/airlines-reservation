@@ -29,7 +29,7 @@ export class AdminFlightsComponent implements OnInit {
 
   constructor(
     private flightService: FlightService,
-    private adminService: AdminService
+    public adminService: AdminService
   ) {}
 
   ngOnInit(): void {

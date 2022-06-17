@@ -11,6 +11,8 @@ import { url } from '../config/config';
 export class AdminService {
   airplanes: AirplaneModel[] = [];
   activeFlightId: string = '';
+  notificationMessage: string = '';
+  isNotificationShown: boolean = false;
 
   constructor(private http: HttpClient) {}
 
@@ -34,5 +36,20 @@ export class AdminService {
       departureTime,
       arrivalTime,
     });
+  }
+
+  public setNotificationMessage(message: string) {
+    this.notificationMessage = message;
+  }
+
+  public showNotification() {
+    this.isNotificationShown = true;
+    setTimeout(() => {
+      this.hideNotification();
+    }, 3500);
+  }
+
+  public hideNotification() {
+    this.isNotificationShown = false;
   }
 }
