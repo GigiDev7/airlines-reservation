@@ -18,15 +18,7 @@ const router = express.Router();
 
 router.use(authGuard);
 
-router
-  .route("/")
-  .get(getFlightRecords)
-  .post(
-    adminGuard,
-    flightRecordValidation,
-    handleValidationErrors,
-    addFlightRecord
-  );
+router.route("/").get(getFlightRecords).post(adminGuard, addFlightRecord);
 router
   .route("/:recordId")
   .patch(adminGuard, updateFlightRecord)

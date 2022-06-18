@@ -9,6 +9,7 @@ import {
   ActivatedRouteSnapshot,
   Router,
 } from '@angular/router';
+import { FlightService } from 'src/app/flights/flights.service';
 
 @UntilDestroy()
 @Component({
@@ -27,13 +28,14 @@ export class FlightRecordComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private flightService: FlightService
   ) {}
 
   public handleFlightRecordSubmit() {
     const flightId = this.adminService.activeFlightId;
     const { airline, departureTime, arrivalTime } = this.flightRecordForm.value;
-    this.adminService
+    this.flightService
       .addFlightRecord(flightId, airline, departureTime, arrivalTime)
       .subscribe({
         next: (res) => {

@@ -11,12 +11,11 @@ exports.flightRecordValidation = checkSchema({
     isDate: true,
     errorMessage: "Arrival time is required",
   },
-  airplaneId: {
+  airline: {
     in: ["body"],
-    isMongoId: true,
+    isString: true,
   },
   flightId: {
     in: ["body"],
-    isMongoId: true,
   },
 });
