@@ -15,14 +15,6 @@ export class FlightService {
 
   constructor(private http: HttpClient) {}
 
-  public getFlights(): Observable<FlightModel[]> {
-    return this.http.get(`${url}/flights`).pipe(
-      tap({
-        next: (res: any) => (this.flights = res),
-      })
-    );
-  }
-
   public getAllRecords() {
     return this.http.get(`${url}/flight-record`);
   }
@@ -42,6 +34,28 @@ export class FlightService {
           next: (res: any) => (this.flightRecords = res),
         })
       );
+  }
+
+  public addFlightRecord(
+    flightId: string,
+    airline: string,
+    departureTime: Date,
+    arrivalTime: Date
+  ) {
+    return this.http.post(`${url}/flight-record`, {
+      flightId,
+      airline,
+      departureTime,
+      arrivalTime,
+    });
+  }
+
+  public getFlights(): Observable<FlightModel[]> {
+    return this.http.get(`${url}/flights`).pipe(
+      tap({
+        next: (res: any) => (this.flights = res),
+      })
+    );
   }
 
   public addFlight(departure: string, destination: string) {

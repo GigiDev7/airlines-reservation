@@ -28,20 +28,6 @@ export class AdminService {
     );
   }
 
-  public addFlightRecord(
-    flightId: string,
-    airline: string,
-    departureTime: Date,
-    arrivalTime: Date
-  ) {
-    return this.http.post(`${url}/flight-record`, {
-      flightId,
-      airline,
-      departureTime,
-      arrivalTime,
-    });
-  }
-
   public setNotificationMessage(message: string) {
     this.notificationMessage = message;
   }

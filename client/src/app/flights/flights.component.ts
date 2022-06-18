@@ -39,25 +39,27 @@ export class FlightsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isFetching = true;
-    this.route.queryParams.pipe(tap(() => (this.isFetching = true))).subscribe({
-      next: (params) =>
-        this.flightService
-          .getFilteredRecords(
-            params['departure'].toLowerCase(),
-            params['destination'].toLowerCase(),
-            params['departureStart'],
-            params['departureEnd']
-          )
-          .pipe(untilDestroyed(this))
-          .subscribe({
-            next: (res) => {
-              this.flightRecords = res;
-              this.isFetching = false;
-              this.companies = [
-                ...new Set(res.map((item) => item.airplaneId.company)),
-              ];
-            },
-          }),
-    });
+    this.route.queryParams
+      .pipe(tap(() => ((this.isFetching = true), (this.flightRecords = []))))
+      .subscribe({
+        next: (params) =>
+          this.flightService
+            .getFilteredRecords(
+              params['departure'].toLowerCase(),
+              params['destination'].toLowerCase(),
+              params['departureStart'],
+              params['departureEnd']
+            )
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res) => {
+                this.flightRecords = res;
+                this.isFetching = false;
+                this.companies = [
+                  ...new Set(res.map((item) => item.airplaneId.company)),
+                ];
+              },
+            }),
+      });
   }
 }
