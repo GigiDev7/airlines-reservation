@@ -50,6 +50,10 @@ export class FlightService {
     });
   }
 
+  public deleteFlightRecord(recordId: string) {
+    return this.http.delete(`${url}/flight-record/${recordId}`);
+  }
+
   public getFlights(): Observable<FlightModel[]> {
     return this.http.get(`${url}/flights`).pipe(
       tap({
