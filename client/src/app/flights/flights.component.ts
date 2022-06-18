@@ -15,6 +15,7 @@ import { tap } from 'rxjs';
 export class FlightsComponent implements OnInit {
   public flightRecords: FlightRecordModel[] = [];
   public isFetching: boolean = false;
+  public companies: string[] = [];
 
   public handleCheckbox(e: Event) {
     const target = e.target as HTMLInputElement;
@@ -25,11 +26,9 @@ export class FlightsComponent implements OnInit {
       );
       this.flightRecords = [...this.flightRecords, ...tobeAddedFlights];
     } else if (!target.checked) {
-      this.flightRecords = this.flightService.flightRecords.filter(
-        (flightRecord) => {
-          flightRecord.airplaneId.company !== target.value;
-        }
-      );
+      this.flightRecords = this.flightRecords.filter((flightRecord) => {
+        return flightRecord.airplaneId.company !== target.value;
+      });
     }
   }
 
@@ -54,6 +53,9 @@ export class FlightsComponent implements OnInit {
             next: (res) => {
               this.flightRecords = res;
               this.isFetching = false;
+              this.companies = [
+                ...new Set(res.map((item) => item.airplaneId.company)),
+              ];
             },
           }),
     });

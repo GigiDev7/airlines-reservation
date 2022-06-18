@@ -5,6 +5,8 @@ import { FlightRecordModel } from 'src/app/shared/models/flightRecordModel';
 import { FlightModel } from 'src/app/shared/models/flightsModel';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { AdminService } from '../admin.service';
+import { ReloadService } from 'src/app/shared/reload/reload.service';
 
 @UntilDestroy()
 @Component({
@@ -15,12 +17,46 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class AdminFlightsComponent implements OnInit {
   public flights: FlightModel[] = [];
   public isFetching: boolean = false;
+  public isRecordFormShown: boolean = false;
+  public isFlightFormShown: boolean = false;
 
-  public navigateToRecord(flightId: string) {
-    this.router.navigate(['admin', 'flight-record', flightId]);
+  public openRecordForm(flightId: string) {
+    this.adminService.activeFlightId = flightId;
+    this.adminService.isRecordFormShown.next(true);
   }
 
-  constructor(private flightService: FlightService, private router: Router) {}
+  public closeRecordForm() {
+    this.adminService.isRecordFormShown.next(false);
+  }
+
+  public openFlightForm() {
+    this.adminService.isFlightFormShown.next(true);
+  }
+
+  public closeFlightForm() {
+    this.adminService.isFlightFormShown.next(false);
+  }
+
+  public handleDeleteFlight(flightId: string) {
+    this.flightService.deleteFlight(flightId).subscribe({
+      next: () => {
+        this.adminService.setNotificationMessage('Flight deleted');
+        this.adminService.showNotification();
+        this.reloadService.reloadComponent();
+      },
+    });
+  }
+
+  public handleEditFlight(flight: FlightModel) {
+    this.adminService.isFlightFormShown.next(true);
+    this.adminService.editingFlight = flight;
+  }
+
+  constructor(
+    private flightService: FlightService,
+    public adminService: AdminService,
+    private reloadService: ReloadService
+  ) {}
 
   ngOnInit(): void {
     this.isFetching = true;
@@ -33,5 +69,12 @@ export class AdminFlightsComponent implements OnInit {
           this.isFetching = false;
         },
       });
+
+    this.adminService.isRecordFormShown.subscribe({
+      next: (val) => (this.isRecordFormShown = val),
+    });
+    this.adminService.isFlightFormShown.subscribe({
+      next: (val) => (this.isFlightFormShown = val),
+    });
   }
 }

@@ -21,6 +21,7 @@ export class FlightRecordComponent implements OnInit {
   public flightRecordForm: FormGroup = new FormGroup({
     airline: new FormControl('', [Validators.required]),
     departureTime: new FormControl('', [Validators.required]),
+    arrivalTime: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -30,15 +31,16 @@ export class FlightRecordComponent implements OnInit {
   ) {}
 
   public handleFlightRecordSubmit() {
-    const { flightId } = this.route.snapshot.params;
-    const { airline, departureTime } = this.flightRecordForm.value;
+    const flightId = this.adminService.activeFlightId;
+    const { airline, departureTime, arrivalTime } = this.flightRecordForm.value;
     this.adminService
-      .addFlightRecord(flightId, airline, departureTime)
+      .addFlightRecord(flightId, airline, departureTime, arrivalTime)
       .subscribe({
         next: (res) => {
-          console.log(res);
-          console.log('success');
-          this.router.navigate(['admin']);
+          this.adminService.setNotificationMessage('Flight record created!');
+          this.adminService.showNotification();
+          this.adminService.isRecordFormShown.next(false);
+          this.router.navigate(['admin/flights']);
         },
       });
   }

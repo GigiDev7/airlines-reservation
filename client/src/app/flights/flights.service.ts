@@ -43,4 +43,19 @@ export class FlightService {
         })
       );
   }
+
+  public addFlight(departure: string, destination: string) {
+    return this.http.post(`${url}/flights`, { departure, destination });
+  }
+
+  public deleteFlight(flightId: string) {
+    return this.http.delete(`${url}/flights/${flightId}`);
+  }
+
+  public editFlight(flightId: string, departure: string, destination: string) {
+    return this.http.patch(`${url}/flights/${flightId}`, {
+      departure,
+      destination,
+    });
+  }
 }

@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FlightRecordComponent } from './flight-record/flight-record.component';
 import { AdminFlightsComponent } from './admin-flights/admin-flights.component';
 import { SharedModule } from '../shared/shared.module';
+import { NotificationComponent } from './notification/notification.component';
+import { FlightFormComponent } from './flight-form/flight-form.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { SharedModule } from '../shared/shared.module';
     SideNavComponent,
     FlightRecordComponent,
     AdminFlightsComponent,
+    NotificationComponent,
+    FlightFormComponent,
   ],
   imports: [
     ReactiveFormsModule,
