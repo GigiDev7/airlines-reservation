@@ -15,6 +15,7 @@ import { AdminService } from '../admin.service';
 export class AdminRecordsComponent implements OnInit {
   public flightRecords: FlightRecordModel[] = [];
   public isFetching: boolean = false;
+  public isRecordFormShown: boolean = false;
 
   public trackBy(index: number, item: FlightRecordModel) {
     return item._id;
@@ -28,6 +29,11 @@ export class AdminRecordsComponent implements OnInit {
         this.reloadService.reloadComponent();
       },
     });
+  }
+
+  public handleEditRecord(record: FlightRecordModel) {
+    this.adminService.isRecordFormShown.next(true);
+    this.adminService.editingRecord = record;
   }
 
   constructor(
@@ -47,5 +53,8 @@ export class AdminRecordsComponent implements OnInit {
           this.flightRecords = res;
         },
       });
+    this.adminService.isRecordFormShown.subscribe({
+      next: (val) => (this.isRecordFormShown = val),
+    });
   }
 }

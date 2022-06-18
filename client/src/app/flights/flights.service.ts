@@ -54,6 +54,19 @@ export class FlightService {
     return this.http.delete(`${url}/flight-record/${recordId}`);
   }
 
+  public editFlightRecord(
+    recordId: string,
+    airline: string,
+    departureTime: Date,
+    arrivalTime: Date
+  ) {
+    return this.http.patch(`${url}/flight-record/${recordId}`, {
+      airline,
+      departureTime,
+      arrivalTime,
+    });
+  }
+
   public getFlights(): Observable<FlightModel[]> {
     return this.http.get(`${url}/flights`).pipe(
       tap({

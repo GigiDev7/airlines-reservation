@@ -5,6 +5,7 @@ import { AirplaneModel } from '../shared/models/airplaneModel';
 
 import { url } from '../config/config';
 import { FlightModel } from '../shared/models/flightsModel';
+import { FlightRecordModel } from '../shared/models/flightRecordModel';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class AdminService {
   isRecordFormShown = new Subject<boolean>();
   isFlightFormShown = new Subject<boolean>();
   editingFlight: FlightModel | null = null;
+  editingRecord: FlightRecordModel | null = null;
 
   constructor(private http: HttpClient) {}
 

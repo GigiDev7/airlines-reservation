@@ -1,5 +1,7 @@
 <div class="flex flex-col items-center">
-  <p class="mt-6 mb-10 font-medium">Add Flight Record</p>
+  <p class="mt-6 mb-10 font-medium">
+    {{ adminService.editingRecord ? "Edit" : "Add" }} Flight Record
+  </p>
   <form
     (ngSubmit)="handleFlightRecordSubmit()"
     [formGroup]="flightRecordForm"

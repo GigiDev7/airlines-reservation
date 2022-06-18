@@ -10,6 +10,7 @@ import {
   Router,
 } from '@angular/router';
 import { FlightService } from 'src/app/flights/flights.service';
+import { ReloadService } from 'src/app/shared/reload/reload.service';
 
 @UntilDestroy()
 @Component({
@@ -26,15 +27,37 @@ export class FlightRecordComponent implements OnInit {
   });
 
   constructor(
-    private adminService: AdminService,
+    public adminService: AdminService,
     private route: ActivatedRoute,
     private router: Router,
-    private flightService: FlightService
+    private flightService: FlightService,
+    private reloadService: ReloadService
   ) {}
 
   public handleFlightRecordSubmit() {
     const flightId = this.adminService.activeFlightId;
     const { airline, departureTime, arrivalTime } = this.flightRecordForm.value;
+    console.log(departureTime);
+    if (this.adminService.editingRecord) {
+      this.flightService
+        .editFlightRecord(
+          this.adminService.editingRecord._id,
+          airline,
+          departureTime,
+          arrivalTime
+        )
+        .pipe(untilDestroyed(this))
+        .subscribe({
+          next: (res) => {
+            this.adminService.setNotificationMessage('Record updated');
+            this.adminService.showNotification();
+            this.adminService.isRecordFormShown.next(false);
+            this.reloadService.reloadComponent();
+          },
+        });
+      return;
+    }
+
     this.flightService
       .addFlightRecord(flightId, airline, departureTime, arrivalTime)
       .subscribe({
@@ -42,12 +65,24 @@ export class FlightRecordComponent implements OnInit {
           this.adminService.setNotificationMessage('Flight record created!');
           this.adminService.showNotification();
           this.adminService.isRecordFormShown.next(false);
-          this.router.navigate(['admin/flights']);
         },
       });
   }
 
   ngOnInit(): void {
+    if (this.adminService.editingRecord) {
+      const { departureTime, arrivalTime } = this.adminService.editingRecord;
+      const ind = departureTime.toString().lastIndexOf(':');
+      const departureDate = departureTime.toString().slice(0, ind);
+      const arrivalDate = arrivalTime.toString().slice(0, ind);
+
+      this.flightRecordForm.patchValue({
+        airline: this.adminService.editingRecord.airplaneId.company,
+        departureTime: departureDate,
+        arrivalTime: arrivalDate,
+      });
+    }
+
     this.adminService
       .getAirplanes()
       .pipe(untilDestroyed(this))
