@@ -46,7 +46,6 @@ export class FlightFormComponent implements OnInit {
           this.adminService.isFlightFormShown.next(false);
           this.adminService.setNotificationMessage('New flight created');
           this.adminService.showNotification();
-          this.adminService.editingFlight = null;
           this.reloadService.reloadComponent();
         },
       });

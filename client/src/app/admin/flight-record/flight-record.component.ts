@@ -52,6 +52,7 @@ export class FlightRecordComponent implements OnInit {
             this.adminService.setNotificationMessage('Record updated');
             this.adminService.showNotification();
             this.adminService.isRecordFormShown.next(false);
+            this.adminService.editingFlight = null;
             this.reloadService.reloadComponent();
           },
         });

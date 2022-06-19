@@ -28,7 +28,15 @@ export class AdminRecordsComponent implements OnInit {
       next: () => {
         this.adminService.setNotificationMessage('Record deleted');
         this.adminService.showNotification();
-        this.reloadService.reloadComponent();
+        if (
+          +this.route.snapshot.queryParams['page'] > 1 &&
+          this.flightRecords.records.length === 1
+        ) {
+          this.router.navigate(['admin', 'records'], {
+            queryParams: { page: 1 },
+          });
+        }
+        //this.reloadService.reloadComponent();
       },
     });
   }
