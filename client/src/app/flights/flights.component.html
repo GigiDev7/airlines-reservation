@@ -3,7 +3,7 @@
   <app-search-form></app-search-form>
 </div>
 
-<div class="h-screen overflow-y-scroll">
+<div class="h-fit pb-5 overflow-y-auto">
   <div class="ml-10" *ngIf="!isFetching">
     <p *ngIf="flightRecords.length" class="mb-4">Airlanes</p>
     <div *ngFor="let company of companies">

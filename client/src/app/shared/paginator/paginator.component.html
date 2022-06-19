@@ -1,0 +1,13 @@
+<div class="flex">
+  <p class="text-gray-600">Page {{ page }} of 10</p>
+  <button
+    [disabled]="page === 1"
+    class="cursor-pointer disabled:cursor-default disabled:opacity-60"
+    (click)="handlePreviousPageClick()"
+  >
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <button (click)="handleNextPageClick()">
+    <mat-icon class="cursor-pointer">keyboard_arrow_right</mat-icon>
+  </button>
+</div>

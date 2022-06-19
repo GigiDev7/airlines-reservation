@@ -11,6 +11,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NotificationComponent } from './notification/notification.component';
 import { FlightFormComponent } from './flight-form/flight-form.component';
 import { AdminRecordsComponent } from './admin-records/admin-records.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AdminRecordsComponent } from './admin-records/admin-records.component';
     CommonModule,
     AppRoutingModule,
     SharedModule,
+    BrowserAnimationsModule,
   ],
   exports: [
     AdminComponent,

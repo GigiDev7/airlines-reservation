@@ -28,4 +28,7 @@
     >
     <app-flight-record></app-flight-record>
   </div>
+  <div *ngIf="!isFetching" class="my-12 w-[50%] flex justify-center">
+    <app-paginator></app-paginator>
+  </div>
 </div>
