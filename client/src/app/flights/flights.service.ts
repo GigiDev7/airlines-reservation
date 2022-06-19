@@ -18,8 +18,8 @@ export class FlightService {
 
   constructor(private http: HttpClient) {}
 
-  public getAllRecords() {
-    return this.http.get(`${url}/flight-record`).pipe(
+  public getAllRecords(page: number = 1) {
+    return this.http.get(`${url}/flight-record?page=${page}`).pipe(
       tap({
         next: (res: any) => (this.flightRecords = res),
       })

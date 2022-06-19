@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IsActiveMatchOptions } from '@angular/router';
 import { UserModel } from 'src/app/shared/models/userModel';
 
 @Component({
@@ -9,6 +10,13 @@ import { UserModel } from 'src/app/shared/models/userModel';
 export class SideNavComponent implements OnInit {
   public user!: UserModel;
   public isSideBarClosed: boolean = false;
+
+  public matchOptions: IsActiveMatchOptions = {
+    queryParams: 'ignored',
+    matrixParams: 'exact',
+    paths: 'exact',
+    fragment: 'exact',
+  };
 
   public handleSideBarToggle(): void {
     this.isSideBarClosed = !this.isSideBarClosed;

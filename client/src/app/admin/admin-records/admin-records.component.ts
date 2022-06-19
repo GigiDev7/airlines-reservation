@@ -5,6 +5,8 @@ import { FlightRecordModel } from 'src/app/shared/models/flightRecordModel';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ReloadService } from 'src/app/shared/reload/reload.service';
 import { AdminService } from '../admin.service';
+import { ActivatedRoute } from '@angular/router';
+import { tap } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -13,7 +15,7 @@ import { AdminService } from '../admin.service';
   styleUrls: ['./admin-records.component.sass'],
 })
 export class AdminRecordsComponent implements OnInit {
-  public flightRecords!: { total: 0; records: FlightRecordModel[] };
+  public flightRecords!: { total: number; records: FlightRecordModel[] };
   public isFetching: boolean = false;
   public isRecordFormShown: boolean = false;
 
@@ -39,20 +41,35 @@ export class AdminRecordsComponent implements OnInit {
   constructor(
     private flightService: FlightService,
     private reloadService: ReloadService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.isFetching = true;
-    this.flightService
-      .getAllRecords()
-      .pipe(untilDestroyed(this))
+    this.route.queryParams
+      .pipe(
+        tap({
+          next: () => {
+            this.isFetching = true;
+            this.flightRecords = { total: 0, records: [] };
+          },
+        })
+      )
       .subscribe({
-        next: (res: any) => {
-          this.isFetching = false;
-          this.flightRecords = res;
+        next: (params) => {
+          this.flightService
+            .getAllRecords(params['page'])
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res: any) => {
+                this.isFetching = false;
+                this.flightRecords = res;
+              },
+            });
         },
       });
+
     this.adminService.isRecordFormShown.subscribe({
       next: (val) => (this.isRecordFormShown = val),
     });
