@@ -10,13 +10,20 @@ import { FlightRecordModel } from '../shared/models/flightRecordModel';
   providedIn: 'root',
 })
 export class FlightService {
-  public flightRecords: FlightRecordModel[] = [];
+  public flightRecords: { total: number; records: FlightRecordModel[] } = {
+    total: 0,
+    records: [],
+  };
   public flights: FlightModel[] = [];
 
   constructor(private http: HttpClient) {}
 
   public getAllRecords() {
-    return this.http.get(`${url}/flight-record`);
+    return this.http.get(`${url}/flight-record`).pipe(
+      tap({
+        next: (res: any) => (this.flightRecords = res),
+      })
+    );
   }
 
   public getFilteredRecords(

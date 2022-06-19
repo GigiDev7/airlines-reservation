@@ -17,14 +17,27 @@ const findFlightRecords = async (queryObject) => {
   const { destination, departure, departureStart, departureEnd, sort } =
     queryObject;
 
+  const page = queryObject?.page || 1;
+  const skip = (page - 1) * 5;
+
   if (!destination || !departure || !departureStart || !departureEnd) {
-    return FlightRecord.find().populate("flightId airplaneId");
+    const count = await FlightRecord.countDocuments();
+    const records = await FlightRecord.find()
+      .populate("flightId airplaneId")
+      .skip(skip)
+      .limit(5);
+
+    return { count, records };
   }
 
   const flight = await Flight.findOne({ departure, destination });
-  if (!flight) return [];
+  if (!flight) return { total: 0, records: [] };
 
-  return FlightRecord.find({
+  const count = await FlightRecord.countDocuments({
+    departureTime: { $gte: departureStart, $lte: departureEnd },
+    flightId: flight._id,
+  });
+  const records = await FlightRecord.find({
     departureTime: { $gte: departureStart, $lte: departureEnd },
     flightId: flight._id,
   })
@@ -36,6 +49,7 @@ const findFlightRecords = async (queryObject) => {
         destination,
       }, */
     });
+  return { count, records };
 };
 
 const findFlightRecordAndUpdate = async (recordId, flightData) => {

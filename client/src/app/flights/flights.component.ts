@@ -13,22 +13,26 @@ import { tap } from 'rxjs';
   styleUrls: ['./flights.component.sass'],
 })
 export class FlightsComponent implements OnInit {
-  public flightRecords: FlightRecordModel[] = [];
+  public flightRecords!: { total: number; records: FlightRecordModel[] };
   public isFetching: boolean = false;
-  public companies: string[] = [];
+  public companies: any[] = [];
 
   public handleCheckbox(e: Event) {
     const target = e.target as HTMLInputElement;
 
     if (target.checked) {
-      const tobeAddedFlights = this.flightService.flightRecords.filter(
+      const tobeAddedFlights = this.flightService.flightRecords.records.filter(
         (flightRecord) => flightRecord.airplaneId.company === target.value
       );
-      this.flightRecords = [...this.flightRecords, ...tobeAddedFlights];
+      this.flightRecords = {
+        ...this.flightRecords,
+        records: [...this.flightRecords.records, ...tobeAddedFlights],
+      };
     } else if (!target.checked) {
-      this.flightRecords = this.flightRecords.filter((flightRecord) => {
+      const records = this.flightRecords.records.filter((flightRecord) => {
         return flightRecord.airplaneId.company !== target.value;
       });
+      this.flightRecords = { ...this.flightRecords, records };
     }
   }
 
@@ -40,7 +44,14 @@ export class FlightsComponent implements OnInit {
   ngOnInit(): void {
     this.isFetching = true;
     this.route.queryParams
-      .pipe(tap(() => ((this.isFetching = true), (this.flightRecords = []))))
+      .pipe(
+        tap(
+          () => (
+            (this.isFetching = true),
+            (this.flightRecords = { total: 0, records: [] })
+          )
+        )
+      )
       .subscribe({
         next: (params) =>
           this.flightService
@@ -52,11 +63,15 @@ export class FlightsComponent implements OnInit {
             )
             .pipe(untilDestroyed(this))
             .subscribe({
-              next: (res) => {
+              next: (res: any) => {
                 this.flightRecords = res;
                 this.isFetching = false;
                 this.companies = [
-                  ...new Set(res.map((item) => item.airplaneId.company)),
+                  ...new Set(
+                    res.records.map(
+                      (item: FlightRecordModel) => item.airplaneId.company
+                    )
+                  ),
                 ];
               },
             }),

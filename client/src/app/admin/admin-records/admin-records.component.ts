@@ -13,7 +13,7 @@ import { AdminService } from '../admin.service';
   styleUrls: ['./admin-records.component.sass'],
 })
 export class AdminRecordsComponent implements OnInit {
-  public flightRecords: FlightRecordModel[] = [];
+  public flightRecords!: { total: 0; records: FlightRecordModel[] };
   public isFetching: boolean = false;
   public isRecordFormShown: boolean = false;
 

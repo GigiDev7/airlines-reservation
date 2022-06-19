@@ -2,7 +2,7 @@
   <p *ngIf="isFetching">Loading...</p>
   <div
     class="w-full flex relative"
-    *ngFor="let flightRecord of flightRecords; trackBy: trackBy"
+    *ngFor="let flightRecord of flightRecords?.records; trackBy: trackBy"
   >
     <div class="w-full">
       <app-flight-card [flightRecord]="flightRecord"></app-flight-card>

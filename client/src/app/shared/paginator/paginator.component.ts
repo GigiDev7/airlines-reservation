@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FlightService } from 'src/app/flights/flights.service';
 
 @Component({
   selector: 'app-paginator',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaginatorComponent implements OnInit {
   public page: number = 1;
+  public totalPages!: number;
 
   public handlePreviousPageClick() {
     this.page--;
@@ -16,7 +18,11 @@ export class PaginatorComponent implements OnInit {
     this.page++;
   }
 
-  constructor() {}
+  constructor(private flightService: FlightService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.totalPages = Math.ceil(
+      this.flightService.flightRecords.records.length / 5
+    );
+  }
 }
