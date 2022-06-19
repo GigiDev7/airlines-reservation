@@ -37,7 +37,7 @@ export class FlightRecordComponent implements OnInit {
   public handleFlightRecordSubmit() {
     const flightId = this.adminService.activeFlightId;
     const { airline, departureTime, arrivalTime } = this.flightRecordForm.value;
-    console.log(departureTime);
+
     if (this.adminService.editingRecord) {
       this.flightService
         .editFlightRecord(

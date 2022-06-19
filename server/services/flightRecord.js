@@ -53,7 +53,28 @@ const findFlightRecords = async (queryObject) => {
 };
 
 const findFlightRecordAndUpdate = async (recordId, flightData) => {
-  return FlightRecord.findByIdAndUpdate(recordId, flightData, { new: true });
+  const airplane = await Airplane.findOne({ company: flightData.airline });
+
+  const hours =
+    new Date(flightData.arrivalTime).getHours() -
+    new Date(flightData.departureTime).getHours();
+
+  const minutes =
+    new Date(flightData.arrivalTime).getMinutes() -
+    new Date(flightData.departureTime).getMinutes();
+
+  const flightDuration = `${hours}h ${minutes}min`;
+
+  return FlightRecord.findByIdAndUpdate(
+    recordId,
+    {
+      airplaneId: airplane._id,
+      departureTime: flightData.departureTime,
+      arrivalTime: flightData.arrivalTime,
+      flightDuration: flightDuration,
+    },
+    { new: true }
+  );
 };
 
 const findFlightRecordAndDelete = async (recordId) => {

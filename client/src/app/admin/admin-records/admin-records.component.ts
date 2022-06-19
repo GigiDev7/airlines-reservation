@@ -5,7 +5,7 @@ import { FlightRecordModel } from 'src/app/shared/models/flightRecordModel';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ReloadService } from 'src/app/shared/reload/reload.service';
 import { AdminService } from '../admin.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 
 @UntilDestroy()
@@ -42,7 +42,8 @@ export class AdminRecordsComponent implements OnInit {
     private flightService: FlightService,
     private reloadService: ReloadService,
     private adminService: AdminService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {

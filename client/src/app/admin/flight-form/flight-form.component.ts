@@ -32,6 +32,7 @@ export class FlightFormComponent implements OnInit {
             this.adminService.isFlightFormShown.next(false);
             this.adminService.setNotificationMessage('Flight edited');
             this.adminService.showNotification();
+            this.adminService.editingFlight = null;
             this.reloadService.reloadComponent();
           },
         });
@@ -45,6 +46,7 @@ export class FlightFormComponent implements OnInit {
           this.adminService.isFlightFormShown.next(false);
           this.adminService.setNotificationMessage('New flight created');
           this.adminService.showNotification();
+          this.adminService.editingFlight = null;
           this.reloadService.reloadComponent();
         },
       });
