@@ -1,4 +1,5 @@
 const Flight = require("../models/flightSchema");
+const FlightRecord = require("../models/flightRecordsSchema");
 
 const createFlight = async (flightData) => {
   return Flight.create(flightData);
@@ -19,6 +20,8 @@ const findFlightAndUpdate = async (flightId, flightData) => {
 };
 
 const findFlightAndDelete = async (flightId) => {
+  await FlightRecord.deleteMany({ flightId });
+
   return Flight.findByIdAndDelete(flightId);
 };
 

@@ -24,10 +24,17 @@ export class FlightFormComponent implements OnInit {
   public editingFlight: FlightModel | null = null;
 
   public handleFlightFormSubmit() {
-    const { departure, destination } = this.flightForm.value;
+    const { departure, destination, departureTime, arrivalTime } =
+      this.flightForm.value;
     if (this.editingFlight) {
       this.flightService
-        .editFlight(this.editingFlight._id, departure, destination)
+        .editFlight(
+          this.editingFlight._id,
+          departure,
+          destination,
+          departureTime,
+          arrivalTime
+        )
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (val) => {
@@ -41,7 +48,7 @@ export class FlightFormComponent implements OnInit {
       return;
     }
     this.flightService
-      .addFlight(departure, destination)
+      .addFlight(departure, destination, departureTime, arrivalTime)
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (val) => {
