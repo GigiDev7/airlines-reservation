@@ -18,14 +18,15 @@ const findFlightRecords = async (queryObject) => {
     queryObject;
 
   const page = queryObject?.page || 1;
-  const skip = (page - 1) * 5;
+  const limit = 5;
+  const skip = (page - 1) * limit;
 
   if (!destination || !departure || !departureStart || !departureEnd) {
     const count = await FlightRecord.countDocuments();
     const records = await FlightRecord.find()
       .populate("flightId airplaneId")
       .skip(skip)
-      .limit(5);
+      .limit(limit);
 
     return { count, records };
   }
