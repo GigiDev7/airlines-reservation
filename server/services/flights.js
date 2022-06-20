@@ -7,7 +7,7 @@ const createFlight = async (flightData) => {
 
 const findFlightAndUpdate = async (flightId, flightData) => {
   const hours =
-    +flightData.arrivalTime.slice(0, 3) - +flightData.departureTime.slice(0, 3);
+    +flightData.arrivalTime.slice(0, 2) - +flightData.departureTime.slice(0, 2);
   const minutes =
     +flightData.arrivalTime.slice(3) - +flightData.departureTime.slice(3);
   const flightDuration = `${hours}h ${minutes}min`;

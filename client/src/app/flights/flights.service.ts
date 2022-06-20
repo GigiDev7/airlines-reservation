@@ -46,14 +46,12 @@ export class FlightService {
   public addFlightRecord(
     flightId: string,
     airline: string,
-    departureTime: Date,
-    arrivalTime: Date
+    flightDays: string[]
   ) {
     return this.http.post(`${url}/flight-record`, {
       flightId,
       airline,
-      departureTime,
-      arrivalTime,
+      flightDays,
     });
   }
 

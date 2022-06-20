@@ -7,7 +7,7 @@ const createFlightRecord = async (flightData) => {
   const result = [];
 
   for (let flightDay of flightData.flightDays) {
-    const newFlight = await Flight.create({
+    const newFlight = await FlightRecord.create({
       airplaneId: airplane._id,
       flightDay,
       flightId: flightData.flightId,

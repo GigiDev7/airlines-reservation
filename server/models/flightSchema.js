@@ -28,7 +28,7 @@ const flightSchema = new mongoose.Schema(
 );
 
 flightSchema.pre("save", function (next) {
-  const hours = +this.arrivalTime.slice(0, 3) - +this.departureTime.slice(0, 3);
+  const hours = +this.arrivalTime.slice(0, 2) - +this.departureTime.slice(0, 2);
   const minutes = +this.arrivalTime.slice(3) - +this.departureTime.slice(3);
   this.flightDuration = `${hours}h ${minutes}min`;
   next();

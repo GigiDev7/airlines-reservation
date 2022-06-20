@@ -1,5 +1,6 @@
 <div class="flex flex-col items-center mt-16 relative">
   <p *ngIf="isFetching">Loading...</p>
+  <p *ngIf="!isFetching && !flightRecords.records.length">No Records</p>
   <div
     class="w-full flex relative"
     *ngFor="let flightRecord of flightRecords?.records; trackBy: trackBy"

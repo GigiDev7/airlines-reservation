@@ -68,9 +68,8 @@ export class FlightRecordComponent implements OnInit {
         });
       return;
     }
-
     this.flightService
-      .addFlightRecord(flightId, airline, departureTime, arrivalTime)
+      .addFlightRecord(flightId, airline, this.departureTimes)
       .subscribe({
         next: (res) => {
           this.adminService.setNotificationMessage('Flight record created!');
