@@ -7,8 +7,8 @@ const {
 
 const addFlightRecord = async (req, res, next) => {
   try {
-    const newRecord = await createFlightRecord(req.body);
-    res.status(200).json(newRecord);
+    const newRecords = await createFlightRecord(req.body);
+    res.status(200).json(newRecords);
   } catch (error) {
     next(error);
   }

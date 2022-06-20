@@ -82,15 +82,13 @@ export class FlightRecordComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.adminService.editingRecord) {
-      const { departureTime, arrivalTime } = this.adminService.editingRecord;
-      const ind = departureTime.toString().lastIndexOf(':');
-      const departureDate = departureTime.toString().slice(0, ind);
-      const arrivalDate = arrivalTime.toString().slice(0, ind);
+      const { flightDay } = this.adminService.editingRecord;
+
+      const departureDate = flightDay.toString();
 
       this.flightRecordForm.patchValue({
         airline: this.adminService.editingRecord.airplaneId.company,
         departureTime: departureDate,
-        arrivalTime: arrivalDate,
       });
     }
 

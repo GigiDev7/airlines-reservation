@@ -5,7 +5,17 @@ const createFlight = async (flightData) => {
 };
 
 const findFlightAndUpdate = async (flightId, flightData) => {
-  return Flight.findByIdAndUpdate(flightId, flightData, { new: true });
+  const hours =
+    +flightData.arrivalTime.slice(0, 3) - +flightData.departureTime.slice(0, 3);
+  const minutes =
+    +flightData.arrivalTime.slice(3) - +flightData.departureTime.slice(3);
+  const flightDuration = `${hours}h ${minutes}min`;
+
+  return Flight.findByIdAndUpdate(
+    flightId,
+    { ...flightData, flightDuration },
+    { new: true }
+  );
 };
 
 const findFlightAndDelete = async (flightId) => {

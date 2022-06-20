@@ -4,13 +4,18 @@ const Flight = require("../models/flightSchema");
 
 const createFlightRecord = async (flightData) => {
   const airplane = await Airplane.findOne({ company: flightData.airline });
+  const result = [];
 
-  return FlightRecord.create({
-    airplaneId: airplane._id,
-    departureTime: flightData.departureTime,
-    arrivalTime: flightData.arrivalTime,
-    flightId: flightData.flightId,
-  });
+  for (let flightDay of flightData.flightDays) {
+    const newFlight = await Flight.create({
+      airplaneId: airplane._id,
+      flightDay,
+      flightId: flightData.flightId,
+    });
+    result.push(newFlight);
+  }
+
+  return result;
 };
 
 const findFlightRecords = async (queryObject) => {
@@ -56,23 +61,11 @@ const findFlightRecords = async (queryObject) => {
 const findFlightRecordAndUpdate = async (recordId, flightData) => {
   const airplane = await Airplane.findOne({ company: flightData.airline });
 
-  const hours =
-    new Date(flightData.arrivalTime).getHours() -
-    new Date(flightData.departureTime).getHours();
-
-  const minutes =
-    new Date(flightData.arrivalTime).getMinutes() -
-    new Date(flightData.departureTime).getMinutes();
-
-  const flightDuration = `${hours}h ${minutes}min`;
-
   return FlightRecord.findByIdAndUpdate(
     recordId,
     {
       airplaneId: airplane._id,
-      departureTime: flightData.departureTime,
-      arrivalTime: flightData.arrivalTime,
-      flightDuration: flightDuration,
+      flightDay: flightData.flightDay,
     },
     { new: true }
   );
