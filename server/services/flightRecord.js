@@ -35,11 +35,11 @@ const findFlightRecords = async (queryObject) => {
   if (!flight) return { total: 0, records: [] };
 
   const count = await FlightRecord.countDocuments({
-    departureTime: { $gte: departureStart, $lte: departureEnd },
+    flightDay: { $gte: departureStart, $lte: departureEnd },
     flightId: flight._id,
   });
   const records = await FlightRecord.find({
-    departureTime: { $gte: departureStart, $lte: departureEnd },
+    flightDay: { $gte: departureStart, $lte: departureEnd },
     flightId: flight._id,
   })
     .populate({ path: "airplaneId" })

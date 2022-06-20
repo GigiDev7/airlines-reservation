@@ -4,11 +4,7 @@ import { AdminService } from '../admin.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  Router,
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FlightService } from 'src/app/flights/flights.service';
 import { ReloadService } from 'src/app/shared/reload/reload.service';
 
@@ -26,6 +22,8 @@ export class FlightRecordComponent implements OnInit {
     arrivalTime: new FormControl('', [Validators.required]),
   });
 
+  public departureTimes: string[] = [];
+
   constructor(
     public adminService: AdminService,
     private route: ActivatedRoute,
@@ -33,6 +31,18 @@ export class FlightRecordComponent implements OnInit {
     private flightService: FlightService,
     private reloadService: ReloadService
   ) {}
+
+  public handleAddDay(e: Event) {
+    const target = e.target as HTMLInputElement;
+    if (this.departureTimes.includes(target.value)) return;
+    this.departureTimes.push(target.value);
+  }
+
+  public handleRemoveDay(day: string) {
+    this.departureTimes = this.departureTimes.filter(
+      (departureDay) => departureDay !== day
+    );
+  }
 
   public handleFlightRecordSubmit() {
     const flightId = this.adminService.activeFlightId;
