@@ -59,16 +59,10 @@ export class FlightService {
     return this.http.delete(`${url}/flight-record/${recordId}`);
   }
 
-  public editFlightRecord(
-    recordId: string,
-    airline: string,
-    departureTime: Date,
-    arrivalTime: Date
-  ) {
+  public editFlightRecord(recordId: string, airline: string, flightDay: Date) {
     return this.http.patch(`${url}/flight-record/${recordId}`, {
       airline,
-      departureTime,
-      arrivalTime,
+      flightDay,
     });
   }
 

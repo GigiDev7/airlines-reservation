@@ -46,15 +46,14 @@ export class FlightRecordComponent implements OnInit {
 
   public handleFlightRecordSubmit() {
     const flightId = this.adminService.activeFlightId;
-    const { airline, departureTime, arrivalTime } = this.flightRecordForm.value;
+    const { airline, flightDay } = this.flightRecordForm.value;
 
     if (this.adminService.editingRecord) {
       this.flightService
         .editFlightRecord(
           this.adminService.editingRecord._id,
           airline,
-          departureTime,
-          arrivalTime
+          flightDay
         )
         .pipe(untilDestroyed(this))
         .subscribe({
@@ -84,11 +83,12 @@ export class FlightRecordComponent implements OnInit {
     if (this.adminService.editingRecord) {
       const { flightDay } = this.adminService.editingRecord;
 
-      const departureDate = flightDay.toString();
+      const indx = flightDay.toString().indexOf('T');
+      const departureDate = flightDay.toString().slice(0, indx);
 
       this.flightRecordForm.patchValue({
         airline: this.adminService.editingRecord.airplaneId.company,
-        flightDay: this.adminService.editingRecord.flightDay,
+        flightDay: departureDate,
       });
     }
 

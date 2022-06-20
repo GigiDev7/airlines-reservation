@@ -35,8 +35,9 @@ export class AdminRecordsComponent implements OnInit {
           this.router.navigate(['admin', 'records'], {
             queryParams: { page: 1 },
           });
+        } else {
+          this.reloadService.reloadComponent();
         }
-        //this.reloadService.reloadComponent();
       },
     });
   }
