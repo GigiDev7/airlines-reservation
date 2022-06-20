@@ -18,6 +18,8 @@ export class FlightFormComponent implements OnInit {
   public flightForm: FormGroup = new FormGroup({
     departure: new FormControl('', [Validators.required]),
     destination: new FormControl('', [Validators.required]),
+    departureTime: new FormControl('', [Validators.required]),
+    arrivalTime: new FormControl('', [Validators.required]),
   });
   public editingFlight: FlightModel | null = null;
 
@@ -63,6 +65,8 @@ export class FlightFormComponent implements OnInit {
       this.flightForm.patchValue({
         departure: this.editingFlight.departure,
         destination: this.editingFlight.destination,
+        departureTime: this.editingFlight.departureTime,
+        arrivalTime: this.editingFlight.arrivalTime,
       });
     }
   }

@@ -15,11 +15,11 @@ import { ReloadService } from 'src/app/shared/reload/reload.service';
   styleUrls: ['./flight-record.component.sass'],
 })
 export class FlightRecordComponent implements OnInit {
+  public minDate!: string;
   public airplanes: AirplaneModel[] = [];
   public flightRecordForm: FormGroup = new FormGroup({
     airline: new FormControl('', [Validators.required]),
-    departureTime: new FormControl('', [Validators.required]),
-    arrivalTime: new FormControl('', [Validators.required]),
+    flightDay: new FormControl('', [Validators.required]),
   });
 
   public departureTimes: string[] = [];
@@ -81,6 +81,7 @@ export class FlightRecordComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.minDate = new Date().toISOString().split('T')[0];
     if (this.adminService.editingRecord) {
       const { flightDay } = this.adminService.editingRecord;
 
@@ -88,7 +89,7 @@ export class FlightRecordComponent implements OnInit {
 
       this.flightRecordForm.patchValue({
         airline: this.adminService.editingRecord.airplaneId.company,
-        departureTime: departureDate,
+        flightDay: this.adminService.editingRecord.flightDay,
       });
     }
 

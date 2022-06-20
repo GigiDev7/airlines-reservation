@@ -35,22 +35,14 @@
       </select>
     </div>
     <div class="flex flex-col max-w-fit">
-      <label class="font-medium" for="departureTime">Departure time</label>
+      <label class="font-medium" for="flightDay">Flight Day</label>
       <input
-        id="departureTime"
+        [min]="minDate"
+        id="flightDay"
         class="border-[1px] mt-2 py-1 border-gray-400 rounded-sm outline-0 pl-1"
         type="date"
-        formControlName="departureTime"
+        formControlName="flightDay"
         (input)="handleAddDay($event)"
-      />
-    </div>
-    <div class="flex flex-col">
-      <label class="font-medium" for="arrivalTime">Arrival time</label>
-      <input
-        id="arrivalTime"
-        class="border-[1px] mt-2 py-1 border-gray-400 rounded-sm outline-0 pl-1"
-        type="datetime-local"
-        formControlName="arrivalTime"
       />
     </div>
     <button

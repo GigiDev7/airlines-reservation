@@ -35,6 +35,7 @@ export class AdminFlightsComponent implements OnInit {
 
   public closeFlightForm() {
     this.adminService.isFlightFormShown.next(false);
+    this.adminService.editingFlight = null;
   }
 
   public handleDeleteFlight(flightId: string) {
