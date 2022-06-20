@@ -10,7 +10,5 @@ import { AdminService } from './admin.service';
 export class AdminComponent implements OnInit {
   constructor(public adminService: AdminService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.router.navigate(['admin', 'flights']);
-  }
+  ngOnInit(): void {}
 }
