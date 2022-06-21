@@ -23,6 +23,11 @@ export class AdminRecordsComponent implements OnInit {
     return item._id;
   }
 
+  public closeRecordForm() {
+    this.isRecordFormShown = false;
+    this.adminService.editingRecord = null;
+  }
+
   public handleDeleteRecord(record: FlightRecordModel) {
     this.flightService.deleteFlightRecord(record._id).subscribe({
       next: () => {

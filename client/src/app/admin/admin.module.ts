@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AdminComponent } from './admin.component';
 import { SideNavComponent } from './side-nav/side-nav.component';
 import { AppRoutingModule } from '../app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FlightRecordComponent } from './flight-record/flight-record.component';
 import { AdminFlightsComponent } from './admin-flights/admin-flights.component';
 import { SharedModule } from '../shared/shared.module';
@@ -26,6 +26,7 @@ import { AdminAirplanesComponent } from './admin-airplanes/admin-airplanes.compo
     AdminAirplanesComponent,
   ],
   imports: [
+    FormsModule,
     ReactiveFormsModule,
     MatIconModule,
     CommonModule,

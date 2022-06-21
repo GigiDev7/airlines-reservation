@@ -30,6 +30,18 @@ export class AdminService {
     );
   }
 
+  public createAirplane(company: string) {
+    return this.http.post(`${url}/airplane`, { company });
+  }
+
+  public deleteAirplane(airplaneId: string) {
+    return this.http.delete(`${url}/airplane/${airplaneId}`);
+  }
+
+  public editAirplane(airplaneId: string, company: string) {
+    return this.http.patch(`${url}/airplane/${airplaneId}`, { company });
+  }
+
   public setNotificationMessage(message: string) {
     this.notificationMessage = message;
   }
