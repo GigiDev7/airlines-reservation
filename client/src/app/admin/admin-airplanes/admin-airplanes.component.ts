@@ -12,8 +12,20 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class AdminAirplanesComponent implements OnInit {
   public airplanes: AirplaneModel[] = [];
   public isFetching = false;
+  public isAirplaneFormShown: boolean = false;
+  public editingAirplane: AirplaneModel | null = null;
 
   constructor(private adminService: AdminService) {}
+
+  public handleEditAirplane(airplane: AirplaneModel) {
+    this.isAirplaneFormShown = true;
+    this.editingAirplane = airplane;
+  }
+
+  public closeAirplaneForm() {
+    this.isAirplaneFormShown = false;
+    this.editingAirplane = null;
+  }
 
   ngOnInit(): void {
     this.isFetching = true;
