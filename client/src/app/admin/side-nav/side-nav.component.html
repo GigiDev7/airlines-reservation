@@ -38,6 +38,14 @@
     <span *ngIf="!isSideBarClosed" class="ml-2">Records</span>
   </p>
   <p
+    routerLink="/admin/airplanes"
+    routerLinkActive="activeLink"
+    class="mt-8 flex py-3 w-[90%] rounded-md hover:bg-gray-300 cursor-pointer"
+  >
+    <mat-icon>flight_takeoff</mat-icon>
+    <span *ngIf="!isSideBarClosed" class="ml-2">Airplanes</span>
+  </p>
+  <p
     (click)="handleLogout()"
     class="mt-72 flex py-3 w-[90%] rounded-md hover:bg-gray-300 cursor-pointer"
   >

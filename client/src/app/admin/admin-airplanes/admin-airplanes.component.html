@@ -1,0 +1,19 @@
+<div class="flex mt-16 flex-col items-center space-y-8">
+  <p *ngIf="isFetching" class="flex justify-center">Loading...</p>
+  <button
+    *ngIf="!isFetching"
+    class="bg-blue-500 py-2 px-3 rounded-sm hover:bg-blue-600"
+  >
+    Add Airplane
+  </button>
+  <div
+    *ngFor="let airplane of airplanes"
+    class="shadow-2xl w-[30%] h-16 flex items-center justify-around rounded-md"
+  >
+    <p class="font-medium w-[40%]">{{ airplane.company | titlecase }}</p>
+    <div class="w-[20%] space-x-3">
+      <mat-icon class="cursor-pointer text-blue-500">edit</mat-icon>
+      <mat-icon class="cursor-pointer text-red-500">delete</mat-icon>
+    </div>
+  </div>
+</div>

@@ -12,6 +12,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { FlightFormComponent } from './flight-form/flight-form.component';
 import { AdminRecordsComponent } from './admin-records/admin-records.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminAirplanesComponent } from './admin-airplanes/admin-airplanes.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NotificationComponent,
     FlightFormComponent,
     AdminRecordsComponent,
+    AdminAirplanesComponent,
   ],
   imports: [
     ReactiveFormsModule,
