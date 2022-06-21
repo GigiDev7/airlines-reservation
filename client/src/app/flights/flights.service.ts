@@ -30,11 +30,12 @@ export class FlightService {
     departure: string,
     destination: string,
     departureStart: Date,
-    departureEnd: Date
+    departureEnd: Date,
+    airline: string = ''
   ): Observable<FlightRecordModel[]> {
     return this.http
       .get(
-        `${url}/flight-record?departure=${departure}&destination=${destination}&departureStart=${departureStart}&departureEnd=${departureEnd}`
+        `${url}/flight-record?departure=${departure}&destination=${destination}&departureStart=${departureStart}&departureEnd=${departureEnd}&airline[in]=${airline}`
       )
       .pipe(
         tap({

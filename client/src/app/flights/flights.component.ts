@@ -16,24 +16,36 @@ export class FlightsComponent implements OnInit {
   public flightRecords!: { total: number; records: FlightRecordModel[] };
   public isFetching: boolean = false;
   public companies: any[] = [];
+  public checkedCompanies: string[] = [];
 
   public handleCheckbox(e: Event) {
     const target = e.target as HTMLInputElement;
+    const { departure, destination, departureStart, departureEnd } =
+      this.route.snapshot.queryParams;
 
     if (target.checked) {
-      const tobeAddedFlights = this.flightService.flightRecords.records.filter(
-        (flightRecord) => flightRecord.airplaneId.company === target.value
+      this.checkedCompanies.push(target.value);
+    } else {
+      this.checkedCompanies = this.checkedCompanies.filter(
+        (company) => company !== target.value
       );
-      this.flightRecords = {
-        ...this.flightRecords,
-        records: [...this.flightRecords.records, ...tobeAddedFlights],
-      };
-    } else if (!target.checked) {
-      const records = this.flightRecords.records.filter((flightRecord) => {
-        return flightRecord.airplaneId.company !== target.value;
-      });
-      this.flightRecords = { ...this.flightRecords, records };
     }
+    this.isFetching = true;
+    this.flightService
+      .getFilteredRecords(
+        departure.toLowerCase(),
+        destination.toLowerCase(),
+        departureStart,
+        departureEnd,
+        this.checkedCompanies.toString()
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: any) => {
+          this.flightRecords = res;
+          this.isFetching = false;
+        },
+      });
   }
 
   constructor(
@@ -73,6 +85,7 @@ export class FlightsComponent implements OnInit {
                     )
                   ),
                 ];
+                this.checkedCompanies = [...this.companies];
               },
             }),
       });

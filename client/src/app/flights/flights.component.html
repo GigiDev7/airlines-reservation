@@ -4,7 +4,7 @@
 </div>
 
 <div class="h-fit pb-5 overflow-y-auto">
-  <div class="ml-10" *ngIf="!isFetching">
+  <div class="ml-10" *ngIf="flightRecords?.records?.length">
     <p *ngIf="flightRecords?.records?.length" class="mb-4">Airlanes</p>
     <div *ngFor="let company of companies">
       <input
