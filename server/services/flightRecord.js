@@ -3,43 +3,81 @@ const Airplane = require("../models/airplaneSchema");
 const Flight = require("../models/flightSchema");
 const Ticket = require("../models/ticketSchema");
 
+function helperTickets(
+  bsTickets,
+  stTickets,
+  ecTickets,
+  bsPrice,
+  stPrice,
+  ecPrice,
+  id
+) {
+  const tickets = [];
+
+  for (let i = 0; i < bsTickets; i++) {
+    const newTicket = {
+      price: bsPrice,
+      flightRecordId: id,
+      ticketClass: "business",
+    };
+    tickets.push(newTicket);
+  }
+
+  for (let i = 0; i < stTickets; i++) {
+    const newTicket = {
+      price: stPrice,
+      flightRecordId: id,
+      ticketClass: "standart",
+    };
+    tickets.push(newTicket);
+  }
+
+  for (let i = 0; i < ecTickets; i++) {
+    const newTicket = {
+      price: ecPrice,
+      flightRecordId: id,
+      ticketClass: "econom",
+    };
+    tickets.push(newTicket);
+  }
+
+  return tickets;
+}
+
 const createFlightRecord = async (flightData) => {
   const airplane = await Airplane.findOne({ company: flightData.airline });
+  const {
+    flightId,
+    businessTickets,
+    standartTickets,
+    economTickets,
+    businessPrice,
+    standartPrice,
+    economPrice,
+  } = flightData;
   const result = [];
 
   for (let flightDay of flightData.flightDays) {
     const newFlight = await FlightRecord.create({
       airplaneId: airplane._id,
       flightDay,
-      flightId: flightData.flightId,
-      businessTickets: flightData.businessTickets,
-      standartTickets: flightData.standartTickets,
-      economTickets: flightData.economTickets,
+      flightId,
+      businessTickets: businessTickets,
+      standartTickets: standartTickets,
+      economTickets: economTickets,
     });
-    for (let i = 0; i < flightData.businessTickets; i++) {
-      const newTicket = {
-        price: flightData.businessPrice,
-        flightRecordId: newFlight._id,
-        ticketClass: "business",
-      };
-      await Ticket.create(newTicket);
-    }
-    for (let i = 0; i < flightData.standartTickets; i++) {
-      const newTicket = {
-        price: flightData.standartPrice,
-        flightRecordId: newFlight._id,
-        ticketClass: "standart",
-      };
-      await Ticket.create(newTicket);
-    }
-    for (let i = 0; i < flightData.economTickets; i++) {
-      const newTicket = {
-        price: flightData.economPrice,
-        flightRecordId: newFlight._id,
-        ticketClass: "econom",
-      };
-      await Ticket.create(newTicket);
-    }
+
+    const tickets = helperTickets(
+      businessTickets,
+      standartTickets,
+      economTickets,
+      businessPrice,
+      standartPrice,
+      economPrice,
+      newFlight._id
+    );
+    await Ticket.insertMany(tickets);
+
     result.push(newFlight);
   }
 
