@@ -131,6 +131,7 @@ const findFlightRecordAndUpdate = async (recordId, flightData) => {
 };
 
 const findFlightRecordAndDelete = async (recordId) => {
+  //await Ticket.deleteMany({ flightRecordId: recordId });
   return FlightRecord.findByIdAndDelete(recordId);
 };
 

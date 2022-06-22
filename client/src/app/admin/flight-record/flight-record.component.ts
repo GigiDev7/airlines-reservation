@@ -68,7 +68,7 @@ export class FlightRecordComponent implements OnInit {
 
     if (
       +businessTickets + +standartTickets + +economTickets !==
-      +!this.numberOfSeats
+      +this.numberOfSeats!
     ) {
       this.isAmountCorrect = false;
       return;

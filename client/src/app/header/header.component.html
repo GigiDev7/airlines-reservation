@@ -1,5 +1,5 @@
 <div class="bg-blue-500 h-14 flex items-center justify-between px-6">
-  <p class="text-white">Airline Reservation</p>
+  <p class="text-white cursor-pointer" routerLink="/">Airline Reservation</p>
   <p class="text-white flex items-center relative">
     {{ user?.firstname | titlecase }} {{ user?.lastname | titlecase }}
     <mat-icon (click)="toggleWindow()" class="ml-2 cursor-pointer">

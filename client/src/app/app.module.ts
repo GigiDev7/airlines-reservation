@@ -18,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminModule } from './admin/admin.module';
 import { FooterComponent } from './footer/footer.component';
 import { SharedModule } from './shared/shared.module';
+import { TicketsComponent } from './tickets/tickets.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SharedModule } from './shared/shared.module';
     NotFoundComponent,
     FlightsComponent,
     FooterComponent,
+    TicketsComponent,
   ],
   imports: [
     BrowserModule,

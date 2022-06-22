@@ -39,6 +39,7 @@ export class AdminAirplanesComponent implements OnInit {
             this.reloadService.reloadComponent();
           },
         });
+      return;
     }
 
     this.adminService
