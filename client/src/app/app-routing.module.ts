@@ -50,7 +50,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
       },
       {
-        path: 'tickets/recordId',
+        path: 'tickets/:recordId',
         component: AdminTicketsComponent,
         canActivate: [AuthGuard, AdminGuard],
       },
