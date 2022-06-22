@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { SEATCLASS } = require("../utils/constants");
 
 const ticketSchema = new mongoose.Schema(
   {
@@ -6,15 +7,17 @@ const ticketSchema = new mongoose.Schema(
       type: Number,
       required: [true, "Ticket price is required"],
     },
-    flight: {
+    flightRecordId: {
       type: mongoose.Types.ObjectId,
-      ref: "Flight",
+      ref: "FlightRecord",
     },
     userId: {
       type: mongoose.Types.ObjectId,
+      default: null,
     },
-    class: {
+    ticketClass: {
       type: String,
+      enum: SEATCLASS,
     },
   },
   {

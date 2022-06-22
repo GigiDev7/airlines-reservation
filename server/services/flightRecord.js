@@ -1,6 +1,7 @@
 const FlightRecord = require("../models/flightRecordsSchema");
 const Airplane = require("../models/airplaneSchema");
 const Flight = require("../models/flightSchema");
+const Ticket = require("../models/ticketSchema");
 
 const createFlightRecord = async (flightData) => {
   const airplane = await Airplane.findOne({ company: flightData.airline });
@@ -12,6 +13,30 @@ const createFlightRecord = async (flightData) => {
       flightDay,
       flightId: flightData.flightId,
     });
+    for (let i = 0; i < flightData.businessTickets; i++) {
+      const newTicket = {
+        price: flightData.businessPrice,
+        flightRecordId: newFlight._id,
+        ticketClass: "business",
+      };
+      await Ticket.create(newTicket);
+    }
+    for (let i = 0; i < flightData.standartTickets; i++) {
+      const newTicket = {
+        price: flightData.standartPrice,
+        flightRecordId: newFlight._id,
+        ticketClass: "standart",
+      };
+      await Ticket.create(newTicket);
+    }
+    for (let i = 0; i < flightData.economTickets; i++) {
+      const newTicket = {
+        price: flightData.economPrice,
+        flightRecordId: newFlight._id,
+        ticketClass: "econom",
+      };
+      await Ticket.create(newTicket);
+    }
     result.push(newFlight);
   }
 

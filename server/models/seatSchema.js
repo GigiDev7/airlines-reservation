@@ -3,11 +3,7 @@ const { SEATCLASS } = require("../utils/constants");
 
 exports.seatSchema = new mongoose.Schema(
   {
-    number: String,
-    seatClass: {
-      type: String,
-      enum: SEATCLASS,
-    },
+    seatNumber: String,
     available: Boolean,
   },
   {
