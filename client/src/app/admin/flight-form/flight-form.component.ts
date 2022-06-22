@@ -18,27 +18,37 @@ export class FlightFormComponent implements OnInit {
   public flightForm: FormGroup = new FormGroup({
     departure: new FormControl('', [Validators.required]),
     destination: new FormControl('', [Validators.required]),
+    departureTime: new FormControl('', [Validators.required]),
+    arrivalTime: new FormControl('', [Validators.required]),
   });
   public editingFlight: FlightModel | null = null;
 
   public handleFlightFormSubmit() {
-    const { departure, destination } = this.flightForm.value;
+    const { departure, destination, departureTime, arrivalTime } =
+      this.flightForm.value;
     if (this.editingFlight) {
       this.flightService
-        .editFlight(this.editingFlight._id, departure, destination)
+        .editFlight(
+          this.editingFlight._id,
+          departure,
+          destination,
+          departureTime,
+          arrivalTime
+        )
         .pipe(untilDestroyed(this))
         .subscribe({
           next: (val) => {
             this.adminService.isFlightFormShown.next(false);
             this.adminService.setNotificationMessage('Flight edited');
             this.adminService.showNotification();
+            this.adminService.editingFlight = null;
             this.reloadService.reloadComponent();
           },
         });
       return;
     }
     this.flightService
-      .addFlight(departure, destination)
+      .addFlight(departure, destination, departureTime, arrivalTime)
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (val) => {
@@ -62,6 +72,8 @@ export class FlightFormComponent implements OnInit {
       this.flightForm.patchValue({
         departure: this.editingFlight.departure,
         destination: this.editingFlight.destination,
+        departureTime: this.editingFlight.departureTime,
+        arrivalTime: this.editingFlight.arrivalTime,
       });
     }
   }

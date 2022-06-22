@@ -1,0 +1,35 @@
+<div class="flex flex-col items-center mt-16 relative">
+  <p *ngIf="isFetching">Loading...</p>
+  <p *ngIf="!isFetching && !flightRecords.records.length">No Records</p>
+  <div
+    class="w-full flex relative"
+    *ngFor="let flightRecord of flightRecords?.records; trackBy: trackBy"
+  >
+    <div class="w-full">
+      <app-flight-card [flightRecord]="flightRecord"></app-flight-card>
+    </div>
+    <div class="w-[10%] absolute right-20 top-1/2 space-x-4">
+      <mat-icon
+        (click)="handleEditRecord(flightRecord)"
+        class="text-blue-500 cursor-pointer"
+        >edit</mat-icon
+      >
+      <mat-icon
+        (click)="handleDeleteRecord(flightRecord)"
+        class="text-red-500 cursor-pointer"
+        >delete</mat-icon
+      >
+    </div>
+  </div>
+  <div *ngIf="isRecordFormShown" class="absolute z-20 bg-gray-200 px-24 pb-8">
+    <mat-icon
+      (click)="closeRecordForm()"
+      class="absolute right-0 cursor-pointer top-0"
+      >close</mat-icon
+    >
+    <app-flight-record></app-flight-record>
+  </div>
+  <div *ngIf="!isFetching" class="my-12 w-[50%] flex justify-center">
+    <app-paginator></app-paginator>
+  </div>
+</div>

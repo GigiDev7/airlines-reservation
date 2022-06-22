@@ -10,24 +10,32 @@ import { FlightRecordModel } from '../shared/models/flightRecordModel';
   providedIn: 'root',
 })
 export class FlightService {
-  public flightRecords: FlightRecordModel[] = [];
+  public flightRecords: { total: number; records: FlightRecordModel[] } = {
+    total: 0,
+    records: [],
+  };
   public flights: FlightModel[] = [];
 
   constructor(private http: HttpClient) {}
 
-  public getAllRecords() {
-    return this.http.get(`${url}/flight-record`);
+  public getAllRecords(page: number = 1) {
+    return this.http.get(`${url}/flight-record?page=${page}`).pipe(
+      tap({
+        next: (res: any) => (this.flightRecords = res),
+      })
+    );
   }
 
   public getFilteredRecords(
     departure: string,
     destination: string,
     departureStart: Date,
-    departureEnd: Date
+    departureEnd: Date,
+    airline: string = ''
   ): Observable<FlightRecordModel[]> {
     return this.http
       .get(
-        `${url}/flight-record?departure=${departure}&destination=${destination}&departureStart=${departureStart}&departureEnd=${departureEnd}`
+        `${url}/flight-record?departure=${departure}&destination=${destination}&departureStart=${departureStart}&departureEnd=${departureEnd}&airline[in]=${airline}`
       )
       .pipe(
         tap({
@@ -39,14 +47,23 @@ export class FlightService {
   public addFlightRecord(
     flightId: string,
     airline: string,
-    departureTime: Date,
-    arrivalTime: Date
+    flightDays: string[]
   ) {
     return this.http.post(`${url}/flight-record`, {
       flightId,
       airline,
-      departureTime,
-      arrivalTime,
+      flightDays,
+    });
+  }
+
+  public deleteFlightRecord(recordId: string) {
+    return this.http.delete(`${url}/flight-record/${recordId}`);
+  }
+
+  public editFlightRecord(recordId: string, airline: string, flightDay: Date) {
+    return this.http.patch(`${url}/flight-record/${recordId}`, {
+      airline,
+      flightDay,
     });
   }
 
@@ -58,18 +75,36 @@ export class FlightService {
     );
   }
 
-  public addFlight(departure: string, destination: string) {
-    return this.http.post(`${url}/flights`, { departure, destination });
+  public addFlight(
+    departure: string,
+    destination: string,
+    departureTime: string,
+    arrivalTime: string
+  ) {
+    return this.http.post(`${url}/flights`, {
+      departure,
+      destination,
+      departureTime,
+      arrivalTime,
+    });
   }
 
   public deleteFlight(flightId: string) {
     return this.http.delete(`${url}/flights/${flightId}`);
   }
 
-  public editFlight(flightId: string, departure: string, destination: string) {
+  public editFlight(
+    flightId: string,
+    departure: string,
+    destination: string,
+    departureTime: string,
+    arrivalTime: string
+  ) {
     return this.http.patch(`${url}/flights/${flightId}`, {
       departure,
       destination,
+      departureTime,
+      arrivalTime,
     });
   }
 }

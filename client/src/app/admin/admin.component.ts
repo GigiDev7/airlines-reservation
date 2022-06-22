@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AdminService } from './admin.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { AdminService } from './admin.service';
   styleUrls: ['./admin.component.sass'],
 })
 export class AdminComponent implements OnInit {
-  constructor(public adminService: AdminService) {}
+  constructor(public adminService: AdminService, private router: Router) {}
 
   ngOnInit(): void {}
 }

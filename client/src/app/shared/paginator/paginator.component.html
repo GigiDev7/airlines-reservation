@@ -1,0 +1,17 @@
+<div class="flex" *ngIf="!isLoading">
+  <p class="text-gray-600">Page {{ page }} of {{ totalPages }}</p>
+  <button
+    [disabled]="page === 1"
+    class="cursor-pointer disabled:cursor-default disabled:opacity-60"
+    (click)="handlePreviousPageClick()"
+  >
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <button
+    [disabled]="page === totalPages"
+    class="cursor-pointer disabled:cursor-default disabled:opacity-60"
+    (click)="handleNextPageClick()"
+  >
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </button>
+</div>

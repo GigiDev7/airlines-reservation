@@ -7,8 +7,8 @@ const {
 
 const addFlightRecord = async (req, res, next) => {
   try {
-    const newRecord = await createFlightRecord(req.body);
-    res.status(200).json(newRecord);
+    const newRecords = await createFlightRecord(req.body);
+    res.status(200).json(newRecords);
   } catch (error) {
     next(error);
   }
@@ -16,9 +16,8 @@ const addFlightRecord = async (req, res, next) => {
 
 const getFlightRecords = async (req, res, next) => {
   try {
-    const records = await findFlightRecords(req.query);
-    //records = records.filter((record) => record.flightId);
-    res.status(200).json(records);
+    const { count, records } = await findFlightRecords(req.query);
+    res.status(200).json({ total: count, records });
   } catch (error) {
     next(error);
   }

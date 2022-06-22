@@ -3,9 +3,9 @@
   <app-search-form></app-search-form>
 </div>
 
-<div class="h-screen overflow-y-scroll">
-  <div class="ml-10" *ngIf="!isFetching">
-    <p *ngIf="flightRecords.length" class="mb-4">Airlanes</p>
+<div class="h-fit pb-5 overflow-y-auto">
+  <div class="ml-10" *ngIf="flightRecords?.records?.length">
+    <p *ngIf="flightRecords?.records?.length" class="mb-4">Airlanes</p>
     <div *ngFor="let company of companies">
       <input
         checked
@@ -19,12 +19,15 @@
 
   <div>
     <p class="flex justify-center" *ngIf="isFetching">Loading...</p>
-    <p class="flex justify-center" *ngIf="!isFetching && !flightRecords.length">
+    <p
+      class="flex justify-center"
+      *ngIf="!isFetching && !flightRecords?.records?.length"
+    >
       No Flights!
     </p>
 
     <app-flight-card
-      *ngFor="let flightRecord of flightRecords"
+      *ngFor="let flightRecord of flightRecords?.records"
       [flightRecord]="flightRecord"
     ></app-flight-card>
   </div>

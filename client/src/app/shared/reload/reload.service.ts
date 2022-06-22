@@ -11,6 +11,6 @@ export class ReloadService {
     let currentUrl = this.router.url;
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate([currentUrl]);
+    this.router.navigateByUrl(currentUrl);
   }
 }

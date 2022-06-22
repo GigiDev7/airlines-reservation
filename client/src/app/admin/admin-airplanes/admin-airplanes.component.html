@@ -1,0 +1,60 @@
+<div class="flex mt-16 flex-col items-center space-y-8">
+  <p *ngIf="isFetching" class="flex justify-center">Loading...</p>
+  <button
+    (click)="isAirplaneFormShown = true"
+    *ngIf="!isFetching"
+    class="bg-blue-500 py-2 px-3 rounded-sm hover:bg-blue-600"
+  >
+    Add Airplane
+  </button>
+  <div
+    *ngFor="let airplane of airplanes"
+    class="shadow-2xl w-[30%] h-16 flex items-center justify-around rounded-md"
+  >
+    <p class="font-medium w-[40%]">{{ airplane.company | titlecase }}</p>
+    <div class="w-[20%] space-x-3">
+      <mat-icon
+        (click)="handleEditAirplane(airplane)"
+        class="cursor-pointer text-blue-500"
+        >edit</mat-icon
+      >
+      <mat-icon
+        (click)="handleDeleteAirplane(airplane._id)"
+        class="cursor-pointer text-red-500"
+        >delete</mat-icon
+      >
+    </div>
+  </div>
+
+  <div
+    *ngIf="isAirplaneFormShown"
+    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+  >
+    <mat-icon
+      class="absolute right-0 cursor-pointer"
+      (click)="closeAirplaneForm()"
+      >close</mat-icon
+    >
+    <form
+      (ngSubmit)="handleAirplaneSubmit()"
+      class="z-10 bg-gray-200 w-80 h-52 flex flex-col items-center py-3 px-3"
+    >
+      <p class="font-medium">{{ editingAirplane ? "Edit" : "Add" }} Airplane</p>
+      <div class="flex flex-col mt-6">
+        <label class="font-medium">Company</label>
+        <input
+          name="airplaneCompany"
+          [(ngModel)]="airplaneCompany"
+          class="border-[1px] border-black outline-0 mt-3"
+          type="text"
+        />
+      </div>
+      <button
+        type="submit"
+        class="mt-6 bg-blue-500 px-4 py-2 rounded-sm hover:bg-blue-600"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</div>

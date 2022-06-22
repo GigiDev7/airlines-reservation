@@ -4,42 +4,99 @@ const Flight = require("../models/flightSchema");
 
 const createFlightRecord = async (flightData) => {
   const airplane = await Airplane.findOne({ company: flightData.airline });
+  const result = [];
 
-  return FlightRecord.create({
-    airplaneId: airplane._id,
-    departureTime: flightData.departureTime,
-    arrivalTime: flightData.arrivalTime,
-    flightId: flightData.flightId,
-  });
+  for (let flightDay of flightData.flightDays) {
+    const newFlight = await FlightRecord.create({
+      airplaneId: airplane._id,
+      flightDay,
+      flightId: flightData.flightId,
+    });
+    result.push(newFlight);
+  }
+
+  return result;
 };
 
 const findFlightRecords = async (queryObject) => {
-  const { destination, departure, departureStart, departureEnd, sort } =
-    queryObject;
+  const {
+    destination,
+    departure,
+    departureStart,
+    departureEnd,
+    airline,
+    sort,
+  } = queryObject;
+
+  const page = queryObject?.page || 1;
+  const limit = 5;
+  const skip = (page - 1) * limit;
 
   if (!destination || !departure || !departureStart || !departureEnd) {
-    return FlightRecord.find().populate("flightId airplaneId");
+    const count = await FlightRecord.countDocuments();
+    const records = await FlightRecord.find()
+      .populate("flightId airplaneId")
+      .skip(skip)
+      .limit(limit);
+
+    return { count, records };
   }
 
   const flight = await Flight.findOne({ departure, destination });
-  if (!flight) return [];
+  if (!flight) return { total: 0, records: [] };
 
-  return FlightRecord.find({
-    departureTime: { $gte: departureStart, $lte: departureEnd },
+  if (airline.in) {
+    const companies = airline.in.split(",");
+
+    const airplanes = await Airplane.find({ company: { $in: companies } });
+    if (!airplanes || !airplanes.length) return { total: 0, records: [] };
+    const airplaneIds = airplanes.map((airplane) => airplane._id);
+
+    const count = await FlightRecord.countDocuments({
+      flightDay: { $gte: departureStart, $lte: departureEnd },
+      flightId: flight._id,
+      airplaneId: { $in: airplaneIds },
+    });
+    const records = await FlightRecord.find({
+      flightDay: { $gte: departureStart, $lte: departureEnd },
+      flightId: flight._id,
+      airplaneId: { $in: airplaneIds },
+    })
+      .populate({ path: "airplaneId" })
+      .populate({
+        path: "flightId",
+      })
+      .sort("flightDay");
+    return { count, records };
+  }
+
+  const count = await FlightRecord.countDocuments({
+    flightDay: { $gte: departureStart, $lte: departureEnd },
+    flightId: flight._id,
+  });
+  const records = await FlightRecord.find({
+    flightDay: { $gte: departureStart, $lte: departureEnd },
     flightId: flight._id,
   })
     .populate({ path: "airplaneId" })
     .populate({
       path: "flightId",
-      /*  match: {
-        departure,
-        destination,
-      }, */
-    });
+    })
+    .sort("flightDay");
+  return { count, records };
 };
 
 const findFlightRecordAndUpdate = async (recordId, flightData) => {
-  return FlightRecord.findByIdAndUpdate(recordId, flightData, { new: true });
+  const airplane = await Airplane.findOne({ company: flightData.airline });
+
+  return FlightRecord.findByIdAndUpdate(
+    recordId,
+    {
+      airplaneId: airplane._id,
+      flightDay: flightData.flightDay,
+    },
+    { new: true }
+  );
 };
 
 const findFlightRecordAndDelete = async (recordId) => {

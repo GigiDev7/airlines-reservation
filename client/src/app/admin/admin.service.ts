@@ -5,6 +5,7 @@ import { AirplaneModel } from '../shared/models/airplaneModel';
 
 import { url } from '../config/config';
 import { FlightModel } from '../shared/models/flightsModel';
+import { FlightRecordModel } from '../shared/models/flightRecordModel';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,7 @@ export class AdminService {
   isRecordFormShown = new Subject<boolean>();
   isFlightFormShown = new Subject<boolean>();
   editingFlight: FlightModel | null = null;
+  editingRecord: FlightRecordModel | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -26,6 +28,18 @@ export class AdminService {
         next: (res: any) => (this.airplanes = res),
       })
     );
+  }
+
+  public createAirplane(company: string) {
+    return this.http.post(`${url}/airplane`, { company });
+  }
+
+  public deleteAirplane(airplaneId: string) {
+    return this.http.delete(`${url}/airplane/${airplaneId}`);
+  }
+
+  public editAirplane(airplaneId: string, company: string) {
+    return this.http.patch(`${url}/airplane/${airplaneId}`, { company });
   }
 
   public setNotificationMessage(message: string) {

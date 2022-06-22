@@ -13,23 +13,39 @@ import { tap } from 'rxjs';
   styleUrls: ['./flights.component.sass'],
 })
 export class FlightsComponent implements OnInit {
-  public flightRecords: FlightRecordModel[] = [];
+  public flightRecords!: { total: number; records: FlightRecordModel[] };
   public isFetching: boolean = false;
-  public companies: string[] = [];
+  public companies: any[] = [];
+  public checkedCompanies: string[] = [];
 
   public handleCheckbox(e: Event) {
     const target = e.target as HTMLInputElement;
+    const { departure, destination, departureStart, departureEnd } =
+      this.route.snapshot.queryParams;
 
     if (target.checked) {
-      const tobeAddedFlights = this.flightService.flightRecords.filter(
-        (flightRecord) => flightRecord.airplaneId.company === target.value
+      this.checkedCompanies.push(target.value);
+    } else {
+      this.checkedCompanies = this.checkedCompanies.filter(
+        (company) => company !== target.value
       );
-      this.flightRecords = [...this.flightRecords, ...tobeAddedFlights];
-    } else if (!target.checked) {
-      this.flightRecords = this.flightRecords.filter((flightRecord) => {
-        return flightRecord.airplaneId.company !== target.value;
-      });
     }
+    this.isFetching = true;
+    this.flightService
+      .getFilteredRecords(
+        departure.toLowerCase(),
+        destination.toLowerCase(),
+        departureStart,
+        departureEnd,
+        this.checkedCompanies.toString()
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res: any) => {
+          this.flightRecords = res;
+          this.isFetching = false;
+        },
+      });
   }
 
   constructor(
@@ -40,7 +56,14 @@ export class FlightsComponent implements OnInit {
   ngOnInit(): void {
     this.isFetching = true;
     this.route.queryParams
-      .pipe(tap(() => ((this.isFetching = true), (this.flightRecords = []))))
+      .pipe(
+        tap(
+          () => (
+            (this.isFetching = true),
+            (this.flightRecords = { total: 0, records: [] })
+          )
+        )
+      )
       .subscribe({
         next: (params) =>
           this.flightService
@@ -52,12 +75,17 @@ export class FlightsComponent implements OnInit {
             )
             .pipe(untilDestroyed(this))
             .subscribe({
-              next: (res) => {
+              next: (res: any) => {
                 this.flightRecords = res;
                 this.isFetching = false;
                 this.companies = [
-                  ...new Set(res.map((item) => item.airplaneId.company)),
+                  ...new Set(
+                    res.records.map(
+                      (item: FlightRecordModel) => item.airplaneId.company
+                    )
+                  ),
                 ];
+                this.checkedCompanies = [...this.companies];
               },
             }),
       });

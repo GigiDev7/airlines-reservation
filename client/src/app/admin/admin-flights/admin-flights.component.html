@@ -1,13 +1,17 @@
-<div class="flex flex-col items-center mt-16 space-y-14 relative">
+<div class="flex flex-col items-center mt-16 space-y-14 mb-4">
   <p *ngIf="isFetching">Loading...</p>
   <div
     *ngFor="let flight of flights"
     class="w-[60%] flex justify-around shadow-md py-5 items-center"
   >
-    <div class="flex space-x-4 w-[40%]">
+    <div class="flex space-x-4 w-[30%]">
       <p class="font-medium">{{ flight.departure | titlecase }}</p>
       <mat-icon>arrow_right_alt</mat-icon>
       <p class="font-medium">{{ flight.destination | titlecase }}</p>
+    </div>
+    <div class="flex w-[30%] space-x-3">
+      <p class="font-medium">Departure: {{ flight.departureTime }}</p>
+      <p class="font-medium">Arrival: {{ flight.arrivalTime }}</p>
     </div>
     <div class="flex items-center w-[30%]">
       <mat-icon
@@ -41,7 +45,7 @@
   </div>
   <button
     (click)="openFlightForm()"
-    class="bg-blue-400 hover:bg-blue-500 py-2 px-5 rounded-md absolute right-10 -top-20"
+    class="bg-blue-400 hover:bg-blue-500 py-2 px-5 rounded-md absolute right-10 top-5"
   >
     Add Flight
   </button>
@@ -51,7 +55,7 @@
   >
     <mat-icon
       (click)="closeFlightForm()"
-      class="absolute right-0 cursor-pointer"
+      class="absolute right-0 cursor-pointer z-20"
       >close</mat-icon
     >
     <app-flight-form></app-flight-form>

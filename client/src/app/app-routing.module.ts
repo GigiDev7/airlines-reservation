@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminAirplanesComponent } from './admin/admin-airplanes/admin-airplanes.component';
 import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.component';
+import { AdminRecordsComponent } from './admin/admin-records/admin-records.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from './admin/admin.guard';
 import { AuthGuard } from './auth/auth.guard';
@@ -28,6 +30,16 @@ const routes: Routes = [
       {
         path: 'flights',
         component: AdminFlightsComponent,
+        canActivate: [AuthGuard, AdminGuard],
+      },
+      {
+        path: 'records',
+        component: AdminRecordsComponent,
+        canActivate: [AuthGuard, AdminGuard],
+      },
+      {
+        path: 'airplanes',
+        component: AdminAirplanesComponent,
         canActivate: [AuthGuard, AdminGuard],
       },
     ],
