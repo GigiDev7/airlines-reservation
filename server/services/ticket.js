@@ -12,12 +12,12 @@ const findTicketAndDelete = async (ticketId) => {
   return Ticket.findByIdAndDelete(ticketId);
 };
 
-const findTickets = async (sortBy, prices) => {
+const findTickets = async (sortBy, prices, recordId) => {
   const filters = ["gte", "gt", "lte", "lt"];
   const filterObject = {};
 
   if (!prices) {
-    return Ticket.find().sort(sortBy);
+    return Ticket.find({ flightRecordId: recordId }).sort(sortBy);
   }
 
   for (let filter of filters) {
@@ -26,7 +26,9 @@ const findTickets = async (sortBy, prices) => {
     }
   }
 
-  return Ticket.find({ price: filterObject }).sort(sortBy);
+  return Ticket.find({ price: filterObject, flightRecordId: recordId }).sort(
+    sortBy
+  );
 };
 
 module.exports = {

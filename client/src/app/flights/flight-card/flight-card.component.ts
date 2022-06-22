@@ -11,12 +11,12 @@ import { FlightModel } from 'src/app/shared/models/flightsModel';
 export class FlightCardComponent implements OnInit {
   @Input() flightRecord!: FlightRecordModel;
 
-  public handleTicketRedirect() {
+  public handleTicketRedirect(record: FlightRecordModel) {
     const currentUrl = this.router.url;
     if (currentUrl.includes('admin')) {
-      this.router.navigate(['admin', 'tickets']);
+      this.router.navigate(['admin', 'tickets', record._id]);
     } else {
-      this.router.navigate(['tickets']);
+      this.router.navigate(['tickets', record._id]);
     }
   }
 

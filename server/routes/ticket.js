@@ -17,11 +17,11 @@ const router = express.Router();
 router.use(authGuard);
 
 router
-  .route("/")
+  .route("/:recordId")
   .get(getTickets)
   .post(adminGuard, ticketValidation, handleValidationErrors, addTicket);
 router
-  .route("/:ticketId")
+  .route("/:recordId/:ticketId")
   .patch(adminGuard, updateTicket)
   .delete(adminGuard, deleteTicket);
 

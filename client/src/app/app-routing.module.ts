@@ -24,7 +24,11 @@ const routes: Routes = [
     canActivate: [AuthPageRestrict],
   },
   { path: 'flights', component: FlightsComponent, canActivate: [AuthGuard] },
-  { path: 'tickets', component: TicketsComponent, canActivate: [AuthGuard] },
+  {
+    path: 'tickets/:recordId',
+    component: TicketsComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'admin',
     component: AdminComponent,
@@ -46,7 +50,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
       },
       {
-        path: 'tickets',
+        path: 'tickets/recordId',
         component: AdminTicketsComponent,
         canActivate: [AuthGuard, AdminGuard],
       },

@@ -19,6 +19,7 @@ import { AdminModule } from './admin/admin.module';
 import { FooterComponent } from './footer/footer.component';
 import { SharedModule } from './shared/shared.module';
 import { TicketsComponent } from './tickets/tickets.component';
+import { TicketCardComponent } from './tickets/ticket-card/ticket-card.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { TicketsComponent } from './tickets/tickets.component';
     FlightsComponent,
     FooterComponent,
     TicketsComponent,
+    TicketCardComponent,
   ],
   imports: [
     BrowserModule,
