@@ -47,12 +47,24 @@ export class FlightService {
   public addFlightRecord(
     flightId: string,
     airline: string,
-    flightDays: string[]
+    flightDays: string[],
+    businessTickets: number,
+    businessPrice: number,
+    standartTickets: number,
+    standartPrice: number,
+    economTickets: number,
+    economPrice: number
   ) {
     return this.http.post(`${url}/flight-record`, {
       flightId,
       airline,
       flightDays,
+      businessTickets,
+      businessPrice,
+      standartTickets,
+      standartPrice,
+      economTickets,
+      economPrice,
     });
   }
 
@@ -60,10 +72,26 @@ export class FlightService {
     return this.http.delete(`${url}/flight-record/${recordId}`);
   }
 
-  public editFlightRecord(recordId: string, airline: string, flightDay: Date) {
+  public editFlightRecord(
+    recordId: string,
+    airline: string,
+    flightDay: Date,
+    businessTickets: number,
+    businessPrice: number,
+    standartTickets: number,
+    standartPrice: number,
+    economTickets: number,
+    economPrice: number
+  ) {
     return this.http.patch(`${url}/flight-record/${recordId}`, {
       airline,
       flightDay,
+      businessTickets,
+      businessPrice,
+      standartTickets,
+      standartPrice,
+      economTickets,
+      economPrice,
     });
   }
 

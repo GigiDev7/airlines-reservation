@@ -12,6 +12,9 @@ const createFlightRecord = async (flightData) => {
       airplaneId: airplane._id,
       flightDay,
       flightId: flightData.flightId,
+      businessTickets: flightData.businessTickets,
+      standartTickets: flightData.standartTickets,
+      economTickets: flightData.economTickets,
     });
     for (let i = 0; i < flightData.businessTickets; i++) {
       const newTicket = {
@@ -119,6 +122,9 @@ const findFlightRecordAndUpdate = async (recordId, flightData) => {
     {
       airplaneId: airplane._id,
       flightDay: flightData.flightDay,
+      businessTickets: flightData.businessTickets,
+      standartTickets: flightData.standartTickets,
+      economTickets: flightData.economTickets,
     },
     { new: true }
   );

@@ -15,6 +15,15 @@ const flightRecordSchema = new mongoose.Schema({
     type: Date,
     requried: true,
   },
+  businessTickets: {
+    type: Number,
+  },
+  standartTickets: {
+    type: Number,
+  },
+  economTickets: {
+    type: Number,
+  },
 });
 
 const FlightRecord = mongoose.model("FlightRecord", flightRecordSchema);

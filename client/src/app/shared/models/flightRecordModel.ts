@@ -6,4 +6,7 @@ export interface FlightRecordModel {
   flightId: FlightModel;
   airplaneId: AirplaneModel;
   flightDay: Date;
+  businessTickets: number;
+  standartTickets: number;
+  economTickets: number;
 }
