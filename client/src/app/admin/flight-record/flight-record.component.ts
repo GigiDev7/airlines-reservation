@@ -23,6 +23,7 @@ export class FlightRecordComponent implements OnInit {
   });
 
   public departureTimes: string[] = [];
+  public numberOfSeats: number | undefined = undefined;
 
   constructor(
     public adminService: AdminService,
@@ -76,6 +77,14 @@ export class FlightRecordComponent implements OnInit {
           this.adminService.isRecordFormShown.next(false);
         },
       });
+  }
+
+  public getNumberOfSeats(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const airplane = this.airplanes.find(
+      (item) => item.company === target.value
+    );
+    this.numberOfSeats = airplane?.seats.length;
   }
 
   ngOnInit(): void {

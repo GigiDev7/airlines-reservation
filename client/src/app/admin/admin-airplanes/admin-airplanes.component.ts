@@ -16,6 +16,7 @@ export class AdminAirplanesComponent implements OnInit {
   public isAirplaneFormShown: boolean = false;
   public editingAirplane: AirplaneModel | null = null;
   public airplaneCompany: string = '';
+  public numberOfSeats: number = 0;
 
   constructor(
     private adminService: AdminService,
@@ -25,7 +26,11 @@ export class AdminAirplanesComponent implements OnInit {
   public handleAirplaneSubmit() {
     if (this.editingAirplane) {
       this.adminService
-        .editAirplane(this.editingAirplane._id, this.airplaneCompany)
+        .editAirplane(
+          this.editingAirplane._id,
+          this.airplaneCompany,
+          +this.numberOfSeats
+        )
         .pipe(untilDestroyed(this))
         .subscribe({
           next: () => {
@@ -37,7 +42,7 @@ export class AdminAirplanesComponent implements OnInit {
     }
 
     this.adminService
-      .createAirplane(this.airplaneCompany)
+      .createAirplane(this.airplaneCompany, +this.numberOfSeats)
       .pipe(untilDestroyed(this))
       .subscribe({
         next: () => {
@@ -52,6 +57,8 @@ export class AdminAirplanesComponent implements OnInit {
   public handleEditAirplane(airplane: AirplaneModel) {
     this.isAirplaneFormShown = true;
     this.editingAirplane = airplane;
+    this.airplaneCompany = airplane.company;
+    this.numberOfSeats = airplane.seats.length;
   }
 
   public handleDeleteAirplane(airplaneId: string) {
@@ -70,6 +77,8 @@ export class AdminAirplanesComponent implements OnInit {
   public closeAirplaneForm() {
     this.isAirplaneFormShown = false;
     this.editingAirplane = null;
+    this.airplaneCompany = '';
+    this.numberOfSeats = 0;
   }
 
   ngOnInit(): void {

@@ -38,7 +38,7 @@ export class AdminRecordsComponent implements OnInit {
           this.flightRecords.records.length === 1
         ) {
           this.router.navigate(['admin', 'records'], {
-            queryParams: { page: 1 },
+            queryParams: { page: +this.route.snapshot.queryParams['page'] - 1 },
           });
         } else {
           this.reloadService.reloadComponent();
