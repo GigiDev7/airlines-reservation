@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FlightService } from './flights.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -20,6 +20,33 @@ export class FlightsComponent implements OnInit {
   public companies: any[] = [];
   public checkedCompanies: string[] = [];
   public tickets: TicketModel[] = [];
+  public priceMin: string = '';
+  public priceMax: string = '';
+  public ticketClass: string = '';
+
+  public handleFilter() {
+    this.isFetching = true;
+    const { departure, destination, departureStart, departureEnd } =
+      this.route.snapshot.queryParams;
+    this.ticketService
+      .getTickets(
+        departure.toLowerCase(),
+        destination.toLowerCase(),
+        departureStart,
+        departureEnd,
+        this.checkedCompanies.toString(),
+        this.ticketClass === 'all' ? '' : this.ticketClass,
+        this.priceMin,
+        this.priceMax
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          this.tickets = res;
+          this.isFetching = false;
+        },
+      });
+  }
 
   public handleCheckbox(e: Event) {
     const target = e.target as HTMLInputElement;
@@ -34,8 +61,8 @@ export class FlightsComponent implements OnInit {
       );
     }
     this.isFetching = true;
-    this.flightService
-      .getFilteredRecords(
+    this.ticketService
+      .getTickets(
         departure.toLowerCase(),
         destination.toLowerCase(),
         departureStart,
@@ -45,7 +72,7 @@ export class FlightsComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: any) => {
-          this.flightRecords = res;
+          this.tickets = res;
           this.isFetching = false;
         },
       });
@@ -54,7 +81,8 @@ export class FlightsComponent implements OnInit {
   constructor(
     public flightService: FlightService,
     private route: ActivatedRoute,
-    private ticketService: TicketService
+    private ticketService: TicketService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
