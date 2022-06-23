@@ -13,7 +13,6 @@ import { RegisterComponent } from './auth/register/register.component';
 import { FlightsComponent } from './flights/flights.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { TicketsComponent } from './tickets/tickets.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -24,11 +23,6 @@ const routes: Routes = [
     canActivate: [AuthPageRestrict],
   },
   { path: 'flights', component: FlightsComponent, canActivate: [AuthGuard] },
-  {
-    path: 'tickets/:recordId',
-    component: TicketsComponent,
-    canActivate: [AuthGuard],
-  },
   {
     path: 'admin',
     component: AdminComponent,
