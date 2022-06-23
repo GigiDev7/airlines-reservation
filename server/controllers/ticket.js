@@ -36,9 +36,9 @@ const deleteTicket = async (req, res, next) => {
 
 const getTickets = async (req, res, next) => {
   try {
-    const { sort, price } = req.query;
-    const { recordId } = req.params;
-    const tickets = await findTickets(sort, price, recordId);
+    //const { sort, price } = req.query;
+    //const { recordId } = req.params;
+    const tickets = await findTickets(req.query);
     res.status(200).json(tickets);
   } catch (error) {
     next(error);

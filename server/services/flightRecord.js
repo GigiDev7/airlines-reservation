@@ -3,7 +3,7 @@ const Airplane = require("../models/airplaneSchema");
 const Flight = require("../models/flightSchema");
 const Ticket = require("../models/ticketSchema");
 
-function helperTickets(
+function generateTickets(
   bsTickets,
   stTickets,
   ecTickets,
@@ -67,7 +67,7 @@ const createFlightRecord = async (flightData) => {
       economTickets: economTickets,
     });
 
-    const tickets = helperTickets(
+    const tickets = generateTickets(
       businessTickets,
       standartTickets,
       economTickets,
@@ -109,9 +109,9 @@ const findFlightRecords = async (queryObject) => {
   }
 
   const flight = await Flight.findOne({ departure, destination });
-  if (!flight) return { total: 0, records: [] };
+  if (!flight) return { count: 0, records: [] };
 
-  if (airline.in) {
+  if (airline && airline.in) {
     const companies = airline.in.split(",");
 
     const airplanes = await Airplane.find({ company: { $in: companies } });
@@ -149,6 +149,7 @@ const findFlightRecords = async (queryObject) => {
       path: "flightId",
     })
     .sort("flightDay");
+
   return { count, records };
 };
 
