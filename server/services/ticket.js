@@ -16,72 +16,45 @@ const findTicketAndDelete = async (ticketId) => {
 const findTickets = async (queryObject) => {
   const { count, records } = await findFlightRecords(queryObject);
 
-  /* const { price, sort } = queryObject;
+  const filterObject = {};
+
+  const { price } = queryObject;
   const filters = ["gte", "gt", "lte", "lt"];
-  const filterObject = {}; */
+  const filterPrice = {};
+  if (price) {
+    for (let filter of filters) {
+      if (price[filter]) {
+        filterPrice[`$${filter}`] = price[filter];
+      }
+    }
+    filterObject.price = filterPrice;
+  }
+
+  const filterClass = queryObject.ticketClass
+    ? queryObject.ticketClass.split(",")
+    : ["business", "standart", "econom"];
 
   const resultTickets = [];
 
   for (let record of records) {
-    const businessTicket = await Ticket.findOne({
-      flightRecordId: record._id,
-      ticketClass: "business",
-      userId: null,
-    }).populate({
-      path: "flightRecordId",
-      populate: {
-        path: "flightId",
-      },
-    });
-    const standartTicket = await Ticket.findOne({
-      flightRecordId: record._id,
-      ticketClass: "standart",
-      userId: null,
-    }).populate({
-      path: "flightRecordId",
-      populate: {
-        path: "flightId",
-      },
-    });
-    const economTicket = await Ticket.findOne({
-      flightRecordId: record._id,
-      ticketClass: "econom",
-      userId: null,
-    }).populate({
-      path: "flightRecordId",
-      populate: {
-        path: "flightId",
-      },
-    });
+    for (let ticketClass of filterClass) {
+      const ticket = await Ticket.findOne({
+        flightRecordId: record._id,
+        ticketClass,
+        userId: null,
+        ...filterObject,
+      }).populate({
+        path: "flightRecordId",
+        populate: {
+          path: "flightId",
+        },
+      });
 
-    if (businessTicket) resultTickets.push(businessTicket);
-    if (standartTicket) resultTickets.push(standartTicket);
-    if (economTicket) resultTickets.push(economTicket);
+      if (ticket) resultTickets.push(ticket);
+    }
   }
 
   return resultTickets;
-
-  /* if (!price) {
-    return Ticket.find().populate({
-      path: "flightRecordId",
-      populate: {
-        path: "airplaneId flightId",
-      },
-    });
-  }
-
-  for (let filter of filters) {
-    if (price[filter]) {
-      filterObject[`$${filter}`] = price[filter];
-    }
-  } */
-
-  /*  return Ticket.find({ price: filterObject }).populate({
-    path: "flightRecordId",
-    populate: {
-      path: "flightId airplaneId",
-    },
-  }); */
 };
 
 module.exports = {
