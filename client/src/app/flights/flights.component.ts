@@ -5,6 +5,8 @@ import { FlightService } from './flights.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FlightRecordModel } from '../shared/models/flightRecordModel';
 import { tap } from 'rxjs';
+import { TicketService } from '../tickets/tickets.service';
+import { TicketModel } from '../shared/models/ticketModel';
 
 @UntilDestroy()
 @Component({
@@ -17,6 +19,7 @@ export class FlightsComponent implements OnInit {
   public isFetching: boolean = false;
   public companies: any[] = [];
   public checkedCompanies: string[] = [];
+  public tickets: TicketModel[] = [];
 
   public handleCheckbox(e: Event) {
     const target = e.target as HTMLInputElement;
@@ -50,7 +53,8 @@ export class FlightsComponent implements OnInit {
 
   constructor(
     public flightService: FlightService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private ticketService: TicketService
   ) {}
 
   ngOnInit(): void {
@@ -66,7 +70,7 @@ export class FlightsComponent implements OnInit {
       )
       .subscribe({
         next: (params) =>
-          this.flightService
+          /*  this.flightService
             .getFilteredRecords(
               params['departure'].toLowerCase(),
               params['destination'].toLowerCase(),
@@ -82,6 +86,28 @@ export class FlightsComponent implements OnInit {
                   ...new Set(
                     res.records.map(
                       (item: FlightRecordModel) => item.airplaneId.company
+                    )
+                  ),
+                ];
+                this.checkedCompanies = [...this.companies];
+              },
+            }), */
+          this.ticketService
+            .getTickets(
+              params['departure'].toLowerCase(),
+              params['destination'].toLowerCase(),
+              params['departureStart'],
+              params['departureEnd']
+            )
+            .pipe(untilDestroyed(this))
+            .subscribe({
+              next: (res) => {
+                this.isFetching = false;
+                this.tickets = res;
+                this.companies = [
+                  ...new Set(
+                    res.map(
+                      (item: any) => item.flightRecordId.airplaneId.company
                     )
                   ),
                 ];

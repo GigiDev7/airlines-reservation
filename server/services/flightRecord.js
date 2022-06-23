@@ -111,7 +111,7 @@ const findFlightRecords = async (queryObject) => {
   const flight = await Flight.findOne({ departure, destination });
   if (!flight) return { count: 0, records: [] };
 
-  if (airline && airline.in) {
+  if (airline?.in) {
     const companies = airline.in.split(",");
 
     const airplanes = await Airplane.find({ company: { $in: companies } });

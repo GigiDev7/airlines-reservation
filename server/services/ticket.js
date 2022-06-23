@@ -16,9 +16,19 @@ const findTicketAndDelete = async (ticketId) => {
 const findTickets = async (queryObject) => {
   const { count, records } = await findFlightRecords(queryObject);
 
+  //const filterObject = {};
+
   const filterObject = {};
 
   const { price } = queryObject;
+  if (price?.gte && price?.lte) {
+    filterObject.price = {
+      $gte: price.gte,
+      $lte: price.lte,
+    };
+  }
+
+  /* const { price } = queryObject;
   const filters = ["gte", "gt", "lte", "lt"];
   const filterPrice = {};
   if (price) {
@@ -28,7 +38,7 @@ const findTickets = async (queryObject) => {
       }
     }
     filterObject.price = filterPrice;
-  }
+  } */
 
   const filterClass = queryObject.ticketClass
     ? queryObject.ticketClass.split(",")
@@ -46,7 +56,7 @@ const findTickets = async (queryObject) => {
       }).populate({
         path: "flightRecordId",
         populate: {
-          path: "flightId",
+          path: "flightId airplaneId",
         },
       });
 
