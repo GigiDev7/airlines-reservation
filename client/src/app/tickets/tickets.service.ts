@@ -34,4 +34,11 @@ export class TicketService {
   public getTicketByUser() {
     return this.http.get(`${url}/tickets/user`);
   }
+
+  public bookTicket(flightRecordId: string, ticketClass: string) {
+    return this.http.patch(`${url}/tickets/book`, {
+      flightRecordId,
+      ticketClass,
+    });
+  }
 }

@@ -26,6 +26,7 @@
     <p class="font-medium">Available - {{ ticket?.available }}</p>
 
     <button
+      (click)="handleTicketBook(ticket.flightRecordId._id, ticket.ticketClass)"
       class="text-white rounded-md px-7 py-2 bg-blue-500 hover:bg-blue-600 absolute -right-40 top-1/2 -translate-y-1/2"
     >
       Book Ticket
