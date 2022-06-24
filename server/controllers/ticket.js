@@ -3,6 +3,7 @@ const {
   findTicketAndDelete,
   findTicketAndUpdate,
   findTickets,
+  findTicketByUser,
 } = require("../services/ticket");
 
 const addTicket = async (req, res, next) => {
@@ -45,9 +46,19 @@ const getTickets = async (req, res, next) => {
   }
 };
 
+const getTicketsByUser = async (req, res, next) => {
+  try {
+    const ticket = await findTicketByUser(req.user._id);
+    res.status(200).json(ticket);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addTicket,
   updateTicket,
   deleteTicket,
   getTickets,
+  getTicketsByUser,
 };

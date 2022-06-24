@@ -66,9 +66,14 @@ const findTickets = async (queryObject) => {
   return resultTickets;
 };
 
+const findTicketByUser = async (userId) => {
+  return Ticket.findOne({ userId });
+};
+
 module.exports = {
   createTicket,
   findTicketAndUpdate,
   findTicketAndDelete,
   findTickets,
+  findTicketByUser,
 };
