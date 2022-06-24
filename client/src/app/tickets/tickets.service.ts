@@ -30,4 +30,8 @@ export class TicketService {
       })
     );
   }
+
+  public getTicketByUser() {
+    return this.http.get(`${url}/tickets/user`);
+  }
 }

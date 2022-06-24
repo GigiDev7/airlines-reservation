@@ -1,3 +1,7 @@
-<div class="flex justify-center mt-16">
+<div class="flex flex-col items-center mt-16">
   <p>My Tickets</p>
+  <p class="mt-12" *ngIf="isFetching">Loading...</p>
+  <p class="mt-12" *ngIf="!isFetching && !ticket">
+    You don't have any tickets!
+  </p>
 </div>
