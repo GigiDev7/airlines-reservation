@@ -83,6 +83,10 @@ const updateBookedTicket = async (userId, flightRecordId, ticketClass) => {
   );
 };
 
+const updateReturnedTicket = async (ticketId) => {
+  return Ticket.findByIdAndUpdate(ticketId, { userId: null }, { new: true });
+};
+
 module.exports = {
   createTicket,
   findTicketAndUpdate,
@@ -90,4 +94,5 @@ module.exports = {
   findTickets,
   findTicketByUser,
   updateBookedTicket,
+  updateReturnedTicket,
 };

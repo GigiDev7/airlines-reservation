@@ -12,6 +12,7 @@ export class TicketService {
   tickets: TicketModel[] = [];
   tobeBookedTicket: { flightRecordId: string; ticketClass: string } | null =
     null;
+  tobeReturnedTicketId: string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -42,5 +43,9 @@ export class TicketService {
       flightRecordId,
       ticketClass,
     });
+  }
+
+  public returnTicket(ticketId: string) {
+    return this.http.patch(`${url}/tickets/return/${ticketId}`, {});
   }
 }

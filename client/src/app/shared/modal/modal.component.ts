@@ -4,6 +4,7 @@ import { ModalService } from './modal.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
+import { ReloadService } from '../reload/reload.service';
 
 @UntilDestroy()
 @Component({
@@ -16,12 +17,15 @@ export class ModalComponent implements OnInit {
 
   public closeModal() {
     this.ticketService.tobeBookedTicket = null;
+    this.ticketService.tobeReturnedTicketId = null;
     this.modalService.isModalShown.next(false);
   }
 
   public onConfirmClick() {
-    if (this.modalService.modalFor === 'booking') {
+    if (this.modalService.modalFor === 'bookTicket') {
       this.bookTicket();
+    } else if (this.modalService.modalFor === 'returnTicket') {
+      this.returnTicket();
     }
   }
 
@@ -40,10 +44,25 @@ export class ModalComponent implements OnInit {
     }
   }
 
+  private returnTicket() {
+    if (this.ticketService.tobeReturnedTicketId) {
+      this.ticketService
+        .returnTicket(this.ticketService.tobeReturnedTicketId)
+        .pipe(untilDestroyed(this))
+        .subscribe({
+          next: (res) => {
+            this.modalService.isModalShown.next(false);
+            this.reloadService.reloadComponent();
+          },
+        });
+    }
+  }
+
   constructor(
     private modalService: ModalService,
     private ticketService: TicketService,
-    private router: Router
+    private router: Router,
+    private reloadService: ReloadService
   ) {}
 
   ngOnInit(): void {}

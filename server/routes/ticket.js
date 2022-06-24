@@ -6,6 +6,7 @@ const {
   getTickets,
   getTicketsByUser,
   bookTicket,
+  returnTicket,
 } = require("../controllers/ticket");
 const { authGuard } = require("../middlewares/authGuard");
 const { adminGuard } = require("../middlewares/adminGuard");
@@ -25,6 +26,7 @@ router
 
 router.route("/user").get(getTicketsByUser);
 router.route("/book").patch(bookTicket);
+router.route("/return/:ticketId").patch(returnTicket);
 
 router
   .route("/:ticketId")
