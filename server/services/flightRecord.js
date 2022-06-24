@@ -3,58 +3,26 @@ const Airplane = require("../models/airplaneSchema");
 const Flight = require("../models/flightSchema");
 const Ticket = require("../models/ticketSchema");
 
-function generateTickets(
-  bsTickets,
-  stTickets,
-  ecTickets,
-  bsPrice,
-  stPrice,
-  ecPrice,
-  id
-) {
-  const tickets = [];
+function generateTickets(tickets, id) {
+  const generatedTickets = [];
 
-  for (let i = 0; i < bsTickets; i++) {
-    const newTicket = {
-      price: bsPrice,
-      flightRecordId: id,
-      ticketClass: "business",
-    };
-    tickets.push(newTicket);
+  for (let ticket of tickets) {
+    for (let i = 0; i < ticket.count; i++) {
+      const newTicket = {
+        price: ticket.price,
+        ticketClass: ticket.ticketClass,
+        flightRecordId: id,
+      };
+      generatedTickets.push(newTicket);
+    }
   }
 
-  for (let i = 0; i < stTickets; i++) {
-    const newTicket = {
-      price: stPrice,
-      flightRecordId: id,
-      ticketClass: "standart",
-    };
-    tickets.push(newTicket);
-  }
-
-  for (let i = 0; i < ecTickets; i++) {
-    const newTicket = {
-      price: ecPrice,
-      flightRecordId: id,
-      ticketClass: "econom",
-    };
-    tickets.push(newTicket);
-  }
-
-  return tickets;
+  return generatedTickets;
 }
 
 const createFlightRecord = async (flightData) => {
   const airplane = await Airplane.findOne({ company: flightData.airline });
-  const {
-    flightId,
-    businessTickets,
-    standartTickets,
-    economTickets,
-    businessPrice,
-    standartPrice,
-    economPrice,
-  } = flightData;
+  const { flightId, tickets } = flightData;
   const result = [];
 
   for (let flightDay of flightData.flightDays) {
@@ -62,21 +30,11 @@ const createFlightRecord = async (flightData) => {
       airplaneId: airplane._id,
       flightDay,
       flightId,
-      businessTickets: businessTickets,
-      standartTickets: standartTickets,
-      economTickets: economTickets,
     });
 
-    const tickets = generateTickets(
-      businessTickets,
-      standartTickets,
-      economTickets,
-      businessPrice,
-      standartPrice,
-      economPrice,
-      newFlight._id
-    );
-    await Ticket.insertMany(tickets);
+    const generatedTickets = generateTickets(tickets, newFlight._id);
+
+    await Ticket.insertMany(generatedTickets);
 
     result.push(newFlight);
   }
