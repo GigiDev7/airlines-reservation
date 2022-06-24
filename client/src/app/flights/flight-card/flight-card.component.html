@@ -20,9 +20,15 @@
   <div class="w-[10%]">
     <p>{{ ticket?.flightRecordId?.flightId?.destination | titlecase }}</p>
   </div>
-  <div class="flex flex-col w-[20%] pr-3">
+  <div class="flex flex-col w-[20%] pr-3 relative">
     <p class="font-medium">{{ ticket?.ticketClass | titlecase }}</p>
     <p class="font-medium">{{ ticket?.price }}$</p>
     <p class="font-medium">Available - {{ ticket?.available }}</p>
+
+    <button
+      class="text-white rounded-md px-7 py-2 bg-blue-500 hover:bg-blue-600 absolute -right-40 top-1/2 -translate-y-1/2"
+    >
+      Book Ticket
+    </button>
   </div>
 </div>
