@@ -5,6 +5,7 @@ const {
   updateTicket,
   getTickets,
   getTicketsByUser,
+  bookTicket,
 } = require("../controllers/ticket");
 const { authGuard } = require("../middlewares/authGuard");
 const { adminGuard } = require("../middlewares/adminGuard");
@@ -23,6 +24,7 @@ router
   .post(adminGuard, ticketValidation, handleValidationErrors, addTicket);
 
 router.route("/user").get(getTicketsByUser);
+router.route("/book").patch(bookTicket);
 
 router
   .route("/:ticketId")

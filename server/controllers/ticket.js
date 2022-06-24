@@ -4,6 +4,7 @@ const {
   findTicketAndUpdate,
   findTickets,
   findTicketByUser,
+  updateBookedTicket,
 } = require("../services/ticket");
 
 const addTicket = async (req, res, next) => {
@@ -55,10 +56,25 @@ const getTicketsByUser = async (req, res, next) => {
   }
 };
 
+const bookTicket = async (req, res, next) => {
+  try {
+    const { flightRecordId, ticketClass } = req.body;
+    const bookedTicket = await updateBookedTicket(
+      req.user._id,
+      flightRecordId,
+      ticketClass
+    );
+    res.status(200).json(bookedTicket);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addTicket,
   updateTicket,
   deleteTicket,
   getTickets,
   getTicketsByUser,
+  bookTicket,
 };

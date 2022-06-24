@@ -70,10 +70,19 @@ const findTicketByUser = async (userId) => {
   return Ticket.findOne({ userId });
 };
 
+const updateBookedTicket = async (userId, flightRecordId, ticketClass) => {
+  return Ticket.findOneAndUpdate(
+    { flightRecordId, ticketClass, userId: null },
+    { userId },
+    { new: true }
+  );
+};
+
 module.exports = {
   createTicket,
   findTicketAndUpdate,
   findTicketAndDelete,
   findTickets,
   findTicketByUser,
+  updateBookedTicket,
 };
