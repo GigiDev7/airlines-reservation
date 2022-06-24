@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminAirplanesComponent } from './admin/admin-airplanes/admin-airplanes.component';
 import { AdminFlightsComponent } from './admin/admin-flights/admin-flights.component';
 import { AdminRecordsComponent } from './admin/admin-records/admin-records.component';
+import { AdminTicketsComponent } from './admin/admin-tickets/admin-tickets.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from './admin/admin.guard';
 import { AuthGuard } from './auth/auth.guard';
@@ -40,6 +41,11 @@ const routes: Routes = [
       {
         path: 'airplanes',
         component: AdminAirplanesComponent,
+        canActivate: [AuthGuard, AdminGuard],
+      },
+      {
+        path: 'tickets/:recordId',
+        component: AdminTicketsComponent,
         canActivate: [AuthGuard, AdminGuard],
       },
     ],

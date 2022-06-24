@@ -1,13 +1,22 @@
 const Airplane = require("../models/airplaneSchema");
+const { resultSeats } = require("../utils/seats");
 
 const createAirplane = async (airplaneData) => {
-  return Airplane.create(airplaneData);
+  const { company, numberOfSeats } = airplaneData;
+  const seats = resultSeats.slice(0, numberOfSeats);
+  return Airplane.create({ company, seats });
 };
 
 const findAirplaneAndUpdate = async (airplaneId, airplaneData) => {
-  return Airplane.findByIdAndUpdate(airplaneId, airplaneData, {
-    new: true,
-  });
+  const { company, numberOfSeats } = airplaneData;
+  const seats = resultSeats.slice(0, numberOfSeats);
+  return Airplane.findByIdAndUpdate(
+    airplaneId,
+    { company, seats },
+    {
+      new: true,
+    }
+  );
 };
 
 const findAirplaneAndDelete = async (airplaneId) => {

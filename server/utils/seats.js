@@ -32,11 +32,10 @@ const generateSeats = (nums, chars) => {
   const result = [];
   for (let num of nums) {
     for (let char of chars) {
-      let seatClass;
-      if (num <= 3) seatClass = "business";
+      /* if (num <= 3) seatClass = "business";
       if (num > 3 && num <= 6) seatClass = "standart";
-      if (num > 6) seatClass = "econom";
-      const obj = { number: `${num}${char}`, seatClass, available: true };
+      if (num > 6) seatClass = "econom"; */
+      const obj = { seatNumber: `${num}${char}`, available: true };
       result.push(obj);
     }
   }

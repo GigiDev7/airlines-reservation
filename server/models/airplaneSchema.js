@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const SeatSchema = require("./seatSchema");
+const { seatSchema } = require("./seatSchema");
 const { resultSeats } = require("../utils/seats");
 
 const airplaneSchema = new mongoose.Schema(
@@ -10,7 +10,7 @@ const airplaneSchema = new mongoose.Schema(
       unique: true,
     },
     seats: {
-      type: [SeatSchema],
+      type: [seatSchema],
       default: resultSeats,
     },
   },

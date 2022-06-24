@@ -20,9 +20,18 @@ export class FlightRecordComponent implements OnInit {
   public flightRecordForm: FormGroup = new FormGroup({
     airline: new FormControl('', [Validators.required]),
     flightDay: new FormControl('', [Validators.required]),
+    businessTickets: new FormControl('', [Validators.required]),
+    standartTickets: new FormControl('', [Validators.required]),
+    economTickets: new FormControl('', [Validators.required]),
+    businessPrice: new FormControl('', [Validators.required]),
+    standartPrice: new FormControl('', [Validators.required]),
+    economPrice: new FormControl('', [Validators.required]),
   });
 
+  public isAmountCorrect: boolean = true;
+
   public departureTimes: string[] = [];
+  public numberOfSeats: number | undefined = undefined;
 
   constructor(
     public adminService: AdminService,
@@ -46,14 +55,37 @@ export class FlightRecordComponent implements OnInit {
 
   public handleFlightRecordSubmit() {
     const flightId = this.adminService.activeFlightId;
-    const { airline, flightDay } = this.flightRecordForm.value;
+    const {
+      airline,
+      flightDay,
+      businessTickets,
+      businessPrice,
+      standartTickets,
+      standartPrice,
+      economTickets,
+      economPrice,
+    } = this.flightRecordForm.value;
+
+    if (
+      +businessTickets + +standartTickets + +economTickets !==
+      +this.numberOfSeats!
+    ) {
+      this.isAmountCorrect = false;
+      return;
+    }
 
     if (this.adminService.editingRecord) {
       this.flightService
         .editFlightRecord(
           this.adminService.editingRecord._id,
           airline,
-          flightDay
+          flightDay,
+          +businessTickets,
+          +businessPrice,
+          +standartTickets,
+          +standartPrice,
+          +economTickets,
+          +economPrice
         )
         .pipe(untilDestroyed(this))
         .subscribe({
@@ -68,7 +100,17 @@ export class FlightRecordComponent implements OnInit {
       return;
     }
     this.flightService
-      .addFlightRecord(flightId, airline, this.departureTimes)
+      .addFlightRecord(
+        flightId,
+        airline,
+        this.departureTimes,
+        +businessTickets,
+        +businessPrice,
+        +standartTickets,
+        +standartPrice,
+        +economTickets,
+        +economPrice
+      )
       .subscribe({
         next: (res) => {
           this.adminService.setNotificationMessage('Flight record created!');
@@ -76,6 +118,14 @@ export class FlightRecordComponent implements OnInit {
           this.adminService.isRecordFormShown.next(false);
         },
       });
+  }
+
+  public getNumberOfSeats(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const airplane = this.airplanes.find(
+      (item) => item.company === target.value
+    );
+    this.numberOfSeats = airplane?.seats.length;
   }
 
   ngOnInit(): void {

@@ -30,16 +30,23 @@ export class AdminService {
     );
   }
 
-  public createAirplane(company: string) {
-    return this.http.post(`${url}/airplane`, { company });
+  public createAirplane(company: string, numberOfSeats: number) {
+    return this.http.post(`${url}/airplane`, { company, numberOfSeats });
   }
 
   public deleteAirplane(airplaneId: string) {
     return this.http.delete(`${url}/airplane/${airplaneId}`);
   }
 
-  public editAirplane(airplaneId: string, company: string) {
-    return this.http.patch(`${url}/airplane/${airplaneId}`, { company });
+  public editAirplane(
+    airplaneId: string,
+    company: string,
+    numberOfSeats: number
+  ) {
+    return this.http.patch(`${url}/airplane/${airplaneId}`, {
+      company,
+      numberOfSeats,
+    });
   }
 
   public setNotificationMessage(message: string) {

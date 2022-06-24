@@ -1,5 +1,4 @@
 export interface SeatModel {
-  number: string;
-  seatClass: string;
+  seatNumber: string;
   available: boolean;
 }
