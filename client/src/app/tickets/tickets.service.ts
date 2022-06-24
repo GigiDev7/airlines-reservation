@@ -10,6 +10,8 @@ import { tap } from 'rxjs';
 })
 export class TicketService {
   tickets: TicketModel[] = [];
+  tobeBookedTicket: { flightRecordId: string; ticketClass: string } | null =
+    null;
 
   constructor(private http: HttpClient) {}
 

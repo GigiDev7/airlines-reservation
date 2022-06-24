@@ -6,4 +6,5 @@ import { Subject } from 'rxjs';
 })
 export class ModalService {
   isModalShown = new Subject<boolean>();
+  modalFor!: string;
 }

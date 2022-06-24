@@ -14,6 +14,8 @@ export class FlightCardComponent implements OnInit {
   @Input() ticket!: TicketModel;
 
   public handleTicketBook(flightRecordId: string, ticketClass: string) {
+    this.ticketService.tobeBookedTicket = { flightRecordId, ticketClass };
+    this.modalService.modalFor = 'booking';
     this.modalService.isModalShown.next(true);
   }
 

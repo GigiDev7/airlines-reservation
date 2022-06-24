@@ -67,7 +67,12 @@ const findTickets = async (queryObject) => {
 };
 
 const findTicketByUser = async (userId) => {
-  return Ticket.findOne({ userId });
+  return Ticket.findOne({ userId }).populate({
+    path: "flightRecordId",
+    populate: {
+      path: "flightId airplaneId",
+    },
+  });
 };
 
 const updateBookedTicket = async (userId, flightRecordId, ticketClass) => {

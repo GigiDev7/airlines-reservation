@@ -1,7 +1,56 @@
 <div class="flex flex-col items-center mt-16">
-  <p>My Tickets</p>
+  <button
+    routerLink="/"
+    class="flex items-center bg-blue-500 text-white px-5 py-2 rounded-md hover:bg-blue-600 absolute top-10 left-10"
+  >
+    <mat-icon>arrow_back</mat-icon> Home
+  </button>
+  <p class="font-medium">My Tickets</p>
   <p class="mt-12" *ngIf="isFetching">Loading...</p>
   <p class="mt-12" *ngIf="!isFetching && !ticket">
     You don't have any tickets!
   </p>
+  <div *ngIf="ticket" class="w-full">
+    <div
+      class="shadow-lg lg:w-[50%] sm:w-[70%] py-8 pl-3 mx-auto rounded-md flex justify-around"
+    >
+      <div class="w-[30%] flex items-center">
+        <mat-icon>airplanemode_active</mat-icon>
+        <p class="font-medium">
+          {{ ticket?.flightRecordId?.airplaneId?.company | titlecase }}
+        </p>
+      </div>
+      <div class="relative w-[30%]">
+        <p class="font-medium">
+          {{ ticket?.flightRecordId?.flightId?.departure | titlecase }}
+        </p>
+        <p
+          class="absolute lg:right-10 sm:-right-0 top-0 text-[14px] text-gray-600"
+        >
+          {{ ticket?.flightRecordId?.flightId?.flightDuration }}
+        </p>
+        <div
+          class="w-[100px] h-[2px] bg-black absolute top-5 lg:right-5 sm:-right-5"
+        ></div>
+        <p class="mt-1 ml-[50%]">
+          {{ ticket?.flightRecordId?.flightDay | date: "medium" }}
+        </p>
+      </div>
+      <div class="w-[10%]">
+        <p class="font-medium">
+          {{ ticket?.flightRecordId?.flightId?.destination | titlecase }}
+        </p>
+      </div>
+      <div class="flex flex-col w-[20%] pr-3 relative">
+        <p class="font-medium">Class : {{ ticket?.ticketClass | titlecase }}</p>
+        <p class="font-medium">Price : {{ ticket?.price }}$</p>
+
+        <button
+          class="text-white rounded-md px-7 py-2 bg-red-500 hover:bg-red-600 absolute -right-40 top-1/2 -translate-y-1/2"
+        >
+          Return Ticket
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

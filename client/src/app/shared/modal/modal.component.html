@@ -4,10 +4,18 @@
 >
   <p class="font-medium">{{ modalText }}</p>
   <div class="flex space-x-4">
-    <button class="px-8 py-2 rounded-md bg-blue-500 hover:bg-blue-600">
+    <button
+      (click)="onConfirmClick()"
+      class="px-8 py-2 rounded-md bg-blue-500 hover:bg-blue-600"
+    >
       Yes
     </button>
-    <button class="px-8 py-2 rounded-md bg-red-500 hover:bg-red-600">No</button>
+    <button
+      (click)="closeModal()"
+      class="px-8 py-2 rounded-md bg-red-500 hover:bg-red-600"
+    >
+      No
+    </button>
   </div>
   <mat-icon (click)="closeModal()" class="absolute right-0 top-0 cursor-pointer"
     >close</mat-icon
