@@ -16,8 +16,6 @@ const findTicketAndDelete = async (ticketId) => {
 const findTickets = async (queryObject) => {
   const { count, records } = await findFlightRecords(queryObject);
 
-  //const filterObject = {};
-
   const filterObject = {};
 
   const { price } = queryObject;
@@ -48,7 +46,7 @@ const findTickets = async (queryObject) => {
 
   for (let record of records) {
     for (let ticketClass of filterClass) {
-      const ticket = await Ticket.findOne({
+      const tickets = await Ticket.find({
         flightRecordId: record._id,
         ticketClass,
         userId: null,
@@ -60,7 +58,8 @@ const findTickets = async (queryObject) => {
         },
       });
 
-      if (ticket) resultTickets.push(ticket);
+      if (tickets.length)
+        resultTickets.push({ ...tickets[0]._doc, available: tickets.length });
     }
   }
 

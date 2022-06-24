@@ -59,12 +59,19 @@ export class FlightService {
       flightId,
       airline,
       flightDays,
-      businessTickets,
-      businessPrice,
-      standartTickets,
-      standartPrice,
-      economTickets,
-      economPrice,
+      tickets: [
+        {
+          ticketClass: 'business',
+          count: businessTickets,
+          price: businessPrice,
+        },
+        {
+          ticketClass: 'standart',
+          count: standartTickets,
+          price: standartPrice,
+        },
+        { ticketClass: 'econom', count: economTickets, price: economPrice },
+      ],
     });
   }
 

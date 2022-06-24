@@ -11,15 +11,6 @@ import { TicketModel } from 'src/app/shared/models/ticketModel';
 export class FlightCardComponent implements OnInit {
   @Input() ticket!: TicketModel;
 
-  public getAvailableSum(
-    ticketClass: 'business' | 'standart' | 'econom' | undefined
-  ) {
-    if (ticketClass) {
-      return this.ticket.flightRecordId[`${ticketClass}Tickets`];
-    }
-    return '0';
-  }
-
   constructor() {}
 
   ngOnInit(): void {}
