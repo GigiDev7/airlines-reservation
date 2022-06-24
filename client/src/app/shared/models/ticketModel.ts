@@ -8,4 +8,5 @@ export interface TicketModel {
   flightRecordId: FlightRecordModel;
   userId: string | null;
   ticketClass: SeatClass;
+  available: number;
 }
