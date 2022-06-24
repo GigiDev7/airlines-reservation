@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalService } from 'src/app/shared/modal/modal.service';
 import { FlightRecordModel } from 'src/app/shared/models/flightRecordModel';
 import { TicketModel } from 'src/app/shared/models/ticketModel';
 import { TicketService } from 'src/app/tickets/tickets.service';
@@ -12,9 +13,14 @@ import { TicketService } from 'src/app/tickets/tickets.service';
 export class FlightCardComponent implements OnInit {
   @Input() ticket!: TicketModel;
 
-  public handleTicketBook(flightRecordId: string, ticketClass: string) {}
+  public handleTicketBook(flightRecordId: string, ticketClass: string) {
+    this.modalService.isModalShown.next(true);
+  }
 
-  constructor(private ticketService: TicketService) {}
+  constructor(
+    private ticketService: TicketService,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit(): void {}
 }

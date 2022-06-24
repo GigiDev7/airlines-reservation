@@ -7,6 +7,7 @@ import { FlightRecordModel } from '../shared/models/flightRecordModel';
 import { tap } from 'rxjs';
 import { TicketService } from '../tickets/tickets.service';
 import { TicketModel } from '../shared/models/ticketModel';
+import { ModalService } from '../shared/modal/modal.service';
 
 @UntilDestroy()
 @Component({
@@ -23,6 +24,7 @@ export class FlightsComponent implements OnInit {
   public priceMin: string = '';
   public priceMax: string = '';
   public ticketClass: string = '';
+  public isModalShown: boolean = false;
 
   public handleFilter() {
     this.isFetching = true;
@@ -82,10 +84,14 @@ export class FlightsComponent implements OnInit {
     public flightService: FlightService,
     private route: ActivatedRoute,
     private ticketService: TicketService,
-    private router: Router
+    private router: Router,
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
+    this.modalService.isModalShown.subscribe({
+      next: (val) => (this.isModalShown = val),
+    });
     this.isFetching = true;
     this.route.queryParams
       .pipe(
