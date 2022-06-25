@@ -1,6 +1,13 @@
 const Ticket = require("../models/ticketSchema");
 const { findFlightRecords } = require("./flightRecord");
 
+class ReturnException {
+  constructor(message) {
+    this.message = message;
+    this.name = "ReturnException";
+  }
+}
+
 const createTicket = async (ticketData) => {
   return Ticket.create(ticketData);
 };
@@ -84,6 +91,16 @@ const updateBookedTicket = async (userId, flightRecordId, ticketClass) => {
 };
 
 const updateReturnedTicket = async (ticketId) => {
+  const ticket = await Ticket.findById(ticketId).populate("flightRecordId");
+  const lastDayToReturn = new Date(
+    new Date(ticket.flightRecordId.flightDay) -
+      1000 * 60 * 60 * process.env.RETURN_EXPIRATION
+  );
+
+  if (lastDayToReturn < new Date()) {
+    throw new ReturnException("Return time expired");
+  }
+
   return Ticket.findByIdAndUpdate(ticketId, { userId: null }, { new: true });
 };
 

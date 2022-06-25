@@ -15,6 +15,7 @@ export class BookingsComponent implements OnInit {
   public ticket: TicketModel | null = null;
   public isFetching: boolean = false;
   public isModalShown: boolean = false;
+  public isReturnAvailable: boolean = true;
 
   public handleTicketReturn() {
     this.modalService.modalFor = 'returnTicket';
@@ -39,6 +40,15 @@ export class BookingsComponent implements OnInit {
         next: (res: any) => {
           this.ticket = res;
           this.isFetching = false;
+          const lastDayToReturn = new Date(
+            (new Date(this.ticket?.flightRecordId?.flightDay as any) as any) -
+              1000 * 60 * 60 * 24
+          );
+          if (lastDayToReturn > new Date()) {
+            this.isReturnAvailable = true;
+          } else {
+            this.isReturnAvailable = false;
+          }
         },
       });
   }

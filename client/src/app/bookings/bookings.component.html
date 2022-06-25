@@ -46,8 +46,9 @@
         <p class="font-medium">Price : {{ ticket?.price }}$</p>
 
         <button
+          [disabled]="!isReturnAvailable"
           (click)="handleTicketReturn()"
-          class="text-white rounded-md px-7 py-2 bg-red-500 hover:bg-red-600 absolute -right-40 top-1/2 -translate-y-1/2"
+          class="text-white rounded-md px-7 py-2 bg-red-500 hover:bg-red-600 absolute -right-40 top-1/2 -translate-y-1/2 disabled:opacity-50"
         >
           Return Ticket
         </button>
