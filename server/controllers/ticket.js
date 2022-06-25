@@ -6,6 +6,7 @@ const {
   findTicketByUser,
   updateBookedTicket,
   updateReturnedTicket,
+  findTicketsByRecord,
 } = require("../services/ticket");
 
 const addTicket = async (req, res, next) => {
@@ -81,6 +82,19 @@ const returnTicket = async (req, res, next) => {
   }
 };
 
+const getTicketsByRecord = async (req, res, next) => {
+  try {
+    const { flightRecordId } = req.params;
+    const { total, tickets } = await findTicketsByRecord(
+      flightRecordId,
+      req.query
+    );
+    res.status(200).json({ total, tickets });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   addTicket,
   updateTicket,
@@ -89,4 +103,5 @@ module.exports = {
   getTicketsByUser,
   bookTicket,
   returnTicket,
+  getTicketsByRecord,
 };

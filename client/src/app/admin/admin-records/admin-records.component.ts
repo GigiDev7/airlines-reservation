@@ -52,6 +52,12 @@ export class AdminRecordsComponent implements OnInit {
     this.adminService.editingRecord = record;
   }
 
+  public navigateToTickets(flightRecordId: string) {
+    this.router.navigate(['admin', 'tickets', flightRecordId], {
+      queryParams: { page: 1 },
+    });
+  }
+
   constructor(
     private flightService: FlightService,
     private reloadService: ReloadService,

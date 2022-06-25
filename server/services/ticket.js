@@ -104,6 +104,26 @@ const updateReturnedTicket = async (ticketId) => {
   return Ticket.findByIdAndUpdate(ticketId, { userId: null }, { new: true });
 };
 
+const findTicketsByRecord = async (recordId, queryObject) => {
+  const page = queryObject?.page || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
+
+  const count = await Ticket.countDocuments({ flightRecordId: recordId });
+
+  const tickets = await Ticket.find({ flightRecordId: recordId })
+    .populate({
+      path: "flightRecordId",
+      populate: {
+        path: "flightId airplaneId",
+      },
+    })
+    .skip(skip)
+    .limit(limit);
+
+  return { total: count, tickets };
+};
+
 module.exports = {
   createTicket,
   findTicketAndUpdate,
@@ -112,4 +132,5 @@ module.exports = {
   findTicketByUser,
   updateBookedTicket,
   updateReturnedTicket,
+  findTicketsByRecord,
 };

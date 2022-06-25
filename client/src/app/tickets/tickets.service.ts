@@ -48,4 +48,10 @@ export class TicketService {
   public returnTicket(ticketId: string) {
     return this.http.patch(`${url}/tickets/return/${ticketId}`, {});
   }
+
+  public getTicketsByRecord(flightRecordId: string, page: number = 1) {
+    return this.http.get(
+      `${url}/tickets/records/${flightRecordId}?page=${page}`
+    );
+  }
 }
