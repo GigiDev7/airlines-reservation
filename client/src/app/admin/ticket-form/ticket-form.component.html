@@ -1,23 +1,36 @@
 <form
-  class="w-72 h-60 bg-gray-200 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+  (ngSubmit)="submitTicketEdit()"
+  class="w-72 h-72 bg-gray-200 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
 >
   <mat-icon (click)="closeTicketForm()" class="absolute right-0 cursor-pointer"
     >close</mat-icon
   >
-  <div>
-    <label>Class</label>
-    <select>
-      <option>Business</option>
-      <option>Standart</option>
-      <option>Econom</option>
+  <p class="font-medium mt-4">Edit Ticket</p>
+  <div class="flex flex-col w-[60%] mt-4">
+    <label class="font-medium">Class</label>
+    <select name="ticketClass" [(ngModel)]="ticketClass" class="mt-2">
+      <option value="business">Business</option>
+      <option value="standart">Standart</option>
+      <option value="econom">Econom</option>
     </select>
   </div>
-  <div>
-    <label>Price</label>
-    <input type="number" />
+  <div class="flex flex-col w-[60%] mt-4">
+    <label class="font-medium">Price</label>
+    <input
+      name="ticketPrice"
+      [(ngModel)]="ticketPrice"
+      class="mt-2 border-[1px] border-black outline-0"
+      type="number"
+    />
   </div>
-  <div>
+  <!-- <div class="flex flex-col">
     <label>User</label>
     <input type="text" />
-  </div>
+  </div> -->
+  <button
+    class="bg-blue-500 hover:bg-blue-600 px-5 py-2 rounded-sm mt-6"
+    type="submit"
+  >
+    Submit
+  </button>
 </form>

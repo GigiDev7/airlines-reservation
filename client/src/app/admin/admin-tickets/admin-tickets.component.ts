@@ -18,8 +18,9 @@ export class AdminTicketsComponent implements OnInit {
   public isFetching: boolean = false;
   public isTicketFormShown: boolean = false;
 
-  public handleTicketEdit() {
+  public handleTicketEdit(ticket: TicketModel) {
     this.adminService.isTicketFormShown.next(true);
+    this.adminService.editingTicket = ticket;
   }
 
   public trackBy(index: number, item: TicketModel) {

@@ -23,7 +23,7 @@
             {{ ticket.userId ? "Not Available" : "Available" }}
           </p>
           <mat-icon
-            (click)="handleTicketEdit()"
+            (click)="handleTicketEdit(ticket)"
             class="text-blue-500 cursor-pointer"
             >edit</mat-icon
           >

@@ -54,4 +54,11 @@ export class TicketService {
       `${url}/tickets/records/${flightRecordId}?page=${page}`
     );
   }
+
+  public updateTicket(ticketId: string, price: number, ticketClass: string) {
+    return this.http.patch(`${url}/tickets/${ticketId}`, {
+      price,
+      ticketClass,
+    });
+  }
 }
