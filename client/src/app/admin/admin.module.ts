@@ -14,6 +14,7 @@ import { AdminRecordsComponent } from './admin-records/admin-records.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminAirplanesComponent } from './admin-airplanes/admin-airplanes.component';
 import { AdminTicketsComponent } from './admin-tickets/admin-tickets.component';
+import { TicketFormComponent } from './ticket-form/ticket-form.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { AdminTicketsComponent } from './admin-tickets/admin-tickets.component';
     AdminRecordsComponent,
     AdminAirplanesComponent,
     AdminTicketsComponent,
+    TicketFormComponent,
   ],
   imports: [
     FormsModule,

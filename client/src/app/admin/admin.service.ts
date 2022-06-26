@@ -17,6 +17,7 @@ export class AdminService {
   isNotificationShown: boolean = false;
   isRecordFormShown = new Subject<boolean>();
   isFlightFormShown = new Subject<boolean>();
+  isTicketFormShown = new Subject<boolean>();
   editingFlight: FlightModel | null = null;
   editingRecord: FlightRecordModel | null = null;
 

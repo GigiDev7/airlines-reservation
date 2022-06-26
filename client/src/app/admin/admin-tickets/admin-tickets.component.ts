@@ -5,6 +5,7 @@ import { TicketService } from 'src/app/tickets/tickets.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs';
+import { AdminService } from '../admin.service';
 
 @UntilDestroy()
 @Component({
@@ -15,6 +16,11 @@ import { tap } from 'rxjs';
 export class AdminTicketsComponent implements OnInit {
   public tickets!: { total: number; tickets: TicketModel[] };
   public isFetching: boolean = false;
+  public isTicketFormShown: boolean = false;
+
+  public handleTicketEdit() {
+    this.adminService.isTicketFormShown.next(true);
+  }
 
   public trackBy(index: number, item: TicketModel) {
     return item._id;
@@ -22,10 +28,14 @@ export class AdminTicketsComponent implements OnInit {
 
   constructor(
     private ticketService: TicketService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private adminService: AdminService
   ) {}
 
   ngOnInit(): void {
+    this.adminService.isTicketFormShown.subscribe({
+      next: (val) => (this.isTicketFormShown = val),
+    });
     this.isFetching = true;
 
     this.route.queryParams

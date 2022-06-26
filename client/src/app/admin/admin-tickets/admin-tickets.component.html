@@ -22,7 +22,11 @@
           <p class="font-medium">
             {{ ticket.userId ? "Not Available" : "Available" }}
           </p>
-          <mat-icon class="text-blue-500 cursor-pointer">edit</mat-icon>
+          <mat-icon
+            (click)="handleTicketEdit()"
+            class="text-blue-500 cursor-pointer"
+            >edit</mat-icon
+          >
         </div>
       </div>
       <!-- <div class="w-[10%] absolute right-20 top-1/2 space-x-4">
@@ -39,3 +43,4 @@
     ></app-paginator>
   </div>
 </div>
+<app-ticket-form *ngIf="isTicketFormShown"></app-ticket-form>
