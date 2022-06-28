@@ -19,6 +19,13 @@ const ticketSchema = new mongoose.Schema(
       type: String,
       enum: SEATCLASS,
     },
+    userData: {
+      type: {
+        firstname: String,
+        lastname: String,
+      },
+      default: null,
+    },
   },
   {
     timestamps: true,

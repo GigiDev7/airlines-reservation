@@ -11,7 +11,7 @@ import { AdminService } from '../admin.service';
 @Component({
   selector: 'app-admin-tickets',
   templateUrl: './admin-tickets.component.html',
-  styleUrls: ['./admin-tickets.component.sass'],
+  styleUrls: ['./admin-tickets.component.css'],
 })
 export class AdminTicketsComponent implements OnInit {
   public tickets!: { total: number; tickets: TicketModel[] };

@@ -25,8 +25,8 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  public getAirplanes() {
-    return this.http.get(`${url}/airplane`).pipe(
+  public getAirplanes(company: string = '') {
+    return this.http.get(`${url}/airplane?company=${company}`).pipe(
       tap({
         next: (res: any) => (this.airplanes = res),
       })

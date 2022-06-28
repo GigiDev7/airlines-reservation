@@ -7,6 +7,20 @@
   >
     Add Airplane
   </button>
+  <div>
+    <input
+      type="text"
+      placeholder="Filter by company"
+      class="border-[1px] border-black outline-0 pl-1"
+      [(ngModel)]="filterCompany"
+    />
+    <button
+      (click)="handleCompanyFilter()"
+      class="bg-blue-500 hover:bg-blue-600 px-8 py-2 rounded-md ml-3"
+    >
+      Filter
+    </button>
+  </div>
   <div
     *ngFor="let airplane of airplanes"
     class="shadow-2xl w-[30%] h-16 flex items-center justify-around rounded-md"

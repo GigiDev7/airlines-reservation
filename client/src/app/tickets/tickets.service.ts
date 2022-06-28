@@ -24,9 +24,11 @@ export class TicketService {
     airline: string = '',
     ticketClass: string = '',
     priceMin: string = '',
-    priceMax: string = ''
+    priceMax: string = '',
+    sort: string = 'flightDay',
+    availableTickets: number = 1
   ) {
-    const ticketUrl = `${url}/tickets?departure=${departure}&destination=${destination}&departureStart=${departureStart}&departureEnd=${departureEnd}&airline[in]=${airline}&ticketClass=${ticketClass}&price[gte]=${priceMin}&price[lte]=${priceMax}`;
+    const ticketUrl = `${url}/tickets?departure=${departure}&destination=${destination}&departureStart=${departureStart}&departureEnd=${departureEnd}&airline[in]=${airline}&ticketClass=${ticketClass}&price[gte]=${priceMin}&price[lte]=${priceMax}&sort=${sort}&availableTickets=${availableTickets}`;
     return this.http.get(ticketUrl).pipe(
       tap((res: any) => {
         this.tickets = res;
@@ -34,14 +36,23 @@ export class TicketService {
     );
   }
 
-  public getTicketByUser() {
+  public getTicketsByUser() {
     return this.http.get(`${url}/tickets/user`);
   }
 
-  public bookTicket(flightRecordId: string, ticketClass: string) {
+  public bookTicket(
+    flightRecordId: string,
+    ticketClass: string,
+    numberOfTickets: number,
+    firstname: string,
+    lastname: string
+  ) {
     return this.http.patch(`${url}/tickets/book`, {
       flightRecordId,
       ticketClass,
+      numberOfTickets,
+      firstname,
+      lastname,
     });
   }
 

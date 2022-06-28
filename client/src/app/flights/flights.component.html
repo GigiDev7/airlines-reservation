@@ -2,9 +2,21 @@
 <div class="flex flex-col items-center mb-6">
   <app-search-form></app-search-form>
 
-  <div class="flex items-center justify-around w-[40%]">
+  <div class="flex items-center justify-around w-[60%]">
     <div class="flex flex-col">
-      <label>Price Range</label>
+      <label>Sort by</label>
+      <select
+        (input)="handleSorting($event)"
+        [(ngModel)]="sortBy"
+        class="border-[1px] border-black w-28 mt-3"
+      >
+        <option value="flightDay">Flight day</option>
+        <option value="price">Price</option>
+        <option value="ticketClass">Class</option>
+      </select>
+    </div>
+    <div class="flex flex-col">
+      <label class="text-center">Price Range</label>
       <div class="flex space-x-2">
         <input
           class="w-24 border-[1px] border-black outline-0 mt-3"
@@ -33,12 +45,28 @@
         <option value="econom">Econom</option>
       </select>
     </div>
-    <button
-      (click)="handleFilter()"
-      class="bg-blue-500 hover:bg-blue-600 text-white px-7 py-2 rounded-md"
-    >
-      Filter
-    </button>
+    <div class="flex flex-col">
+      <label>Available tickets</label>
+      <input
+        [(ngModel)]="availableTickets"
+        class="w-28 border-[1px] border-black outline-0 mt-3"
+        type="number"
+      />
+    </div>
+    <div class="flex flex-col space-y-3">
+      <button
+        (click)="handleFilter()"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-7 py-2 rounded-md"
+      >
+        Filter
+      </button>
+      <button
+        (click)="handleFiltersRemove()"
+        class="bg-red-500 hover:bg-red-600 text-white px-7 py-2 rounded-md"
+      >
+        Remove Filters
+      </button>
+    </div>
   </div>
 </div>
 

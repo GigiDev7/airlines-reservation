@@ -24,7 +24,36 @@ export class FlightsComponent implements OnInit {
   public priceMin: string = '';
   public priceMax: string = '';
   public ticketClass: string = '';
+  public availableTickets: number = 1;
+  public sortBy: string = 'flightDay';
   public isModalShown: boolean = false;
+
+  public handleSorting(e: Event) {
+    const target = e.target as HTMLInputElement;
+
+    this.isFetching = true;
+    const { departure, destination, departureStart, departureEnd } =
+      this.route.snapshot.queryParams;
+    this.ticketService
+      .getTickets(
+        departure.toLowerCase(),
+        destination.toLowerCase(),
+        departureStart,
+        departureEnd,
+        this.checkedCompanies.toString(),
+        this.ticketClass === 'all' ? '' : this.ticketClass,
+        this.priceMin,
+        this.priceMax,
+        target.value
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          this.tickets = res;
+          this.isFetching = false;
+        },
+      });
+  }
 
   public handleFilter() {
     this.isFetching = true;
@@ -39,7 +68,34 @@ export class FlightsComponent implements OnInit {
         this.checkedCompanies.toString(),
         this.ticketClass === 'all' ? '' : this.ticketClass,
         this.priceMin,
-        this.priceMax
+        this.priceMax,
+        this.sortBy,
+        this.availableTickets
+      )
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: (res) => {
+          this.tickets = res;
+          this.isFetching = false;
+        },
+      });
+  }
+
+  public handleFiltersRemove() {
+    this.isFetching = true;
+    const { departure, destination, departureStart, departureEnd } =
+      this.route.snapshot.queryParams;
+    this.priceMin = '';
+    this.priceMax = '';
+    this.ticketClass = 'all';
+    this.availableTickets = 1;
+
+    this.ticketService
+      .getTickets(
+        departure.toLowerCase(),
+        destination.toLowerCase(),
+        departureStart,
+        departureEnd
       )
       .pipe(untilDestroyed(this))
       .subscribe({
