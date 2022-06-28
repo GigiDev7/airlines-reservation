@@ -22,6 +22,8 @@ const findTicketAndDelete = async (ticketId) => {
 
 const findTickets = async (queryObject) => {
   const { count, records } = await findFlightRecords(queryObject);
+  const { sort } = queryObject;
+  const availableTickets = queryObject.availableTickets || 1;
 
   const filterObject = {};
 
@@ -65,16 +67,26 @@ const findTickets = async (queryObject) => {
         },
       });
 
-      if (tickets.length)
+      if (tickets.length && tickets.length >= availableTickets)
         resultTickets.push({ ...tickets[0]._doc, available: tickets.length });
     }
   }
 
-  return resultTickets;
+  if (sort === "flightDay") return resultTickets;
+  if (sort === "price") return resultTickets.sort((a, b) => b.price - a.price);
+  if (sort === "ticketClass") {
+    return resultTickets.sort((a, b) => {
+      if (a.ticketClass > b.ticketClass) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+  }
 };
 
 const findTicketByUser = async (userId) => {
-  return Ticket.findOne({ userId }).populate({
+  return Ticket.find({ userId }).populate({
     path: "flightRecordId",
     populate: {
       path: "flightId airplaneId",
@@ -82,12 +94,35 @@ const findTicketByUser = async (userId) => {
   });
 };
 
-const updateBookedTicket = async (userId, flightRecordId, ticketClass) => {
-  return Ticket.findOneAndUpdate(
+const updateBookedTicket = async (
+  userId,
+  firstname,
+  lastname,
+  numberOfTickets,
+  flightRecordId,
+  ticketClass
+) => {
+  const bookedTickets = [];
+
+  for (let i = 0; i < numberOfTickets; i++) {
+    const bookedTicket = await Ticket.findOneAndUpdate(
+      { flightRecordId, ticketClass, userId: null },
+      {
+        userId,
+        "userData.firstname": firstname,
+        "userData.lastname": lastname,
+      },
+      { new: true }
+    );
+    bookedTickets.push(bookedTicket);
+  }
+
+  /* return Ticket.findOneAndUpdate(
     { flightRecordId, ticketClass, userId: null },
-    { userId },
+    { userId, "userData.firstname": firstname, "userData.lastname": lastname },
     { new: true }
-  );
+  ); */
+  return bookedTickets;
 };
 
 const updateReturnedTicket = async (ticketId) => {
@@ -101,7 +136,11 @@ const updateReturnedTicket = async (ticketId) => {
     throw new ReturnException("Return time expired");
   }
 
-  return Ticket.findByIdAndUpdate(ticketId, { userId: null }, { new: true });
+  return Ticket.findByIdAndUpdate(
+    ticketId,
+    { userId: null, userData: null },
+    { new: true }
+  );
 };
 
 const findTicketsByRecord = async (recordId, queryObject) => {

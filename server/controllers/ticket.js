@@ -60,13 +60,22 @@ const getTicketsByUser = async (req, res, next) => {
 
 const bookTicket = async (req, res, next) => {
   try {
-    const { flightRecordId, ticketClass } = req.body;
-    const bookedTicket = await updateBookedTicket(
+    const {
+      firstname,
+      lastname,
+      numberOfTickets,
+      flightRecordId,
+      ticketClass,
+    } = req.body;
+    const bookedTickets = await updateBookedTicket(
       req.user._id,
+      firstname,
+      lastname,
+      numberOfTickets,
       flightRecordId,
       ticketClass
     );
-    res.status(200).json(bookedTicket);
+    res.status(200).json(bookedTickets);
   } catch (error) {
     next(error);
   }
