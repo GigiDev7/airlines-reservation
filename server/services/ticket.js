@@ -1,6 +1,13 @@
 const Ticket = require("../models/ticketSchema");
 const { findFlightRecords } = require("./flightRecord");
 
+class ReturnException {
+  constructor(message) {
+    this.message = message;
+    this.name = "ReturnException";
+  }
+}
+
 const createTicket = async (ticketData) => {
   return Ticket.create(ticketData);
 };
@@ -66,9 +73,64 @@ const findTickets = async (queryObject) => {
   return resultTickets;
 };
 
+const findTicketByUser = async (userId) => {
+  return Ticket.findOne({ userId }).populate({
+    path: "flightRecordId",
+    populate: {
+      path: "flightId airplaneId",
+    },
+  });
+};
+
+const updateBookedTicket = async (userId, flightRecordId, ticketClass) => {
+  return Ticket.findOneAndUpdate(
+    { flightRecordId, ticketClass, userId: null },
+    { userId },
+    { new: true }
+  );
+};
+
+const updateReturnedTicket = async (ticketId) => {
+  const ticket = await Ticket.findById(ticketId).populate("flightRecordId");
+  const lastDayToReturn = new Date(
+    new Date(ticket.flightRecordId.flightDay) -
+      1000 * 60 * 60 * process.env.RETURN_EXPIRATION
+  );
+
+  if (lastDayToReturn < new Date()) {
+    throw new ReturnException("Return time expired");
+  }
+
+  return Ticket.findByIdAndUpdate(ticketId, { userId: null }, { new: true });
+};
+
+const findTicketsByRecord = async (recordId, queryObject) => {
+  const page = queryObject?.page || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
+
+  const count = await Ticket.countDocuments({ flightRecordId: recordId });
+
+  const tickets = await Ticket.find({ flightRecordId: recordId })
+    .populate({
+      path: "flightRecordId",
+      populate: {
+        path: "flightId airplaneId",
+      },
+    })
+    .skip(skip)
+    .limit(limit);
+
+  return { total: count, tickets };
+};
+
 module.exports = {
   createTicket,
   findTicketAndUpdate,
   findTicketAndDelete,
   findTickets,
+  findTicketByUser,
+  updateBookedTicket,
+  updateReturnedTicket,
+  findTicketsByRecord,
 };

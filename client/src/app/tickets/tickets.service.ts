@@ -10,6 +10,9 @@ import { tap } from 'rxjs';
 })
 export class TicketService {
   tickets: TicketModel[] = [];
+  tobeBookedTicket: { flightRecordId: string; ticketClass: string } | null =
+    null;
+  tobeReturnedTicketId: string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -29,5 +32,33 @@ export class TicketService {
         this.tickets = res;
       })
     );
+  }
+
+  public getTicketByUser() {
+    return this.http.get(`${url}/tickets/user`);
+  }
+
+  public bookTicket(flightRecordId: string, ticketClass: string) {
+    return this.http.patch(`${url}/tickets/book`, {
+      flightRecordId,
+      ticketClass,
+    });
+  }
+
+  public returnTicket(ticketId: string) {
+    return this.http.patch(`${url}/tickets/return/${ticketId}`, {});
+  }
+
+  public getTicketsByRecord(flightRecordId: string, page: number = 1) {
+    return this.http.get(
+      `${url}/tickets/records/${flightRecordId}?page=${page}`
+    );
+  }
+
+  public updateTicket(ticketId: string, price: number, ticketClass: string) {
+    return this.http.patch(`${url}/tickets/${ticketId}`, {
+      price,
+      ticketClass,
+    });
   }
 }

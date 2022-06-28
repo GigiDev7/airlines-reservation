@@ -4,6 +4,10 @@ const {
   deleteTicket,
   updateTicket,
   getTickets,
+  getTicketsByUser,
+  bookTicket,
+  returnTicket,
+  getTicketsByRecord,
 } = require("../controllers/ticket");
 const { authGuard } = require("../middlewares/authGuard");
 const { adminGuard } = require("../middlewares/adminGuard");
@@ -20,6 +24,12 @@ router
   .route("/")
   .get(getTickets)
   .post(adminGuard, ticketValidation, handleValidationErrors, addTicket);
+
+router.route("/user").get(getTicketsByUser);
+router.route("/book").patch(bookTicket);
+router.route("/return/:ticketId").patch(returnTicket);
+router.route("/records/:flightRecordId").get(getTicketsByRecord);
+
 router
   .route("/:ticketId")
   .patch(adminGuard, updateTicket)

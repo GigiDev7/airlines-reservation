@@ -1,0 +1,23 @@
+<div class="background"></div>
+<div
+  class="flex flex-col justify-around items-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 bg-white w-96 h-60 rounded-md shadow-xl"
+>
+  <p class="font-medium">{{ modalText }}</p>
+  <div class="flex space-x-4">
+    <button
+      (click)="onConfirmClick()"
+      class="px-8 py-2 rounded-md bg-blue-500 hover:bg-blue-600"
+    >
+      Yes
+    </button>
+    <button
+      (click)="closeModal()"
+      class="px-8 py-2 rounded-md bg-red-500 hover:bg-red-600"
+    >
+      No
+    </button>
+  </div>
+  <mat-icon (click)="closeModal()" class="absolute right-0 top-0 cursor-pointer"
+    >close</mat-icon
+  >
+</div>

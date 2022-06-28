@@ -1,26 +1,62 @@
-<!-- <div class="flex flex-col items-center mt-16 relative">
+<div class="flex flex-col items-center mt-16 relative">
   <p *ngIf="isFetching">Loading...</p>
   <p *ngIf="!isFetching && !flightRecords.records.length">No Records</p>
+
   <div
     class="w-full flex relative"
     *ngFor="let flightRecord of flightRecords?.records; trackBy: trackBy"
   >
     <div class="w-full">
-      <app-flight-card [flightRecord]="flightRecord"></app-flight-card>
-    </div>
-    <div class="w-[10%] absolute right-20 top-1/2 space-x-4">
-      <mat-icon
-        (click)="handleEditRecord(flightRecord)"
-        class="text-blue-500 cursor-pointer"
-        >edit</mat-icon
+      <div
+        class="shadow-lg lg:w-[50%] sm:w-[70%] py-8 pl-3 mx-auto rounded-md flex justify-around"
       >
-      <mat-icon
-        (click)="handleDeleteRecord(flightRecord)"
-        class="text-red-500 cursor-pointer"
-        >delete</mat-icon
-      >
+        <div class="w-[30%] flex items-center">
+          <mat-icon>airplanemode_active</mat-icon>
+          <p>{{ flightRecord.airplaneId?.company | titlecase }}</p>
+        </div>
+        <div class="relative w-[30%]">
+          <p>{{ flightRecord.flightId?.departure | titlecase }}</p>
+          <p
+            class="absolute lg:right-10 sm:-right-0 top-0 text-[14px] text-gray-600"
+          >
+            {{ flightRecord?.flightId?.flightDuration }}
+          </p>
+          <div
+            class="w-[100px] h-[2px] bg-black absolute top-5 lg:right-5 sm:-right-5"
+          ></div>
+          <p class="mt-1 ml-[50%]">
+            {{ flightRecord?.flightDay | date: "medium" }}
+          </p>
+        </div>
+        <div class="w-[10%]">
+          <p>
+            {{ flightRecord?.flightId?.destination | titlecase }}
+          </p>
+        </div>
+        <div>
+          <button
+            (click)="navigateToTickets(flightRecord._id)"
+            class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-sm"
+          >
+            Show Tickets
+          </button>
+        </div>
+      </div>
+      <div class="w-[10%] absolute right-20 top-1/2 space-x-4">
+        <mat-icon
+          (click)="handleEditRecord(flightRecord)"
+          class="text-blue-500 cursor-pointer"
+          >edit</mat-icon
+        >
+        <mat-icon
+          (click)="handleDeleteRecord(flightRecord)"
+          class="text-red-500 cursor-pointer"
+          >delete</mat-icon
+        >
+      </div>
     </div>
   </div>
+
   <div *ngIf="isRecordFormShown" class="absolute z-20 bg-gray-200 px-24 pb-8">
     <mat-icon
       (click)="closeRecordForm()"
@@ -29,8 +65,12 @@
     >
     <app-flight-record></app-flight-record>
   </div>
+
   <div *ngIf="!isFetching" class="my-12 w-[50%] flex justify-center">
-    <app-paginator></app-paginator>
+    <app-paginator
+      paginatorFor="records"
+      [total]="flightRecords.total"
+      [perPage]="5"
+    ></app-paginator>
   </div>
-</div> -->
-<p>hey</p>
+</div>

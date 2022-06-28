@@ -3,6 +3,8 @@ exports.errorHandler = (err, req, res, next) => {
     res.status(400).json({ message: "Email already exists" });
   } else if (err.name === "ValidationError") {
     res.status(400).json({ message: err.message });
+  } else if (err.name === "ReturnException") {
+    res.status(400).json({ message: err.message });
   } else {
     res.status(500).json(err);
   }

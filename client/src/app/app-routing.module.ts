@@ -10,6 +10,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AuthPageRestrict } from './auth/authPageRestrict.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { BookingsComponent } from './bookings/bookings.component';
 import { FlightsComponent } from './flights/flights.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
     canActivate: [AuthPageRestrict],
   },
   { path: 'flights', component: FlightsComponent, canActivate: [AuthGuard] },
+  { path: 'bookings', component: BookingsComponent, canActivate: [AuthGuard] },
   {
     path: 'admin',
     component: AdminComponent,
@@ -44,7 +46,7 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
       },
       {
-        path: 'tickets/:recordId',
+        path: 'tickets/:flightRecordId',
         component: AdminTicketsComponent,
         canActivate: [AuthGuard, AdminGuard],
       },

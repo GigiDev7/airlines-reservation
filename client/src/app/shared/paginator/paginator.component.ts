@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FlightService } from 'src/app/flights/flights.service';
 
@@ -10,20 +10,37 @@ import { FlightService } from 'src/app/flights/flights.service';
 export class PaginatorComponent implements OnInit {
   public page: number = 1;
   public totalPages!: number;
+  @Input() total!: number;
+  @Input() perPage!: number;
+  @Input() paginatorFor!: string;
   public isLoading: boolean = false;
 
   public handlePreviousPageClick() {
     //this.page--;
-    this.router.navigate(['admin', 'records'], {
-      queryParams: { page: this.page - 1 },
-    });
+    if (this.paginatorFor === 'records') {
+      this.router.navigate(['admin', 'records'], {
+        queryParams: { page: this.page - 1 },
+      });
+    } else if (this.paginatorFor === 'tickets') {
+      const { flightRecordId } = this.route.snapshot.params;
+      this.router.navigate(['admin', 'tickets', flightRecordId], {
+        queryParams: { page: this.page - 1 },
+      });
+    }
   }
 
   public handleNextPageClick() {
     //this.page++;
-    this.router.navigate(['admin', 'records'], {
-      queryParams: { page: this.page + 1 },
-    });
+    if (this.paginatorFor === 'records') {
+      this.router.navigate(['admin', 'records'], {
+        queryParams: { page: this.page + 1 },
+      });
+    } else if (this.paginatorFor === 'tickets') {
+      const { flightRecordId } = this.route.snapshot.params;
+      this.router.navigate(['admin', 'tickets', flightRecordId], {
+        queryParams: { page: this.page + 1 },
+      });
+    }
   }
 
   constructor(
@@ -38,6 +55,6 @@ export class PaginatorComponent implements OnInit {
         this.page = +params['page'];
       },
     });
-    this.totalPages = Math.ceil(this.flightService.flightRecords.total / 5);
+    this.totalPages = Math.ceil(this.total / this.perPage);
   }
 }
