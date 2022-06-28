@@ -26,10 +26,72 @@
     <p class="font-medium">Available - {{ ticket?.available }}</p>
 
     <button
-      (click)="handleTicketBook(ticket.flightRecordId._id, ticket.ticketClass)"
+      (click)="handleBookClick(ticket.flightRecordId._id, ticket.ticketClass)"
       class="text-white rounded-md px-7 py-2 bg-blue-500 hover:bg-blue-600 absolute -right-40 top-1/2 -translate-y-1/2"
     >
       Book Ticket
     </button>
   </div>
+</div>
+
+<div *ngIf="isBookingFormShown">
+  <div class="bg-[rgba(0,0,0,0.3)] fixed top-0 bottom-0 right-0 left-0"></div>
+  <form
+    (ngSubmit)="handleTicketBook()"
+    class="flex flex-col space-y-4 items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-200 w-96 h-96 rounded-md shadow-lg"
+  >
+    <mat-icon
+      (click)="closeBookingForm()"
+      class="absolute right-0 top-0 cursor-pointer"
+      >close</mat-icon
+    >
+    <p *ngIf="isAmountError" class="text-red-500">
+      This amount of tickets is not available
+    </p>
+    <div class="flex flex-col w-[70%]">
+      <label class="font-medium">Select number of tickets to book</label>
+      <p class="font-medium">Available - {{ ticket.available }}</p>
+      <input
+        [(ngModel)]="numberOfTickets"
+        name="numberOfTickets"
+        type="number"
+        class="pl-1 border-[1px] border-black outline-0 mt-2"
+      />
+    </div>
+    <div class="flex flex-col w-[70%]">
+      <label class="font-medium">Firstname</label>
+      <input
+        [(ngModel)]="firstname"
+        name="firstname"
+        type="text"
+        placeholder="Enter your firstname"
+        class="border-[1px] border-black outline-0 mt-2 pl-1"
+      />
+    </div>
+    <div class="flex flex-col w-[70%]">
+      <label class="font-medium">Lastname</label>
+      <input
+        [(ngModel)]="lastname"
+        name="lastname"
+        type="text"
+        placeholder="Enter your lastname"
+        class="border-[1px] border-black outline-0 mt-2 pl-1"
+      />
+    </div>
+    <div class="space-x-6 my-2">
+      <button
+        type="button"
+        (click)="closeBookingForm()"
+        class="bg-red-500 hover:bg-red-600 px-5 py-2 rounded-sm"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-600 px-5 py-2 rounded-sm"
+      >
+        Book
+      </button>
+    </div>
+  </form>
 </div>

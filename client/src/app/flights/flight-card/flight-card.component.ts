@@ -12,16 +12,48 @@ import { TicketService } from 'src/app/tickets/tickets.service';
 })
 export class FlightCardComponent implements OnInit {
   @Input() ticket!: TicketModel;
+  public isBookingFormShown: boolean = false;
+  public numberOfTickets: number = 1;
+  public firstname: string = '';
+  public lastname: string = '';
+  public isAmountError: boolean = false;
 
-  public handleTicketBook(flightRecordId: string, ticketClass: string) {
-    this.ticketService.tobeBookedTicket = { flightRecordId, ticketClass };
+  public handleBookClick(flightRecordId: string, ticketClass: string) {
+    /* this.ticketService.tobeBookedTicket = { flightRecordId, ticketClass };
     this.modalService.modalFor = 'bookTicket';
-    this.modalService.isModalShown.next(true);
+    this.modalService.isModalShown.next(true); */
+    this.isBookingFormShown = true;
+  }
+
+  public closeBookingForm() {
+    this.isBookingFormShown = false;
+    this.isAmountError = false;
+  }
+
+  public handleTicketBook() {
+    if (this.numberOfTickets > this.ticket.available) {
+      this.isAmountError = true;
+      return;
+    }
+    this.ticketService
+      .bookTicket(
+        this.ticket.flightRecordId._id,
+        this.ticket.ticketClass,
+        this.numberOfTickets,
+        this.firstname,
+        this.lastname
+      )
+      .subscribe({
+        next: (res) => {
+          this.router.navigate(['bookings']);
+        },
+      });
   }
 
   constructor(
     private ticketService: TicketService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}

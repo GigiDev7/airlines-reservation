@@ -110,6 +110,12 @@ export class FlightService {
     );
   }
 
+  public getFilteredFlights(departureCity: string, destinationCity: string) {
+    return this.http.get(
+      `${url}/flights?departure=${departureCity}&destination=${destinationCity}`
+    );
+  }
+
   public addFlight(
     departure: string,
     destination: string,
