@@ -4,6 +4,7 @@ import { TicketService } from '../tickets/tickets.service';
 
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { ModalService } from '../shared/modal/modal.service';
+import { FormControl, Validators } from '@angular/forms';
 
 @UntilDestroy()
 @Component({
@@ -12,15 +13,23 @@ import { ModalService } from '../shared/modal/modal.service';
   styleUrls: ['./bookings.component.sass'],
 })
 export class BookingsComponent implements OnInit {
-  public ticket: TicketModel | null = null;
+  public tickets: TicketModel[] = [];
   public isFetching: boolean = false;
   public isModalShown: boolean = false;
-  public isReturnAvailable: boolean = true;
 
-  public handleTicketReturn() {
+  public isReturnAvailable(ticket: TicketModel): boolean {
+    const lastDayToReturn = new Date(
+      (new Date(ticket?.flightRecordId?.flightDay as any) as any) -
+        1000 * 60 * 60 * 24
+    );
+
+    return lastDayToReturn < new Date();
+  }
+
+  public handleTicketReturn(ticket: TicketModel) {
     this.modalService.modalFor = 'returnTicket';
     this.modalService.isModalShown.next(true);
-    this.ticketService.tobeReturnedTicketId = this.ticket!._id;
+    this.ticketService.tobeReturnedTicketId = ticket._id;
   }
 
   constructor(
@@ -34,21 +43,12 @@ export class BookingsComponent implements OnInit {
     });
     this.isFetching = true;
     this.ticketService
-      .getTicketByUser()
+      .getTicketsByUser()
       .pipe(untilDestroyed(this))
       .subscribe({
         next: (res: any) => {
-          this.ticket = res;
+          this.tickets = res;
           this.isFetching = false;
-          const lastDayToReturn = new Date(
-            (new Date(this.ticket?.flightRecordId?.flightDay as any) as any) -
-              1000 * 60 * 60 * 24
-          );
-          if (lastDayToReturn > new Date()) {
-            this.isReturnAvailable = true;
-          } else {
-            this.isReturnAvailable = false;
-          }
         },
       });
   }

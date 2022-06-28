@@ -23,13 +23,14 @@ export class ModalComponent implements OnInit {
 
   public onConfirmClick() {
     if (this.modalService.modalFor === 'bookTicket') {
-      this.bookTicket();
+      //this.bookTicket();
+      return;
     } else if (this.modalService.modalFor === 'returnTicket') {
       this.returnTicket();
     }
   }
 
-  private bookTicket() {
+  /* private bookTicket() {
     if (this.ticketService.tobeBookedTicket) {
       const { flightRecordId, ticketClass } =
         this.ticketService.tobeBookedTicket;
@@ -42,7 +43,7 @@ export class ModalComponent implements OnInit {
           },
         });
     }
-  }
+  } */
 
   private returnTicket() {
     if (this.ticketService.tobeReturnedTicketId) {
