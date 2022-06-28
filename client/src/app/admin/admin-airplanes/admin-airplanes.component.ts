@@ -18,10 +18,22 @@ export class AdminAirplanesComponent implements OnInit {
   public airplaneCompany: string = '';
   public numberOfSeats: number = 0;
 
+  public filterCompany: string = '';
+
   constructor(
     private adminService: AdminService,
     private reloadService: ReloadService
   ) {}
+
+  public handleCompanyFilter() {
+    this.isFetching = true;
+    this.adminService.getAirplanes(this.filterCompany.toLowerCase()).subscribe({
+      next: (res) => {
+        this.airplanes = res;
+        this.isFetching = false;
+      },
+    });
+  }
 
   public handleAirplaneSubmit() {
     if (this.editingAirplane) {

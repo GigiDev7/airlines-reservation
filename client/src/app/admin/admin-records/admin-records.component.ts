@@ -7,6 +7,8 @@ import { ReloadService } from 'src/app/shared/reload/reload.service';
 import { AdminService } from '../admin.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { LocationModel } from 'src/app/shared/models/locationModel';
+import { LocationService } from 'src/app/home/services/locations.service';
 
 @UntilDestroy()
 @Component({
@@ -18,6 +20,57 @@ export class AdminRecordsComponent implements OnInit {
   public flightRecords!: { total: number; records: FlightRecordModel[] };
   public isFetching: boolean = false;
   public isRecordFormShown: boolean = false;
+
+  //
+
+  private locations: LocationModel[] = [];
+  public filteredLocations: LocationModel[] = [];
+  public departureCity: string = '';
+  public destinationCity: string = '';
+  public locationFor: string = '';
+
+  public departureStart!: Date;
+  public departureEnd!: Date;
+
+  public handleLocationChange(e: Event, type: string) {
+    const target = e.target as HTMLInputElement;
+    this.locationFor = type;
+    if (target.value) {
+      this.filteredLocations = this.locations.filter((location) =>
+        location?.city?.toLowerCase().includes(target.value.toLowerCase())
+      );
+    } else {
+      this.filteredLocations = [];
+    }
+  }
+
+  public handleLocationClick(city: string) {
+    if (this.locationFor === 'departure') {
+      this.departureCity = city;
+      this.filteredLocations = [];
+    } else if (this.locationFor === 'destination') {
+      this.destinationCity = city;
+      this.filteredLocations = [];
+    }
+  }
+
+  public handleRecordsFilter() {
+    this.isFetching = true;
+    this.flightService
+      .getFilteredRecords(
+        this.departureCity.toLowerCase(),
+        this.destinationCity.toLowerCase(),
+        this.departureStart,
+        this.departureEnd
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.flightRecords = res;
+          this.isFetching = false;
+        },
+      });
+  }
+  //
 
   public trackBy(index: number, item: FlightRecordModel) {
     return item._id;
@@ -63,7 +116,8 @@ export class AdminRecordsComponent implements OnInit {
     private reloadService: ReloadService,
     private adminService: AdminService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private locationService: LocationService
   ) {}
 
   ngOnInit(): void {
@@ -93,6 +147,12 @@ export class AdminRecordsComponent implements OnInit {
 
     this.adminService.isRecordFormShown.subscribe({
       next: (val) => (this.isRecordFormShown = val),
+    });
+
+    this.locationService.getLocations().subscribe({
+      next: (res) => {
+        this.locations = res;
+      },
     });
   }
 }
