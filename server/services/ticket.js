@@ -21,7 +21,7 @@ const findTicketAndDelete = async (ticketId) => {
 };
 
 const findTickets = async (queryObject) => {
-  const { count, records } = await findFlightRecords(queryObject);
+  /* const { count, records } = await findFlightRecords(queryObject);
   const { sort } = queryObject;
   const availableTickets = queryObject.availableTickets || 1;
 
@@ -33,7 +33,7 @@ const findTickets = async (queryObject) => {
       $gte: price.gte,
       $lte: price.lte,
     };
-  }
+  } */
 
   /* const { price } = queryObject;
   const filters = ["gte", "gt", "lte", "lt"];
@@ -47,7 +47,7 @@ const findTickets = async (queryObject) => {
     filterObject.price = filterPrice;
   } */
 
-  const filterClass = queryObject.ticketClass
+  /*  const filterClass = queryObject.ticketClass
     ? queryObject.ticketClass.split(",")
     : ["business", "standart", "econom"];
 
@@ -70,9 +70,9 @@ const findTickets = async (queryObject) => {
       if (tickets.length && tickets.length >= availableTickets)
         resultTickets.push({ ...tickets[0]._doc, available: tickets.length });
     }
-  }
+  } */
 
-  if (sort === "flightDay") return resultTickets;
+  /* if (sort === "flightDay") return resultTickets;
   if (sort === "price") return resultTickets.sort((a, b) => b.price - a.price);
   if (sort === "ticketClass") {
     return resultTickets.sort((a, b) => {
@@ -82,7 +82,83 @@ const findTickets = async (queryObject) => {
         return -1;
       }
     });
-  }
+  } */
+
+  const { departureStart, departureEnd, departure, destination } = queryObject;
+
+  const startDate = new Date(departureStart);
+  const endDate = new Date(departureEnd);
+
+  return Ticket.aggregate([
+    {
+      $lookup: {
+        from: "flightrecords",
+        localField: "flightRecordId",
+        foreignField: "_id",
+        as: "record",
+        pipeline: [
+          {
+            $lookup: {
+              from: "flights",
+              localField: "flightId",
+              foreignField: "_id",
+              as: "flight",
+            },
+          },
+          {
+            $unwind: "$flight",
+          },
+          {
+            $match: {
+              "flight.departure": departure,
+              "flight.destination": destination,
+            },
+          },
+          {
+            $lookup: {
+              from: "airplanes",
+              localField: "airplaneId",
+              foreignField: "_id",
+              as: "airplane",
+            },
+          },
+          {
+            $unwind: "$airplane",
+          },
+          /* {
+            $match: { "airplane.company": "test" },
+          }, */
+          {
+            $unset: [
+              "airplane.seats",
+              "airplane.__v",
+              "airplane.createdAt",
+              "airplane.updatedAt",
+              "flight.__v",
+              "flight.createdAt",
+              "flight.updatedAt",
+              "__v",
+              "createdAt",
+              "updatedAt",
+              "flightId",
+              "airplaneId",
+            ],
+          },
+        ],
+      },
+    },
+    {
+      $unwind: "$record",
+    },
+    {
+      $match: {
+        "record.flightDay": { $gte: startDate, $lte: endDate },
+      },
+    },
+    {
+      $unset: ["__v", "createdAt", "updatedAt", "flightRecordId"],
+    },
+  ]);
 };
 
 const findTicketByUser = async (userId) => {
