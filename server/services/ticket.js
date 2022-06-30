@@ -84,30 +84,33 @@ const findTickets = async (queryObject) => {
     });
   } */
 
-  const { departureStart, departureEnd, departure, destination } = queryObject;
+  const { departureStart, departureEnd, departure, destination, sort } =
+    queryObject;
 
-  //airplane filter
-  let airplaneFilter = {};
+  //filtering
+  const filterObject = {
+    airplaneFilter: {},
+    ticketClassFilter: {},
+    priceFilter: {},
+  };
+
   if (queryObject?.airplane?.in) {
-    airplaneFilter = {
+    filterObject.airplaneFilter = {
       "airplane.company": { $in: queryObject.airplane.in.split(",") },
     };
   }
 
-  //ticket class filter
-  let ticketClassFilter = {};
   if (queryObject?.ticketClass) {
-    ticketClassFilter = { ticketClass: queryObject.ticketClass };
+    filterObject.ticketClassFilter = { ticketClass: queryObject.ticketClass };
   }
 
-  //price filter
-  let priceFilter = {};
   if (queryObject?.price) {
-    priceFilter = {
+    filterObject.priceFilter = {
       price: { $gte: +queryObject.price.gte, $lte: +queryObject.price.lte },
     };
   }
 
+  //query
   const startDate = new Date(departureStart);
   const endDate = new Date(departureEnd);
 
@@ -151,7 +154,7 @@ const findTickets = async (queryObject) => {
             $unwind: "$airplane",
           },
           {
-            $match: airplaneFilter,
+            $match: filterObject.airplaneFilter,
           },
           {
             $unset: [
@@ -181,10 +184,10 @@ const findTickets = async (queryObject) => {
       },
     },
     {
-      $match: ticketClassFilter,
+      $match: filterObject.ticketClassFilter,
     },
     {
-      $match: priceFilter,
+      $match: filterObject.priceFilter,
     },
     {
       $unset: ["__v", "createdAt", "updatedAt", "flightRecordId"],
@@ -223,7 +226,22 @@ const findTickets = async (queryObject) => {
         },
       },
     },
-
+    {
+      $addFields: {
+        businessTicket: {
+          $arrayElemAt: ["$businessTickets", 0],
+        },
+        standartTicket: {
+          $arrayElemAt: ["$standartTickets", 0],
+        },
+        economTicket: {
+          $arrayElemAt: ["$economTickets", 0],
+        },
+        availableBusiness: { $size: "$businessTickets" },
+        availableStandart: { $size: "$standartTickets" },
+        availableEconom: { $size: "$economTickets" },
+      },
+    },
     {
       $unset: [
         "tickets",
@@ -233,8 +251,6 @@ const findTickets = async (queryObject) => {
       ],
     },
   ]);
-
-  return tickets;
 };
 
 const findTicketByUser = async (userId) => {
