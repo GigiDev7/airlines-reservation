@@ -86,10 +86,35 @@ const findTickets = async (queryObject) => {
 
   const { departureStart, departureEnd, departure, destination } = queryObject;
 
+  //airplane filter
+  let airplaneFilter = {};
+  if (queryObject?.airplane?.in) {
+    airplaneFilter = {
+      "airplane.company": { $in: queryObject.airplane.in.split(",") },
+    };
+  }
+
+  //ticket class filter
+  let ticketClassFilter = {};
+  if (queryObject?.ticketClass) {
+    ticketClassFilter = { ticketClass: queryObject.ticketClass };
+  }
+
+  //price filter
+  let priceFilter = {};
+  if (queryObject?.price) {
+    priceFilter = {
+      price: { $gte: +queryObject.price.gte, $lte: +queryObject.price.lte },
+    };
+  }
+
   const startDate = new Date(departureStart);
   const endDate = new Date(departureEnd);
 
-  return Ticket.aggregate([
+  const tickets = await Ticket.aggregate([
+    {
+      $match: { userId: null },
+    },
     {
       $lookup: {
         from: "flightrecords",
@@ -125,9 +150,9 @@ const findTickets = async (queryObject) => {
           {
             $unwind: "$airplane",
           },
-          /* {
-            $match: { "airplane.company": "test" },
-          }, */
+          {
+            $match: airplaneFilter,
+          },
           {
             $unset: [
               "airplane.seats",
@@ -156,9 +181,60 @@ const findTickets = async (queryObject) => {
       },
     },
     {
+      $match: ticketClassFilter,
+    },
+    {
+      $match: priceFilter,
+    },
+    {
       $unset: ["__v", "createdAt", "updatedAt", "flightRecordId"],
     },
+    {
+      $group: {
+        _id: "$record._id",
+        tickets: {
+          $push: "$$ROOT",
+        },
+      },
+    },
+
+    {
+      $addFields: {
+        businessTickets: {
+          $filter: {
+            input: "$tickets",
+            as: "item",
+            cond: { $eq: ["$$item.ticketClass", "business"] },
+          },
+        },
+        standartTickets: {
+          $filter: {
+            input: "$tickets",
+            as: "item",
+            cond: { $eq: ["$$item.ticketClass", "standart"] },
+          },
+        },
+        economTickets: {
+          $filter: {
+            input: "$tickets",
+            as: "item",
+            cond: { $eq: ["$$item.ticketClass", "econom"] },
+          },
+        },
+      },
+    },
+
+    {
+      $unset: [
+        "tickets",
+        "businessTickets",
+        "standartTickets",
+        "economTickets",
+      ],
+    },
   ]);
+
+  return tickets;
 };
 
 const findTicketByUser = async (userId) => {
