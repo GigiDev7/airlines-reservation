@@ -37,7 +37,7 @@ export class FlightCardComponent implements OnInit {
     }
     this.ticketService
       .bookTicket(
-        this.ticket.flightRecordId._id,
+        this.ticket.record._id,
         this.ticket.ticketClass,
         this.numberOfTickets,
         this.firstname,

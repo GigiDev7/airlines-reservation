@@ -3,7 +3,7 @@ import { FlightModel } from './flightsModel';
 
 export interface FlightRecordModel {
   _id: string;
-  flightId: FlightModel;
-  airplaneId: AirplaneModel;
+  flight: FlightModel;
+  airplane: AirplaneModel;
   flightDay: Date;
 }

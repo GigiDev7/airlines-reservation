@@ -89,6 +89,8 @@ export class FlightsComponent implements OnInit {
     this.priceMax = '';
     this.ticketClass = 'all';
     this.availableTickets = 1;
+    this.sortBy = 'flightDay';
+    this.availableTickets = 1;
 
     this.ticketService
       .getTickets(
@@ -196,9 +198,7 @@ export class FlightsComponent implements OnInit {
                 this.tickets = res;
                 this.companies = [
                   ...new Set(
-                    res.map(
-                      (item: any) => item.flightRecordId.airplaneId.company
-                    )
+                    res.map((item: any) => item.record.airplane.company)
                   ),
                 ];
                 this.checkedCompanies = [...this.companies];

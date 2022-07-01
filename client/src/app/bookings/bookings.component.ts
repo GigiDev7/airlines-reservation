@@ -19,8 +19,7 @@ export class BookingsComponent implements OnInit {
 
   public isReturnAvailable(ticket: TicketModel): boolean {
     const lastDayToReturn = new Date(
-      (new Date(ticket?.flightRecordId?.flightDay as any) as any) -
-        1000 * 60 * 60 * 24
+      (new Date(ticket?.record?.flightDay as any) as any) - 1000 * 60 * 60 * 24
     );
 
     return lastDayToReturn < new Date();
