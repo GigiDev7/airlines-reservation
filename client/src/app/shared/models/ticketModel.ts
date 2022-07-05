@@ -5,7 +5,7 @@ type SeatClass = 'business' | 'standart' | 'econom';
 export interface TicketModel {
   _id: string;
   price: number;
-  flightRecordId: FlightRecordModel;
+  record: FlightRecordModel;
   userId: string | null;
   ticketClass: SeatClass;
   available: number;
