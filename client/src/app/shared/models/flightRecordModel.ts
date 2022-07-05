@@ -6,4 +6,6 @@ export interface FlightRecordModel {
   flight: FlightModel;
   airplane: AirplaneModel;
   flightDay: Date;
+  flightId?: FlightModel;
+  airplaneId?: AirplaneModel;
 }

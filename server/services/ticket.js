@@ -1,5 +1,5 @@
 const Ticket = require("../models/ticketSchema");
-const { findFlightRecords } = require("./flightRecord");
+const mongoose = require("mongoose");
 
 class ReturnException {
   constructor(message) {
@@ -104,7 +104,7 @@ const findTickets = async (queryObject) => {
     filterObject.ticketClassFilter = { ticketClass: queryObject.ticketClass };
   }
 
-  if (queryObject?.price) {
+  if (queryObject?.price?.gte && queryObject?.price?.lte) {
     filterObject.priceFilter = {
       price: { $gte: +queryObject.price.gte, $lte: +queryObject.price.lte },
     };
@@ -251,6 +251,66 @@ const findTickets = async (queryObject) => {
       ],
     },
   ]);
+
+  //result
+  let result = [];
+  const availableTickets = queryObject.availableTickets || 1;
+
+  for (let ticket of tickets) {
+    if (
+      ticket.businessTicket &&
+      ticket?.availableBusiness >= availableTickets
+    ) {
+      result.push({
+        ...ticket.businessTicket,
+        available: ticket?.availableBusiness,
+      });
+    }
+    if (
+      ticket.standartTicket &&
+      ticket?.availableStandart >= availableTickets
+    ) {
+      result.push({
+        ...ticket.standartTicket,
+        available: ticket?.availableStandart,
+      });
+    }
+    if (ticket.economTicket && ticket?.availableEconom >= availableTickets) {
+      result.push({
+        ...ticket.economTicket,
+        available: ticket?.availableEconom,
+      });
+    }
+  }
+
+  //pagination
+  const page = queryObject.page || 1;
+  const limit = 10;
+  const skip = (page - 1) * limit;
+
+  result = result.slice(skip, skip + limit);
+
+  //sorting
+  if (!sort || sort === "flightDay") {
+    return result.sort((a, b) => a.record.flightDay - b.record.flightDay);
+  }
+  if (sort === "price") {
+    return result.sort((a, b) => a.price - b.price);
+  }
+  if (sort === "-price") {
+    return result.sort((a, b) => b.price - a.price);
+  }
+  if (sort === "ticketClass") {
+    return result.sort((a, b) => {
+      if (a.ticketClass > b.ticketClass) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+  }
+
+  return result;
 };
 
 const findTicketByUser = async (userId) => {
@@ -264,8 +324,7 @@ const findTicketByUser = async (userId) => {
 
 const updateBookedTicket = async (
   userId,
-  firstname,
-  lastname,
+  userData,
   numberOfTickets,
   flightRecordId,
   ticketClass
@@ -277,11 +336,13 @@ const updateBookedTicket = async (
       { flightRecordId, ticketClass, userId: null },
       {
         userId,
-        "userData.firstname": firstname,
-        "userData.lastname": lastname,
+        userData: userData[i],
+        /* "userData.firstname": firstname,
+        "userData.lastname": lastname, */
       },
       { new: true }
     );
+
     bookedTickets.push(bookedTicket);
   }
 
@@ -294,13 +355,23 @@ const updateBookedTicket = async (
 };
 
 const updateReturnedTicket = async (ticketId) => {
-  const ticket = await Ticket.findById(ticketId).populate("flightRecordId");
-  const lastDayToReturn = new Date(
+  const ticket = await Ticket.findById(ticketId).populate({
+    path: "flightRecordId",
+    populate: {
+      path: "flightId",
+    },
+  });
+  /*  const lastDayToReturn = new Date(
     new Date(ticket.flightRecordId.flightDay) -
       1000 * 60 * 60 * process.env.RETURN_EXPIRATION
-  );
+  ); */
 
-  if (lastDayToReturn < new Date()) {
+  const flightDate = ticket.flightRecordId.flightDay.toDateString();
+  const lastDayToReturn =
+    new Date(`${flightDate} ${ticket.flightRecordId.flightId.departureTime}`) -
+    1000 * 60 * 60 * process.env.RETURN_EXPIRATION;
+
+  if (new Date(lastDayToReturn) < new Date()) {
     throw new ReturnException("Return time expired");
   }
 

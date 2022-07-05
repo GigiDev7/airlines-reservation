@@ -83,26 +83,28 @@
       >
         <div class="w-[30%] flex items-center">
           <mat-icon>airplanemode_active</mat-icon>
-          <p>{{ flightRecord.airplane?.company | titlecase }}</p>
+          <p>{{ flightRecord.airplaneId?.company | titlecase }}</p>
         </div>
         <div class="relative w-[30%]">
-          <p>{{ flightRecord.flight?.departure | titlecase }}</p>
+          <p>{{ flightRecord.flightId?.departure | titlecase }}</p>
+          <p>{{ flightRecord?.flightId?.departureTime }}</p>
           <p
             class="absolute lg:right-10 sm:-right-0 top-0 text-[14px] text-gray-600"
           >
-            {{ flightRecord?.flight?.flightDuration }}
+            {{ flightRecord?.flightId?.flightDuration }}
           </p>
           <div
             class="w-[100px] h-[2px] bg-black absolute top-5 lg:right-5 sm:-right-5"
           ></div>
           <p class="mt-1 ml-[50%]">
-            {{ flightRecord?.flightDay | date: "medium" }}
+            {{ flightRecord?.flightDay | date: "mediumDate" }}
           </p>
         </div>
         <div class="w-[10%]">
           <p>
-            {{ flightRecord?.flight?.destination | titlecase }}
+            {{ flightRecord?.flightId?.destination | titlecase }}
           </p>
+          <p>{{ flightRecord?.flightId?.arrivalTime }}</p>
         </div>
         <div>
           <button
