@@ -9,4 +9,5 @@ export interface TicketModel {
   userId: string | null;
   ticketClass: SeatClass;
   available: number;
+  flightRecordId?: FlightRecordModel;
 }

@@ -44,15 +44,13 @@ export class TicketService {
     flightRecordId: string,
     ticketClass: string,
     numberOfTickets: number,
-    firstname: string,
-    lastname: string
+    userData: { firstname: string; lastname: string }[]
   ) {
     return this.http.patch(`${url}/tickets/book`, {
       flightRecordId,
       ticketClass,
       numberOfTickets,
-      firstname,
-      lastname,
+      userData,
     });
   }
 

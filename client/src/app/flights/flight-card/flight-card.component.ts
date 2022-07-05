@@ -17,6 +17,8 @@ export class FlightCardComponent implements OnInit {
   public firstname: string = '';
   public lastname: string = '';
   public isAmountError: boolean = false;
+  public isAmountSelected: boolean = false;
+  public userData: { firstname: string; lastname: string }[] = [];
 
   public handleBookClick(flightRecordId: string, ticketClass: string) {
     /* this.ticketService.tobeBookedTicket = { flightRecordId, ticketClass };
@@ -28,26 +30,46 @@ export class FlightCardComponent implements OnInit {
   public closeBookingForm() {
     this.isBookingFormShown = false;
     this.isAmountError = false;
+    this.isAmountSelected = false;
+    this.numberOfTickets = 1;
+    this.firstname = '';
+    this.lastname = '';
   }
 
   public handleTicketBook() {
-    if (this.numberOfTickets > this.ticket.available) {
-      this.isAmountError = true;
-      return;
-    }
     this.ticketService
       .bookTicket(
         this.ticket.record._id,
         this.ticket.ticketClass,
         this.numberOfTickets,
-        this.firstname,
-        this.lastname
+        this.userData
       )
       .subscribe({
         next: (res) => {
           this.router.navigate(['bookings']);
         },
       });
+  }
+
+  public handleNextClick() {
+    if (this.numberOfTickets > this.ticket.available) {
+      this.isAmountError = true;
+    } else {
+      this.isAmountSelected = true;
+      this.isAmountError = false;
+      this.generateUserDataFields();
+    }
+  }
+
+  public numOfSequence(n: number) {
+    return Array(n);
+  }
+
+  public generateUserDataFields() {
+    for (let num of this.numOfSequence(this.numberOfTickets)) {
+      const userObj = { firstname: '', lastname: '' };
+      this.userData.push(userObj);
+    }
   }
 
   constructor(

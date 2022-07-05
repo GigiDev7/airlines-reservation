@@ -18,11 +18,20 @@ export class BookingsComponent implements OnInit {
   public isModalShown: boolean = false;
 
   public isReturnAvailable(ticket: TicketModel): boolean {
-    const lastDayToReturn = new Date(
+    /* const lastDayToReturn = new Date(
       (new Date(ticket?.record?.flightDay as any) as any) - 1000 * 60 * 60 * 24
-    );
+    ); */
 
-    return lastDayToReturn < new Date();
+    const flightDate = new Date(
+      ticket?.flightRecordId?.flightDay!
+    ).toDateString();
+    const lastDayToReturn =
+      (new Date(
+        `${flightDate} ${ticket?.flightRecordId?.flightId?.departureTime}`
+      ) as any) -
+      1000 * 60 * 60 * 24;
+
+    return new Date(lastDayToReturn) < new Date();
   }
 
   public handleTicketReturn(ticket: TicketModel) {

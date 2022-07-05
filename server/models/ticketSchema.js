@@ -21,10 +21,15 @@ const ticketSchema = new mongoose.Schema(
     },
     userData: {
       type: {
-        firstname: String,
-        lastname: String,
+        firstname: {
+          type: String,
+          default: null,
+        },
+        lastname: {
+          type: String,
+          default: null,
+        },
       },
-      default: null,
     },
   },
   {

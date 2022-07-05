@@ -60,17 +60,10 @@ const getTicketsByUser = async (req, res, next) => {
 
 const bookTicket = async (req, res, next) => {
   try {
-    const {
-      firstname,
-      lastname,
-      numberOfTickets,
-      flightRecordId,
-      ticketClass,
-    } = req.body;
+    const { userData, numberOfTickets, flightRecordId, ticketClass } = req.body;
     const bookedTickets = await updateBookedTicket(
       req.user._id,
-      firstname,
-      lastname,
+      userData,
       numberOfTickets,
       flightRecordId,
       ticketClass

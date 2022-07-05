@@ -23,24 +23,26 @@
       </div>
       <div class="relative w-[30%]">
         <p class="font-medium">
-          {{ ticket?.record?.flight?.departure | titlecase }}
+          {{ ticket?.flightRecordId?.flightId?.departure | titlecase }}
         </p>
+        <p>{{ ticket?.flightRecordId?.flightId?.departureTime }}</p>
         <p
           class="absolute lg:right-10 sm:-right-0 top-0 text-[14px] text-gray-600"
         >
-          {{ ticket?.record?.flight?.flightDuration }}
+          {{ ticket?.flightRecordId?.flightId?.flightDuration }}
         </p>
         <div
           class="w-[100px] h-[2px] bg-black absolute top-5 lg:right-5 sm:-right-5"
         ></div>
         <p class="mt-1 ml-[50%]">
-          {{ ticket?.record?.flightDay | date: "medium" }}
+          {{ ticket?.flightRecordId?.flightDay | date: "mediumDate" }}
         </p>
       </div>
       <div class="w-[10%]">
         <p class="font-medium">
-          {{ ticket?.record?.flight?.destination | titlecase }}
+          {{ ticket?.flightRecordId?.flightId?.destination | titlecase }}
         </p>
+        <p>{{ ticket?.flightRecordId?.flightId?.arrivalTime }}</p>
       </div>
       <div class="flex flex-col w-[20%] pr-3 relative">
         <p class="font-medium">Class : {{ ticket?.ticketClass | titlecase }}</p>
