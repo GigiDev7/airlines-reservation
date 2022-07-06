@@ -1,17 +1,16 @@
-const User = require("../models/userSchema");
-const userService = require("../services/user");
+const User = require("../../models/userSchema");
+const userService = require("../../services/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 jest.mock("jsonwebtoken");
 jest.mock("bcrypt");
-jest.mock("../models/userSchema");
+jest.mock("../../models/userSchema");
 
 describe("user service", () => {
   describe("LOGIN:user not found", () => {
     it("should not compare password, return error", async () => {
       User.findOne.mockImplementationOnce(() => null);
-      userService.comparePasswords = jest.fn();
       const result = await userService.findUser("email", "password");
 
       expect(userService.comparePasswords).not.toHaveBeenCalled();
