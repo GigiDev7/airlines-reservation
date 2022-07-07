@@ -14,6 +14,9 @@ const req = {
     email: "email",
     password: "password",
   },
+  params: {
+    userId: "user",
+  },
 };
 
 describe("user controller", () => {
@@ -123,6 +126,38 @@ describe("user controller", () => {
           message: "Email already exists",
         });
       });
+    });
+  });
+
+  describe("delete user", () => {
+    it("should delete user from db and return deleted user", async () => {
+      userServices.findAndDeleteUser.mockResolvedValue({
+        email: "email",
+        id: "id",
+        password: "password",
+      });
+
+      const next = jest.fn((e) => errorHandler(e, req, res));
+
+      await userController.deleteUser(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        email: "email",
+        id: "id",
+        password: "password",
+      });
+    });
+  });
+
+  describe("update user", () => {
+    it("should update user data and return it", async () => {
+      userServices.findUserAndUpdate.mockResolvedValue({ user: "user" });
+
+      await userController.updateUser(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledWith({ user: "user" });
     });
   });
 });
