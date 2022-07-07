@@ -43,11 +43,6 @@ describe("ticket service", () => {
       const hours = new Date().getHours();
       const minutes = new Date().getMinutes();
 
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(() => "Return time expired"),
-      };
-
       Ticket.findByIdAndUpdate = jest.fn();
       Ticket.findById = jest.fn().mockReturnThis();
       Ticket.populate = jest.fn(() => {
