@@ -1,5 +1,6 @@
 const userController = require("../../controllers/user");
 const userServices = require("../../services/user");
+const { errorHandler } = require("../../middlewares/errorHandler");
 
 jest.mock("../../services/user");
 
@@ -51,6 +52,51 @@ describe("user controller", () => {
         lastname: "lastname",
         role: "role",
       });
+    });
+  });
+
+  describe("Register user: successfull", () => {
+    it("should register user and return user data", async () => {
+      userServices.createUser.mockResolvedValue({
+        email: "email",
+        firstname: "firstname",
+        lastname: "lastname",
+        role: "role",
+      });
+
+      await userController.register(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        email: "email",
+        firstname: "firstname",
+        lastname: "lastname",
+        role: "role",
+      });
+    });
+  });
+
+  describe("Register user: invalid", () => {
+    it("should return error message", async () => {
+      class ValidationError {
+        constructor() {
+          this.name = "ValidationError";
+        }
+      }
+
+      const next = jest.fn((e) => errorHandler(e, req, res));
+
+      userServices.createUser.mockImplementation(() => {
+        throw new ValidationError();
+      });
+
+      try {
+        userController.register(req, res, next);
+      } catch (error) {
+        next(error);
+      }
+
+      expect(res.status).toHaveBeenCalledWith(400);
     });
   });
 });
