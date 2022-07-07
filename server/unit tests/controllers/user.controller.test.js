@@ -98,5 +98,31 @@ describe("user controller", () => {
 
       expect(res.status).toHaveBeenCalledWith(400);
     });
+
+    describe("Register user: already exists", () => {
+      it("should return error", async () => {
+        class MockError {
+          constructor() {
+            this.code = 11000;
+          }
+        }
+        const next = jest.fn((e) => errorHandler(e, req, res));
+
+        userServices.createUser.mockImplementation(() => {
+          throw new MockError();
+        });
+
+        try {
+          userController.register(req, res, next);
+        } catch (error) {
+          next(error);
+        }
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.json).toHaveBeenCalledWith({
+          message: "Email already exists",
+        });
+      });
+    });
   });
 });
