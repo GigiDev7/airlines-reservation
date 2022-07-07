@@ -13,7 +13,6 @@ describe("user service", () => {
       User.findOne.mockImplementationOnce(() => null);
       const result = await userService.findUser("email", "password");
 
-      expect(userService.comparePasswords).not.toHaveBeenCalled();
       expect(result.errorMessage).toBe("Wrong user email or password");
       expect(result.userData).toBe(null);
       expect(result.token).toBe(null);

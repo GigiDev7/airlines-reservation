@@ -63,6 +63,7 @@ describe("ticket service", () => {
 
       process.env.RETURN_EXPIRATION = 24;
 
+      expect.assertions(1);
       try {
         await ticketService.updateReturnedTicket("mockId");
       } catch (error) {

@@ -137,4 +137,5 @@ module.exports = {
   findFlightRecords,
   findFlightRecordAndDelete,
   findFlightRecordAndUpdate,
+  generateTickets,
 };
