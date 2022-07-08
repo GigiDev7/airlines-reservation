@@ -61,6 +61,10 @@ export class FlightCardComponent implements OnInit {
     }
   }
 
+  public handleBackClick() {
+    this.isAmountSelected = false;
+  }
+
   public numOfSequence(n: number) {
     return Array(n);
   }

@@ -46,6 +46,12 @@
       class="absolute right-0 top-0 cursor-pointer"
       >close</mat-icon
     >
+    <mat-icon
+      (click)="handleBackClick()"
+      *ngIf="isAmountSelected"
+      class="absolute left-0 -top-4 cursor-pointer"
+      >arrow_back</mat-icon
+    >
     <p *ngIf="isAmountError" class="text-red-500">
       This amount of tickets is not available
     </p>
