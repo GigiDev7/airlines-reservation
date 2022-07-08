@@ -84,6 +84,7 @@ describe("user controller", () => {
       class ValidationError {
         constructor() {
           this.name = "ValidationError";
+          this.message = "Validation Error";
         }
       }
 
@@ -100,6 +101,7 @@ describe("user controller", () => {
       }
 
       expect(res.status).toHaveBeenCalledWith(400);
+      expect(res.json).toHaveBeenCalledWith({ message: "Validation Error" });
     });
 
     describe("Register user: already exists", () => {
