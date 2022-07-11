@@ -162,34 +162,18 @@ export class FlightsComponent implements OnInit {
       )
       .subscribe({
         next: (params) =>
-          /*  this.flightService
-            .getFilteredRecords(
-              params['departure'].toLowerCase(),
-              params['destination'].toLowerCase(),
-              params['departureStart'],
-              params['departureEnd']
-            )
-            .pipe(untilDestroyed(this))
-            .subscribe({
-              next: (res: any) => {
-                this.flightRecords = res;
-                this.isFetching = false;
-                this.companies = [
-                  ...new Set(
-                    res.records.map(
-                      (item: FlightRecordModel) => item.airplaneId.company
-                    )
-                  ),
-                ];
-                this.checkedCompanies = [...this.companies];
-              },
-            }), */
           this.ticketService
             .getTickets(
               params['departure'].toLowerCase(),
               params['destination'].toLowerCase(),
               params['departureStart'],
-              params['departureEnd']
+              params['departureEnd'],
+              '',
+              params['ticketClass'],
+              params['priceMin'],
+              params['priceMax'],
+              params['sort'],
+              params['availableTickets']
             )
             .pipe(untilDestroyed(this))
             .subscribe({
