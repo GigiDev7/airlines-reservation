@@ -44,4 +44,4 @@ const generateSeats = (nums, chars) => {
 
 exports.resultSeats = generateSeats(numbers, characters);
 
-module.exports = generateSeats;
+//module.exports = generateSeats;

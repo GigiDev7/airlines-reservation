@@ -137,7 +137,7 @@ export class FlightRecordComponent implements OnInit {
       const departureDate = flightDay.toString().slice(0, indx);
 
       this.flightRecordForm.patchValue({
-        airline: this.adminService.editingRecord.airplane.company,
+        airline: this.adminService.editingRecord?.airplaneId?.company,
         flightDay: departureDate,
       });
     }
