@@ -39,7 +39,7 @@
 <div *ngIf="isBookingFormShown">
   <div class="bg-[rgba(0,0,0,0.3)] fixed top-0 bottom-0 right-0 left-0"></div>
   <div
-    class="flex flex-col space-y-4 items-center justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-200 w-96 h-fit z-20 rounded-md shadow-lg py-7"
+    class="flex flex-col space-y-4 items-center justify-center fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-200 w-96 h-fit z-20 rounded-md shadow-lg py-7"
   >
     <mat-icon
       (click)="closeBookingForm()"
@@ -66,34 +66,39 @@
       />
     </div>
 
-    <p *ngIf="isAmountSelected" class="my-2 font-medium">
+    <p *ngIf="isAmountSelected" class="my-2 font-medium max-h-">
       You selected {{ numberOfTickets }}
       {{ numberOfTickets === 1 ? "ticket" : "tickets" }}
     </p>
     <div
-      *ngFor="let num of numOfSequence(numberOfTickets); let index = index"
-      class="w-full flex flex-col items-center space-y-3"
+      *ngIf="isAmountSelected"
+      class="w-full space-y-3 max-h-80 overflow-y-auto"
     >
-      <p *ngIf="isAmountSelected">Ticket {{ index + 1 }}</p>
-      <div *ngIf="isAmountSelected" class="flex flex-col w-[70%]">
-        <label class="font-medium">Firstname</label>
-        <input
-          [(ngModel)]="userData[index]['firstname']"
-          name="firstname"
-          type="text"
-          placeholder="Enter your firstname"
-          class="border-[1px] border-black outline-0 mt-2 pl-1"
-        />
-      </div>
-      <div *ngIf="isAmountSelected" class="flex flex-col w-[70%]">
-        <label class="font-medium">Lastname</label>
-        <input
-          [(ngModel)]="userData[index]['lastname']"
-          name="lastname"
-          type="text"
-          placeholder="Enter your lastname"
-          class="border-[1px] border-black outline-0 mt-2 pl-1"
-        />
+      <div
+        *ngFor="let num of numOfSequence(numberOfTickets); let index = index"
+        class="w-full flex flex-col items-center"
+      >
+        <p *ngIf="isAmountSelected">Ticket {{ index + 1 }}</p>
+        <div *ngIf="isAmountSelected" class="flex flex-col w-[70%]">
+          <label class="font-medium">Firstname</label>
+          <input
+            [(ngModel)]="userData[index]['firstname']"
+            name="firstname"
+            type="text"
+            placeholder="Enter your firstname"
+            class="border-[1px] border-black outline-0 mt-2 pl-1"
+          />
+        </div>
+        <div *ngIf="isAmountSelected" class="flex flex-col w-[70%]">
+          <label class="font-medium">Lastname</label>
+          <input
+            [(ngModel)]="userData[index]['lastname']"
+            name="lastname"
+            type="text"
+            placeholder="Enter your lastname"
+            class="border-[1px] border-black outline-0 mt-2 pl-1"
+          />
+        </div>
       </div>
     </div>
 

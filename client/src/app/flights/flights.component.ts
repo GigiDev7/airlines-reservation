@@ -154,9 +154,14 @@ export class FlightsComponent implements OnInit {
     this.route.queryParams
       .pipe(
         tap(
-          () => (
+          (params) => (
             (this.isFetching = true),
-            (this.flightRecords = { total: 0, records: [] })
+            (this.flightRecords = { total: 0, records: [] }),
+            (this.availableTickets = params['availableTickets']),
+            (this.priceMax = params['priceMax']),
+            (this.priceMin = params['priceMin']),
+            (this.ticketClass = params['ticketClass']),
+            (this.sortBy = params['sort'])
           )
         )
       )
