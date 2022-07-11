@@ -294,6 +294,9 @@ const findTickets = async (queryObject) => {
   if (!sort || sort === "flightDay") {
     return result.sort((a, b) => a.record.flightDay - b.record.flightDay);
   }
+  if (sort === "-flightDay") {
+    return result.sort((a, b) => b.record.flightDay - a.record.flightDay);
+  }
   if (sort === "price") {
     return result.sort((a, b) => a.price - b.price);
   }
@@ -306,6 +309,15 @@ const findTickets = async (queryObject) => {
         return 1;
       } else {
         return -1;
+      }
+    });
+  }
+  if (sort === "-ticketClass") {
+    return result.sort((a, b) => {
+      if (a.ticketClass > b.ticketClass) {
+        return -1;
+      } else {
+        return 1;
       }
     });
   }
