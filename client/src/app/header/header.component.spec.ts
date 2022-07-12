@@ -1,7 +1,12 @@
 import { HeaderComponent } from './header.component';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  ComponentFixtureAutoDetect,
+} from '@angular/core/testing';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -21,6 +26,7 @@ describe('HeaderComponent', () => {
       providers: [
         { provide: AuthService, useValue: authServiceStub },
         { provide: Router, useValue: routerSpy },
+        { provide: ComponentFixtureAutoDetect, useValue: true },
       ],
     });
 
@@ -39,6 +45,7 @@ describe('HeaderComponent', () => {
   it('should toggle window state', () => {
     component.toggleWindow();
     expect(component.isWindowShown).toBe(true);
+
     component.toggleWindow();
     expect(component.isWindowShown).toBe(false);
   });
