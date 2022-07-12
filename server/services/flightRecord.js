@@ -114,6 +114,8 @@ const findFlightRecords = async (queryObject) => {
 const findFlightRecordAndUpdate = async (recordId, flightData) => {
   const airplane = await Airplane.findOne({ company: flightData.airline });
 
+  await Ticket.deleteMany({ flightRecordId: recordId });
+
   return FlightRecord.findByIdAndUpdate(
     recordId,
     {
