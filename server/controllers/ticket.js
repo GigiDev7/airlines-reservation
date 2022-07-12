@@ -87,11 +87,18 @@ const returnTicket = async (req, res, next) => {
 const getTicketsByRecord = async (req, res, next) => {
   try {
     const { flightRecordId } = req.params;
-    const { total, tickets } = await findTicketsByRecord(
-      flightRecordId,
-      req.query
-    );
-    res.status(200).json({ total, tickets });
+    const { businessTickets, standartTickets, economTickets, tickets } =
+      await findTicketsByRecord(flightRecordId, req.query);
+
+    const total = businessTickets + standartTickets + economTickets;
+
+    res.status(200).json({
+      businessTickets,
+      standartTickets,
+      economTickets,
+      total,
+      tickets,
+    });
   } catch (error) {
     next(error);
   }

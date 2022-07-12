@@ -14,14 +14,20 @@ import { AdminService } from '../admin.service';
   styleUrls: ['./admin-tickets.component.css'],
 })
 export class AdminTicketsComponent implements OnInit {
-  public tickets!: { total: number; tickets: TicketModel[] };
+  public tickets: {
+    businessTickets: number;
+    standartTickets: number;
+    economTickets: number;
+    total: number;
+    tickets: TicketModel[];
+  } | null = null;
   public isFetching: boolean = false;
   public isTicketFormShown: boolean = false;
-
+  /* 
   public handleTicketEdit(ticket: TicketModel) {
     this.adminService.isTicketFormShown.next(true);
     this.adminService.editingTicket = ticket;
-  }
+  } */
 
   public trackBy(index: number, item: TicketModel) {
     return item._id;
@@ -44,7 +50,7 @@ export class AdminTicketsComponent implements OnInit {
         tap({
           next: () => {
             this.isFetching = true;
-            this.tickets = { total: 0, tickets: [] };
+            this.tickets = null;
           },
         })
       )

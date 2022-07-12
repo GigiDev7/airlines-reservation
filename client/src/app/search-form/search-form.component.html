@@ -1,88 +1,157 @@
-<form
-  (click)="hideTypeAhead($event)"
-  (ngSubmit)="handleFlightFormSubmit()"
-  [formGroup]="flightForm"
-  class="flex items-center bg-white h-fit py-14 rounded-md px-16 sm:flex-col lg:flex-row space-y-4 lg:space-y-0"
->
-  <div class="relative">
-    <input
-      (input)="handleLocationChange($event, 'departure')"
-      class="py-2 pl-1 border-[1px]"
-      type="text"
-      placeholder="Where from?"
-      formControlName="departure"
-    />
-    <div
-      *ngIf="filtersType === 'departure' && filteredLocations.length > 0"
-      class="z-10 absolute top-14 px-8 py-6 rounder-md shadow-md bg-white max-h-[350px] overflow-y-auto"
-    >
-      <ul class="space-y-8">
-        <li
-          (click)="handleLocationClick(location)"
-          class="cursor-pointer hover:bg-gray-100 px-2 py-3 z-10"
-          *ngFor="let location of filteredLocations; trackBy: trackBy"
-        >
-          {{ location.city | titlecase }},<span class="ml-2 text-gray-400">{{
-            location.country | titlecase
-          }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="relative">
-    <input
-      (input)="handleLocationChange($event, 'destination')"
-      class="py-2 pl-1 border-[1px]"
-      type="text"
-      placeholder="Where to?"
-      formControlName="destination"
-    />
-    <div
-      *ngIf="filtersType === 'destination' && filteredLocations.length > 0"
-      class="z-10 absolute top-14 px-4 py-6 rounder-md shadow-md max-h-[350px] overflow-y-auto bg-white"
-    >
-      <ul class="space-y-8">
-        <li
-          (click)="handleLocationClick(location)"
-          class="cursor-pointer hover:bg-gray-100 px-2 py-3"
-          *ngFor="let location of filteredLocations; trackBy: trackBy"
-        >
-          {{ location.city | titlecase }},<span class="ml-2 text-gray-400">{{
-            location.country | titlecase
-          }}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <div>
-    <input
-      class="py-2 pl-1 border-[1px]"
-      #departureInput
-      type="text"
-      placeholder="Departure range"
-      (focus)="handleInputFocus(departureInput)"
-      (blur)="handleInputBlur(departureInput)"
-      [min]="minDate"
-      formControlName="departureStart"
-    />
-  </div>
-  <div>
-    <input
-      class="py-2 pl-1 border-[1px]"
-      #returnInput
-      type="text"
-      placeholder="Departure range"
-      (focus)="handleInputFocus(returnInput)"
-      (blur)="handleInputBlur(returnInput)"
-      [min]="minDate"
-      formControlName="departureEnd"
-    />
-  </div>
-  <button
-    class="w-40 py-2 ml-4 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-    type="submit"
+<div class="bg-white">
+  <form
+    (click)="hideTypeAhead($event)"
+    (ngSubmit)="handleFlightFormSubmit()"
+    [formGroup]="flightForm"
+    class="flex items-center bg-white h-fit py-14 rounded-md px-16 sm:flex-col lg:flex-row space-y-4 lg:space-y-0"
   >
-    Search Flights
-  </button>
-</form>
+    <div class="relative">
+      <input
+        (input)="handleLocationChange($event, 'departure')"
+        class="py-2 pl-1 border-[1px]"
+        type="text"
+        placeholder="Where from?"
+        formControlName="departure"
+      />
+      <div
+        *ngIf="filtersType === 'departure' && filteredLocations.length > 0"
+        class="z-10 absolute top-14 px-8 py-6 rounder-md shadow-md bg-white max-h-[350px] overflow-y-auto"
+      >
+        <ul class="space-y-8">
+          <li
+            (click)="handleLocationClick(location)"
+            class="cursor-pointer hover:bg-gray-100 px-2 py-3 z-10"
+            *ngFor="let location of filteredLocations; trackBy: trackBy"
+          >
+            {{ location.city | titlecase }},<span class="ml-2 text-gray-400">{{
+              location.country | titlecase
+            }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="relative">
+      <input
+        (input)="handleLocationChange($event, 'destination')"
+        class="py-2 pl-1 border-[1px]"
+        type="text"
+        placeholder="Where to?"
+        formControlName="destination"
+      />
+      <div
+        *ngIf="filtersType === 'destination' && filteredLocations.length > 0"
+        class="z-10 absolute top-14 px-4 py-6 rounder-md shadow-md max-h-[350px] overflow-y-auto bg-white"
+      >
+        <ul class="space-y-8">
+          <li
+            (click)="handleLocationClick(location)"
+            class="cursor-pointer hover:bg-gray-100 px-2 py-3"
+            *ngFor="let location of filteredLocations; trackBy: trackBy"
+          >
+            {{ location.city | titlecase }},<span class="ml-2 text-gray-400">{{
+              location.country | titlecase
+            }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <input
+        class="py-2 pl-1 border-[1px]"
+        #departureInput
+        type="text"
+        placeholder="Departure range"
+        (focus)="handleInputFocus(departureInput)"
+        (blur)="handleInputBlur(departureInput)"
+        [min]="minDate"
+        formControlName="departureStart"
+      />
+    </div>
+    <div>
+      <input
+        class="py-2 pl-1 border-[1px]"
+        #returnInput
+        type="text"
+        placeholder="Departure range"
+        (focus)="handleInputFocus(returnInput)"
+        (blur)="handleInputBlur(returnInput)"
+        [min]="minDate"
+        formControlName="departureEnd"
+      />
+    </div>
+    <button
+      class="w-40 py-2 ml-4 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+      type="submit"
+    >
+      Search Flights
+    </button>
+  </form>
+  <p
+    *ngIf="!isFlightsPage"
+    (click)="handleMoreFiltersShow()"
+    class="absolute right-20 bottom-4 flex items-center gap-2 cursor-pointer"
+  >
+    <span>More Filters</span>
+    <mat-icon>filter_list</mat-icon>
+  </p>
+
+  <form
+    [formGroup]="flightForm"
+    *ngIf="isMoreFiltersShown"
+    class="bg-white flex justify-center space-x-4 pb-7 mt-0 rounded-md"
+  >
+    <div class="flex flex-col">
+      <label>Sort by</label>
+      <select
+        formControlName="sort"
+        class="border-[1px] border-black w-28 mt-3"
+      >
+        <option value="flightDay">Flight day Asc.</option>
+        <option value="-flightDay">Flight day Desc.</option>
+        <option value="price">Price Asc.</option>
+        <option value="-price">Price Desc.</option>
+        <option value="ticketClass">Class Asc.</option>
+        <option value="-ticketClass">Class Desc.</option>
+      </select>
+    </div>
+    <div class="flex flex-col">
+      <label class="text-center">Price Range</label>
+      <div class="flex space-x-2">
+        <input
+          class="w-24 border-[1px] border-black outline-0 mt-3"
+          type="number"
+          placeholder="From"
+          formControlName="priceMin"
+        />
+        <span class="mt-3">-</span>
+        <input
+          class="w-24 border-[1px] border-black outline-0 mt-3"
+          type="number"
+          placeholder="To"
+          formControlName="priceMax"
+        />
+      </div>
+    </div>
+    <div class="flex flex-col">
+      <label>Select Class</label>
+      <select
+        formControlName="ticketClass"
+        class="mt-3 border-[1px] border-black px-2"
+      >
+        <option value="all">All</option>
+        <option value="business">Business</option>
+        <option value="standart">Standart</option>
+        <option value="econom">Econom</option>
+      </select>
+    </div>
+    <div class="flex flex-col">
+      <label>Available tickets</label>
+      <input
+        formControlName="availableTickets"
+        class="w-28 border-[1px] border-black outline-0 mt-3"
+        type="number"
+      />
+    </div>
+  </form>
+</div>

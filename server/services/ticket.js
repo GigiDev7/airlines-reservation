@@ -21,69 +21,6 @@ const findTicketAndDelete = async (ticketId) => {
 };
 
 const findTickets = async (queryObject) => {
-  /* const { count, records } = await findFlightRecords(queryObject);
-  const { sort } = queryObject;
-  const availableTickets = queryObject.availableTickets || 1;
-
-  const filterObject = {};
-
-  const { price } = queryObject;
-  if (price?.gte && price?.lte) {
-    filterObject.price = {
-      $gte: price.gte,
-      $lte: price.lte,
-    };
-  } */
-
-  /* const { price } = queryObject;
-  const filters = ["gte", "gt", "lte", "lt"];
-  const filterPrice = {};
-  if (price) {
-    for (let filter of filters) {
-      if (price[filter]) {
-        filterPrice[`$${filter}`] = price[filter];
-      }
-    }
-    filterObject.price = filterPrice;
-  } */
-
-  /*  const filterClass = queryObject.ticketClass
-    ? queryObject.ticketClass.split(",")
-    : ["business", "standart", "econom"];
-
-  const resultTickets = [];
-
-  for (let record of records) {
-    for (let ticketClass of filterClass) {
-      const tickets = await Ticket.find({
-        flightRecordId: record._id,
-        ticketClass,
-        userId: null,
-        ...filterObject,
-      }).populate({
-        path: "flightRecordId",
-        populate: {
-          path: "flightId airplaneId",
-        },
-      });
-
-      if (tickets.length && tickets.length >= availableTickets)
-        resultTickets.push({ ...tickets[0]._doc, available: tickets.length });
-    }
-  } */
-
-  /* if (sort === "flightDay") return resultTickets;
-  if (sort === "price") return resultTickets.sort((a, b) => b.price - a.price);
-  if (sort === "ticketClass") {
-    return resultTickets.sort((a, b) => {
-      if (a.ticketClass > b.ticketClass) {
-        return 1;
-      } else {
-        return -1;
-      }
-    });
-  } */
-
   const { departureStart, departureEnd, departure, destination, sort } =
     queryObject;
 
@@ -294,6 +231,9 @@ const findTickets = async (queryObject) => {
   if (!sort || sort === "flightDay") {
     return result.sort((a, b) => a.record.flightDay - b.record.flightDay);
   }
+  if (sort === "-flightDay") {
+    return result.sort((a, b) => b.record.flightDay - a.record.flightDay);
+  }
   if (sort === "price") {
     return result.sort((a, b) => a.price - b.price);
   }
@@ -306,6 +246,15 @@ const findTickets = async (queryObject) => {
         return 1;
       } else {
         return -1;
+      }
+    });
+  }
+  if (sort === "-ticketClass") {
+    return result.sort((a, b) => {
+      if (a.ticketClass > b.ticketClass) {
+        return -1;
+      } else {
+        return 1;
       }
     });
   }
@@ -346,11 +295,6 @@ const updateBookedTicket = async (
     bookedTickets.push(bookedTicket);
   }
 
-  /* return Ticket.findOneAndUpdate(
-    { flightRecordId, ticketClass, userId: null },
-    { userId, "userData.firstname": firstname, "userData.lastname": lastname },
-    { new: true }
-  ); */
   return bookedTickets;
 };
 
@@ -361,10 +305,6 @@ const updateReturnedTicket = async (ticketId) => {
       path: "flightId",
     },
   });
-  /*  const lastDayToReturn = new Date(
-    new Date(ticket.flightRecordId.flightDay) -
-      1000 * 60 * 60 * process.env.RETURN_EXPIRATION
-  ); */
 
   const flightDate = ticket.flightRecordId.flightDay.toDateString();
   const lastDayToReturn =
@@ -387,7 +327,18 @@ const findTicketsByRecord = async (recordId, queryObject) => {
   const limit = 10;
   const skip = (page - 1) * limit;
 
-  const count = await Ticket.countDocuments({ flightRecordId: recordId });
+  const businessTickets = await Ticket.countDocuments({
+    flightRecordId: recordId,
+    ticketClass: "business",
+  });
+  const standartTickets = await Ticket.countDocuments({
+    flightRecordId: recordId,
+    ticketClass: "standart",
+  });
+  const economTickets = await Ticket.countDocuments({
+    flightRecordId: recordId,
+    ticketClass: "econom",
+  });
 
   const tickets = await Ticket.find({ flightRecordId: recordId })
     .populate({
@@ -399,7 +350,7 @@ const findTicketsByRecord = async (recordId, queryObject) => {
     .skip(skip)
     .limit(limit);
 
-  return { total: count, tickets };
+  return { businessTickets, standartTickets, economTickets, tickets };
 };
 
 module.exports = {

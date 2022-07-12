@@ -17,13 +17,24 @@ export class SearchFormComponent implements OnInit {
   public locations: LocationModel[] = [];
   public filteredLocations: LocationModel[] = [];
   public filtersType: string = '';
+  public isMoreFiltersShown: boolean = false;
+  public isFlightsPage: boolean = false;
 
   public flightForm: FormGroup = new FormGroup({
     departure: new FormControl('', [Validators.required]),
     destination: new FormControl('', [Validators.required]),
     departureStart: new FormControl('', [Validators.required]),
     departureEnd: new FormControl('', [Validators.required]),
+    priceMin: new FormControl(''),
+    priceMax: new FormControl(''),
+    ticketClass: new FormControl(''),
+    availableTickets: new FormControl(''),
+    sort: new FormControl(''),
   });
+
+  public handleMoreFiltersShow() {
+    this.isMoreFiltersShown = !this.isMoreFiltersShown;
+  }
 
   public handleInputFocus(element: HTMLInputElement): void {
     element.type = 'date';
@@ -74,6 +85,11 @@ export class SearchFormComponent implements OnInit {
         destination: this.flightForm.get('destination')?.value,
         departureStart: this.flightForm.get('departureStart')?.value,
         departureEnd: this.flightForm.get('departureEnd')?.value,
+        priceMin: this.flightForm.get('priceMin')?.value,
+        priceMax: this.flightForm.get('priceMax')?.value,
+        availableTickets: this.flightForm.get('availableTickets')?.value,
+        ticketClass: this.flightForm.get('ticketClass')?.value,
+        sort: this.flightForm.get('sort')?.value,
       },
     });
   }
@@ -89,6 +105,13 @@ export class SearchFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const url = this.router.url;
+    if (url.includes('flights')) {
+      this.isFlightsPage = true;
+    } else {
+      this.isFlightsPage = false;
+    }
+
     this.minDate = new Date().toISOString().split('T')[0];
     this.locationService
       .getLocations()

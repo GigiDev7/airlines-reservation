@@ -3,7 +3,7 @@ const { resultSeats } = require("../utils/seats");
 
 const createAirplane = async (airplaneData) => {
   const { company, numberOfSeats } = airplaneData;
-  const seats = resultSeats.slice(0, numberOfSeats);
+  const seats = resultSeats.slice(0, +numberOfSeats);
   return Airplane.create({ company, seats });
 };
 
