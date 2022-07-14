@@ -5,7 +5,7 @@ import { ReloadService } from 'src/app/shared/reload/reload.service';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-fdescribe('Admin Airplanes Component', () => {
+describe('Admin Airplanes Component', () => {
   let component: AdminAirplanesComponent;
   let fixture: ComponentFixture<AdminAirplanesComponent>;
   let adminService: AdminService;
