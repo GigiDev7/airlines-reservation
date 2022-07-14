@@ -8,7 +8,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { url } from '../config/config';
 import { of } from 'rxjs';
 
-fdescribe('Ticket Service', () => {
+describe('Ticket Service', () => {
   let service: TicketService;
   let httpController: HttpTestingController;
   let httpClient: HttpClient;
