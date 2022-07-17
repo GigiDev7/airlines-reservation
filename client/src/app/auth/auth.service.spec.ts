@@ -25,6 +25,8 @@ describe('AuthService', () => {
     });
     service = TestBed.inject(AuthService);
     httpController = TestBed.inject(HttpTestingController);
+
+    service['setUser'] = jasmine.createSpy();
   });
 
   it('should create service', () => {
@@ -32,12 +34,10 @@ describe('AuthService', () => {
   });
 
   it('should return user when logged in', (done: DoneFn) => {
-    spyOn(service, 'setUser');
-
     service.login('email', 'password').subscribe({
       next: (res) => {
         expect(res).toEqual(userData);
-        expect(service.setUser).toHaveBeenCalledWith(userData);
+        expect(service['setUser']).toHaveBeenCalledWith(userData);
         done();
       },
     });

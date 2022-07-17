@@ -40,7 +40,7 @@ export class AuthService {
     });
   }
 
-  public setUser(userData: UserModel): void {
+  private setUser(userData: UserModel): void {
     localStorage.setItem('user', JSON.stringify(userData));
   }
 
