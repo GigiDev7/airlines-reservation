@@ -10,18 +10,24 @@ import { FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'app-bookings',
   templateUrl: './bookings.component.html',
-  styleUrls: ['./bookings.component.sass'],
+  styleUrls: ['./bookings.component.css'],
 })
 export class BookingsComponent implements OnInit {
-  public tickets: TicketModel[] = [];
+  public tickets: { oldTickets: TicketModel[]; pendingTickets: TicketModel[] } =
+    { oldTickets: [], pendingTickets: [] };
   public isFetching: boolean = false;
   public isModalShown: boolean = false;
+  public whichTickets: keyof typeof this.tickets = 'pendingTickets';
+
+  public toggleWhichTickets() {
+    if (this.whichTickets === 'pendingTickets') {
+      this.whichTickets = 'oldTickets';
+    } else {
+      this.whichTickets = 'pendingTickets';
+    }
+  }
 
   public isReturnAvailable(ticket: TicketModel): boolean {
-    /* const lastDayToReturn = new Date(
-      (new Date(ticket?.record?.flightDay as any) as any) - 1000 * 60 * 60 * 24
-    ); */
-
     const flightDate = new Date(
       ticket?.flightRecordId?.flightDay!
     ).toDateString();

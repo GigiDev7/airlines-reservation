@@ -5,14 +5,29 @@
   >
     <mat-icon>arrow_back</mat-icon> Home
   </button>
-  <p class="font-medium">My Tickets</p>
+  <button
+    [ngClass]="whichTickets === 'oldTickets' ? 'currentBtn' : 'historyBtn'"
+    (click)="toggleWhichTickets()"
+    class="flex items-center text-white px-5 py-2 rounded-md absolute top-10 right-10"
+  >
+    <mat-icon *ngIf="whichTickets === 'pendingTickets'" class="mr-1"
+      >history</mat-icon
+    >
+    <mat-icon *ngIf="whichTickets === 'oldTickets'" class="mr-1"
+      >open_in_browser</mat-icon
+    >
+    {{ whichTickets === "oldTickets" ? "Current" : "History" }}
+  </button>
+  <p class="font-medium">
+    {{ whichTickets === "pendingTickets" ? "Current Tickets" : "Old Tickets" }}
+  </p>
   <p class="mt-12" *ngIf="isFetching">Loading...</p>
-  <p class="mt-12" *ngIf="!isFetching && !tickets.length">
+  <p class="mt-12" *ngIf="!isFetching && !tickets[whichTickets].length">
     You don't have any tickets!
   </p>
-  <div *ngIf="tickets.length" class="w-full">
+  <div *ngIf="tickets[whichTickets].length" class="w-full">
     <div
-      *ngFor="let ticket of tickets"
+      *ngFor="let ticket of tickets[whichTickets]"
       class="shadow-lg lg:w-[50%] sm:w-[70%] py-8 pl-3 mx-auto rounded-md flex justify-around"
     >
       <div class="w-[30%] flex items-center">
@@ -49,6 +64,7 @@
         <p class="font-medium">Price : {{ ticket?.price }}$</p>
 
         <button
+          *ngIf="whichTickets === 'pendingTickets'"
           [disabled]="isReturnAvailable(ticket)"
           (click)="handleTicketReturn(ticket)"
           class="text-white rounded-md px-7 py-2 bg-red-500 hover:bg-red-600 absolute -right-40 top-1/2 -translate-y-1/2 disabled:opacity-50"
