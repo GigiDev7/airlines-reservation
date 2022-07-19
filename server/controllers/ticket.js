@@ -52,7 +52,16 @@ const getTickets = async (req, res, next) => {
 const getTicketsByUser = async (req, res, next) => {
   try {
     const ticket = await findTicketByUser(req.user._id);
-    res.status(200).json(ticket);
+
+    const oldTickets = ticket.filter((ticket) => {
+      return ticket.flightRecordId.flightDay < new Date();
+    });
+
+    const pendingTickets = ticket.filter((ticket) => {
+      return ticket.flightRecordId.flightDay >= new Date();
+    });
+
+    res.status(200).json({ oldTickets, pendingTickets });
   } catch (error) {
     next(error);
   }
