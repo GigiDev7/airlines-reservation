@@ -1,1 +1,1 @@
-export const url: string = 'http://localhost:8000';
+export const url: string = 'https://airline-reservation.onrender.com';
